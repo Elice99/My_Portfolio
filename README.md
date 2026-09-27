@@ -5,7 +5,7 @@
 npm install
 npm run dev
 ```
-Open http://localhost:3000
+Open http://localhost:3001
 
 ## What's built (Day 1 foundation)
 - Design tokens (colors, spacing, type scale) wired via CSS variables + Tailwind v4 @theme
