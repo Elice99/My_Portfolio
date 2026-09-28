@@ -3,6 +3,7 @@ import { Geist, IBM_Plex_Mono } from "next/font/google";
 import { ThemeProvider } from "@/components/theme-provider";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
+import { CommandPalette } from "@/components/command-palette";
 import "./globals.css";
 
 const geist = Geist({
@@ -49,6 +50,7 @@ export default function RootLayout({
           <Nav />
           {children}
           <Footer />
+          <CommandPalette />
         </ThemeProvider>
       </body>
     </html>

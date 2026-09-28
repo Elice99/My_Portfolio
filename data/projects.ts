@@ -90,17 +90,18 @@ export const projects: Project[] = [
     verified: false,
   },
   {
-    // TODO(Elice): fill in real tagline/problem/stack/metric before launch.
     slug: "glowmart",
     title: "GlowMart",
-    category: ["analytics"],
-    tagline: "PLACEHOLDER — needs your real project details",
-    problem: "PLACEHOLDER — needs your real project details",
-    stack: [],
-    metric: { value: "—", label: "NEEDS REAL DATA" },
+    category: ["analytics", "bi"],
+    tagline:
+      "Sales & inventory dashboard that reframed a supply crisis as a perception gap.",
+    problem:
+      "GlowMart Nigeria's Sales and Inventory managers believed they had a supply distribution conflict across cities. The data showed all five cities were within 0.3% of a fair revenue share — the real problem was flat +1.6% YoY growth against a 5% target.",
+    stack: ["Excel", "Power Query", "Power Pivot", "PivotTables/Charts"],
+    metric: { value: "₦652.6M", label: "TOTAL REVENUE ANALYZED" },
     status: "shipped",
     featured: false,
-    verified: false,
+    verified: true,
   },
 ];
 

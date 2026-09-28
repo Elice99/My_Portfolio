@@ -7,27 +7,34 @@ npm run dev
 ```
 Open http://localhost:3000
 
-## What's built (Day 1 foundation)
-- Design tokens (colors, spacing, type scale) wired via CSS variables + Tailwind v4 @theme
-- Geist + IBM Plex Mono fonts
-- Light/dark/system theme switcher (persisted via next-themes)
-- Nav with scroll-compress behavior
-- Hero section with load animation sequence
-- DATA → INTELLIGENCE → DECISION interactive section
-- Selected Work section (featured + secondary project cards)
-- Footer
-- Project data model in /data/projects.ts — real verified numbers for TrustLake,
-  Sales Pipeline, Airbnb, and the e-commerce platform. GlowMart and Golden Wok
-  are placeholders — fill in real tagline/problem/stack/metric before launch,
-  marked with TODO(Elice) comments.
+## Pages built so far
+- / (home) — hero, system section, selected work, evidence, decision room, career journey
+- /work — project listing with category filters
+- /projects/[slug] — reusable case-study template (6 projects wired up)
+- /capabilities — clickable skill groups filtering into projects
+- /about — real bio from your profile
+- /experience — full real work history timeline
+- /now — current focus, built from real active work
+- /resume — CV download page (needs a real PDF dropped into /public/documents/)
+- /contact — real contact links
+- Global command palette (Cmd/Ctrl+K)
 
-## Next steps (Day 2)
-- Build /projects/[slug] case-study template reading from data/projects.ts
-- Build /projects listing page with category filters
-- Build Capabilities, About, Experience, Now pages
-- Decision Room interactive component
-- Command palette (Cmd/Ctrl+K)
+## Project data
+Everything project-related lives in /data/projects.ts as a flat array —
+add a new project by adding an object, no other code changes needed.
+Golden Wok is still a placeholder (marked verified: false, with a visible
+warning banner on its case-study page) — swap in real details whenever
+you have them, same pattern as GlowMart.
+
+## Known gaps (deliberately left for you)
+- Resume PDF file itself
+- Portrait photos (currently placeholder boxes in Hero — see section 13
+  of the design spec for the 4 photo roles)
+- Portfolio Intelligence section (needs real analytics wired up — Day 3)
+- "Currently Building" section on homepage — Now page exists, homepage
+  card version not yet built
+- Golden Wok project details
 
 ## Deploy
-Push to GitHub, then connect the repo in Netlify (build command `npm run build`,
-publish directory `.next`, or use the Next.js runtime Netlify auto-detects).
+Push to GitHub, connect the repo in Netlify. Next.js runtime is
+auto-detected; no special build config needed.

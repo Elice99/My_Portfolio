@@ -1,6 +1,9 @@
 import { Hero } from "@/components/hero";
 import { SystemSection } from "@/components/system-section";
 import { SelectedWork } from "@/components/selected-work";
+import { EvidenceSection } from "@/components/evidence-section";
+import { DecisionRoom } from "@/components/decision-room";
+import { CareerJourney } from "@/components/career-journey";
 
 export default function Home() {
   return (
@@ -8,9 +11,11 @@ export default function Home() {
       <Hero />
       <SystemSection />
       <SelectedWork />
-      {/* Remaining Day 1 sections (What I Build, Career Journey, Currently
-          Building, Portfolio Intelligence, final CTA) get added once the
-          case-study template and remaining pages exist — see roadmap. */}
+      <EvidenceSection />
+      <DecisionRoom />
+      <CareerJourney />
+      {/* Currently Building + Portfolio Intelligence sections come once
+          real analytics are wired up — see roadmap, Day 3. */}
     </main>
   );
 }
