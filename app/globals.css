@@ -1,55 +1,31 @@
 @import "tailwindcss";
 
-/* ============================================
-   ELISHA BASSEY PORTFOLIO — DESIGN TOKENS v1.0
-   Source: Portfolio Visual Design System v1.0
-   ============================================ */
-
 :root {
-  /* Light mode (default) */
-  --background: #F5F4EF;
-  --surface-primary: #FFFFFF;
-  --surface-secondary: #ECEDE8;
-  --surface-elevated: #FFFFFF;
-  --text-primary: #172027;
-  --text-secondary: #59656A;
-  --text-muted: #879196;
-  --border: #D9DDD9;
-  --accent: #087F78;
-  --insight: #B7791F;
-  --anomaly: #C9583F;
-
-  /* Spacing scale (8px base) */
-  --space-1: 8px;
-  --space-2: 16px;
-  --space-3: 24px;
-  --space-4: 32px;
-  --space-6: 48px;
-  --space-8: 64px;
-  --space-10: 80px;
-  --space-12: 96px;
-  --space-16: 128px;
-  --space-20: 160px;
-
-  /* Layout */
-  --content-max: 1440px;
-  --pad-desktop: 64px;
-  --pad-tablet: 40px;
-  --pad-mobile: 20px;
+  --background: #f4f3ee;
+  --surface-primary: #fbfaf7;
+  --surface-secondary: #e8e9e2;
+  --surface-elevated: #ffffff;
+  --text-primary: #171a19;
+  --text-secondary: #68706d;
+  --text-muted: #929995;
+  --border: #d6d9d2;
+  --accent: #b8d83f;
+  --insight: #b7791f;
+  --anomaly: #c9583f;
 }
 
 .dark {
-  --background: #0B1014;
-  --surface-primary: #11181E;
-  --surface-secondary: #172027;
-  --surface-elevated: #1C272E;
-  --text-primary: #F2F4F2;
-  --text-secondary: #A8B2B7;
-  --text-muted: #69757B;
-  --border: #273238;
-  --accent: #13B8A6;
-  --insight: #E7AA3B;
-  --anomaly: #E76F51;
+  --background: #101311;
+  --surface-primary: #171b18;
+  --surface-secondary: #202620;
+  --surface-elevated: #252c25;
+  --text-primary: #f2f4ed;
+  --text-secondary: #aab2a7;
+  --text-muted: #737d73;
+  --border: #303930;
+  --accent: #c6e84b;
+  --insight: #e7aa3b;
+  --anomaly: #e76f51;
 }
 
 @theme inline {
@@ -64,49 +40,16 @@
   --color-accent: var(--accent);
   --color-insight: var(--insight);
   --color-anomaly: var(--anomaly);
-
   --font-sans: var(--font-geist);
   --font-mono: var(--font-plex-mono);
-
-  /* Type scale — desktop, fluid via clamp */
-  --text-display: clamp(4rem, 9vw, 9rem);
-  --text-h1: clamp(3rem, 6vw, 6rem);
-  --text-h2: clamp(2.25rem, 4vw, 4rem);
-  --text-h3: clamp(1.5rem, 2vw, 2rem);
-  --text-body-lg: 1.25rem;
-  --text-body: 1rem;
-  --text-small: 0.875rem;
-  --text-technical: 0.8125rem;
 }
 
-* {
-  border-color: var(--border);
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
+* { border-color: var(--border); }
+html { scroll-behavior: smooth; }
+body { background: var(--background); color: var(--text-primary); transition: background-color .3s ease, color .3s ease; }
+::selection { background: var(--accent); color: var(--background); }
+:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
-  }
-  *, *::before, *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    scroll-behavior: auto !important;
-  }
-}
-
-body {
-  background: var(--background);
-  color: var(--text-primary);
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-/* Visible keyboard focus everywhere — required by the accessibility standard */
-:focus-visible {
-  outline: 2px solid var(--accent);
-  outline-offset: 3px;
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
 }
