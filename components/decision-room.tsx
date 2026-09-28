@@ -1,44 +1,38 @@
 "use client";
 
+import { motion } from "motion/react";
 import { useState } from "react";
-import { motion, AnimatePresence } from "motion/react";
 
 const STEPS = [
   {
     n: "01",
-    title: "Validate the metric",
-    detail:
-      "Confirm the drop is real, not a tracking bug, timezone shift, or reporting-period mismatch.",
+    title: "Understand the problem",
+    detail: "What decision needs to be made? What information is missing? What's at stake?",
   },
   {
     n: "02",
-    title: "Locate the change",
-    detail:
-      "Narrow down when the drop started and whether it's sudden or gradual.",
+    title: "Assess the data",
+    detail: "What data exists? How clean is it? What validation is required before analysis begins?",
   },
   {
     n: "03",
-    title: "Segment the problem",
-    detail:
-      "Break revenue down by channel, region, product, and customer segment to isolate where it's coming from.",
+    title: "Explore and analyze",
+    detail: "What patterns emerge? Which factors drive outcomes? What assumptions need testing?",
   },
   {
     n: "04",
-    title: "Identify the drivers",
-    detail:
-      "Cross-reference the affected segment against known changes: pricing, campaigns, seasonality, competitor activity.",
+    title: "Build the system",
+    detail: "How can this analysis be operationalized? What dashboards, models, or APIs are needed?",
   },
   {
     n: "05",
-    title: "Quantify the impact",
-    detail:
-      "Attach a number to each candidate driver so effort goes where it matters most.",
+    title: "Communicate findings",
+    detail: "What does the evidence say? What are the limitations? What should happen next?",
   },
   {
     n: "06",
-    title: "Determine action",
-    detail:
-      "Translate the finding into a specific, owned next step — not just a report.",
+    title: "Enable action",
+    detail: "How can teams actually use this to make better decisions? What's the next step?",
   },
 ];
 
@@ -47,35 +41,26 @@ export function DecisionRoom() {
   const [activeStep, setActiveStep] = useState<number | null>(null);
 
   return (
-    <section className="mx-auto max-w-[1440px] px-5 py-16 md:px-10 lg:px-16 lg:py-24">
-      <h2
-        className="font-sans tracking-tight text-text-primary"
-        style={{ fontSize: "var(--text-h2)" }}
-      >
-        How I think
-      </h2>
-      <p className="mt-4 font-mono text-technical text-text-muted">
-        HOW WOULD YOU INVESTIGATE THIS?
-      </p>
-      <p
-        className="mt-2 text-text-primary"
-        style={{ fontSize: "var(--text-body-lg)" }}
-      >
-        Revenue dropped 18%.
-      </p>
+    <section className="mx-auto max-w-[1440px] px-5 py-24 md:px-10 lg:px-16 lg:py-36">
+      <div className="mb-8 border-b border-border pb-8">
+        <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-accent">Process</p>
+        <h2 className="text-4xl font-medium tracking-[-0.06em] text-text-primary md:text-5xl">How I work.</h2>
+      </div>
+      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-text-muted">The six-step analytical process</p>
+      <p className="mt-4 text-lg text-text-primary md:text-xl">From problem to decision.</p>
 
       {!started ? (
-        <button
+        <motion.button
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
           onClick={() => setStarted(true)}
-          className="group mt-8 inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-medium text-background transition-transform hover:-translate-y-0.5"
+          className="group mt-10 inline-flex items-center gap-2 rounded-full bg-accent px-6 py-3 text-sm font-medium text-background transition-transform hover:-translate-y-0.5"
         >
-          Start investigation
-          <span className="transition-transform group-hover:translate-x-0.5">
-            →
-          </span>
-        </button>
+          Start
+          <span className="transition-transform group-hover:translate-x-0.5">→</span>
+        </motion.button>
       ) : (
-        <div className="mt-8 flex flex-col gap-2">
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="mt-12 flex flex-col gap-2">
           {STEPS.map((step, i) => (
             <motion.div
               key={step.n}
@@ -85,32 +70,21 @@ export function DecisionRoom() {
               className="border-b border-border"
             >
               <button
-                onClick={() =>
-                  setActiveStep(activeStep === i ? null : i)
-                }
+                onClick={() => setActiveStep(activeStep === i ? null : i)}
                 className="flex w-full items-center gap-4 py-4 text-left"
               >
-                <span className="font-mono text-technical text-accent">
-                  {step.n}
-                </span>
+                <span className="font-mono text-[10px] font-medium text-accent">{step.n}</span>
                 <span className="text-text-primary">{step.title}</span>
+                <span className="ml-auto text-text-muted transition-transform" style={{ transform: activeStep === i ? "rotate(180deg)" : "rotate(0deg)" }}>↓</span>
               </button>
-              <AnimatePresence>
-                {activeStep === i && (
-                  <motion.p
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: "auto", opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.25 }}
-                    className="overflow-hidden pb-4 pl-9 text-sm text-text-secondary"
-                  >
-                    {step.detail}
-                  </motion.p>
-                )}
-              </AnimatePresence>
+              {activeStep === i && (
+                <motion.p initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.25 }} className="overflow-hidden pb-4 pl-9 text-sm text-text-secondary">
+                  {step.detail}
+                </motion.p>
+              )}
             </motion.div>
           ))}
-        </div>
+        </motion.div>
       )}
     </section>
   );

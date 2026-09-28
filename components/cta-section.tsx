@@ -1,87 +1,46 @@
-const NOW = [
-  {
-    status: "BUILDING",
-    title: "TrustLake",
-    detail:
-      "A data quality and trust engine focused on deterministic validation, explainable scoring, and human decision support. The project is still in active development as a pre-MVP system foundation.",
-    href: "/projects/trustlake",
-  },
-  {
-    status: "PARTICIPATING",
-    title: "DataDNA / Onyx Monthly Data Challenge",
-    detail:
-      "Monthly challenge work focused on analytical storytelling, practical BI, and evidence-based business reporting across modern data problems.",
-  },
-  {
-    status: "LEARNING",
-    title: "AI Engineering & Product Systems",
-    detail:
-      "Strengthening my understanding of AI workflows, backend systems, product thinking, and how analytics can become more usable in real operational settings.",
-  },
-];
+"use client";
 
-const RECENT = [
-  {
-    title: "GlowMart Sales & Inventory Dashboard",
-    detail:
-      "Executive BI project that resolved a sales vs inventory dispute using transactional evidence and business-first analysis.",
-    href: "/projects/glowmart",
-  },
-  {
-    title: "Sales Pipeline Prediction API",
-    detail:
-      "XGBoost-based pipeline model and FastAPI service that turns CRM data into actionable deal-outcome predictions.",
-    href: "/projects/sales-pipeline-prediction",
-  },
-  {
-    title: "Airbnb Market Intelligence",
-    detail:
-      "End-to-end analytics and pricing project combining warehouse-style processing, ML, and market intelligence.",
-    href: "/projects/airbnb-market-intelligence",
-  },
-];
+import Link from "next/link";
 
-export default function NowPage() {
+export function CtaSection() {
   return (
-    <main className="mx-auto max-w-[1440px] px-5 py-20 md:px-10 lg:px-16 lg:py-28">
-      <div className="max-w-3xl">
-        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">Now</p>
-        <h1 className="mt-6 text-5xl font-medium tracking-[-0.07em] text-text-primary md:text-7xl">
-          What I’m building right now.
-        </h1>
-      </div>
-
-      <div className="mt-16 space-y-8">
-        {NOW.map((item) => (
-          <div key={item.title} className="rounded-[1.75rem] border border-border bg-surface-secondary/40 p-6 md:p-8">
-            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">{item.status}</p>
-            <h2 className="mt-4 text-2xl font-medium tracking-[-0.05em] text-text-primary md:text-3xl">{item.title}</h2>
-            <p className="mt-4 max-w-3xl text-base leading-relaxed text-text-secondary">{item.detail}</p>
-            {item.href && (
-              <a href={item.href} className="mt-6 inline-flex text-sm text-text-primary hover:text-accent">
-                View project ↗
-              </a>
-            )}
+    <section className="mx-auto max-w-[1440px] px-5 py-20 md:px-10 lg:px-16 lg:py-28">
+      <div className="rounded-[2rem] border border-border bg-gradient-to-br from-accent/10 via-surface-primary to-surface-secondary p-8 md:p-12 lg:p-16">
+        <div className="grid gap-8 lg:grid-cols-2 lg:items-center lg:gap-12">
+          <div>
+            <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-accent">Get in touch</p>
+            <h2 className="mt-4 text-4xl font-medium tracking-[-0.06em] text-text-primary md:text-5xl">Ready to work together?</h2>
+            <p className="mt-6 max-w-xl text-lg leading-relaxed text-text-secondary">
+              I'm interested in roles where analytical work connects directly to business outcomes. Let's talk about how data can inform better decisions.
+            </p>
           </div>
-        ))}
-      </div>
 
-      <div className="mt-20 border-t border-border pt-10">
-        <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-text-muted">Recently shipped</p>
-        <div className="mt-8 space-y-6">
-          {RECENT.map((item) => (
-            <div key={item.title} className="border-b border-border pb-6">
-              <p className="text-xl font-medium tracking-[-0.04em] text-text-primary">{item.title}</p>
-              <p className="mt-2 max-w-2xl text-base text-text-secondary">{item.detail}</p>
-              {item.href && (
-                <a href={item.href} className="mt-4 inline-flex text-sm text-text-primary hover:text-accent">
-                  View case study ↗
-                </a>
-              )}
-            </div>
-          ))}
+          <div className="flex flex-col gap-3 sm:flex-row lg:flex-col">
+            <a
+              href="mailto:elicexy@gmail.com"
+              className="inline-flex items-center justify-center rounded-full bg-text-primary px-6 py-3 text-sm font-medium text-background transition-transform hover:-translate-y-0.5"
+            >
+              Email me
+            </a>
+            <a
+              href="https://github.com/Elice99"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center rounded-full border border-border px-6 py-3 text-sm font-medium text-text-primary transition-colors hover:border-accent hover:text-accent"
+            >
+              GitHub
+            </a>
+            <a
+              href="https://www.linkedin.com/in/elisha-bassey"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center justify-center rounded-full border border-border px-6 py-3 text-sm font-medium text-text-primary transition-colors hover:border-accent hover:text-accent"
+            >
+              LinkedIn
+            </a>
+          </div>
         </div>
       </div>
-    </main>
+    </section>
   );
 }

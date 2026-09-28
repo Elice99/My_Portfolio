@@ -1,54 +1,76 @@
 "use client";
 
-import { motion } from "motion/react";
 import Link from "next/link";
+import { motion } from "motion/react";
+import { getFeatured, getSecondary } from "@/data/projects";
 
-const EASE = [0.16, 1, 0.3, 1] as const;
+export function SelectedWork() {
+  const featured = getFeatured();
+  const secondary = getSecondary().filter((p) => p.verified).slice(0, 4);
 
-export function Hero() {
   return (
-    <section className="relative mx-auto grid min-h-[calc(100svh-88px)] max-w-[1440px] items-end gap-12 px-5 pb-16 pt-24 md:px-10 lg:grid-cols-12 lg:gap-8 lg:px-16 lg:pb-24">
-      <div className="pointer-events-none absolute left-5 right-5 top-12 h-px bg-border/70 md:left-10 md:right-10 lg:left-16 lg:right-16" />
-      <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, ease: EASE }} className="absolute left-5 top-5 font-mono text-[10px] tracking-[0.2em] text-text-muted md:left-10 lg:left-16">
-        ANALYST / BUILDER / DECISION SUPPORT
-      </motion.div>
-
-      <div className="relative lg:col-span-8">
-        <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.5, ease: EASE }} className="mb-6 font-mono text-[11px] uppercase tracking-[0.2em] text-accent">
-          Data analyst · BI analyst · Analytics systems
-        </motion.p>
-        <motion.h1 initial={{ opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.75, delay: 0.12, ease: EASE }} className="max-w-5xl text-[clamp(3.8rem,10vw,10rem)] font-medium leading-[0.82] tracking-[-0.08em] text-text-primary">
-          I turn messy<br /><span className="text-accent">data into</span><br />useful decisions.
-        </motion.h1>
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55, delay: 0.35, ease: EASE }} className="mt-10 max-w-xl space-y-6">
-          <p className="text-base leading-relaxed text-text-secondary md:text-lg">
-            I help teams make sense of complex information, validate the signal, and build the systems required to act on it.
-          </p>
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center">
-            <Link href="/work" className="group inline-flex w-fit items-center gap-3 border-b border-text-primary pb-2 text-sm text-text-primary transition-colors hover:border-accent hover:text-accent">
-              Explore selected work <span className="transition-transform group-hover:translate-x-1">↗</span>
-            </Link>
-            <Link href="/resume" className="group inline-flex w-fit items-center gap-3 rounded-full border border-border px-5 py-2 text-sm text-text-primary transition-colors hover:border-accent hover:text-accent">
-              View CV
-            </Link>
-          </div>
-        </motion.div>
+    <section className="mx-auto max-w-[1440px] px-5 py-24 md:px-10 lg:px-16 lg:py-36">
+      <div className="mb-12 flex items-end justify-between gap-6 border-b border-border pb-5">
+        <div>
+          <p className="mb-3 font-mono text-[10px] uppercase tracking-[0.2em] text-accent">02 / Selected work</p>
+          <h2 className="text-4xl font-medium tracking-[-0.06em] text-text-primary md:text-6xl">Evidence of impact.</h2>
+        </div>
+        <Link href="/work" className="hidden text-sm text-text-secondary transition-colors hover:text-accent sm:block">
+          View all work →
+        </Link>
       </div>
 
-      <motion.div initial={{ opacity: 0, scale: 0.96 }} animate={{ opacity: 1, scale: 1 }} transition={{ duration: 0.8, delay: 0.25, ease: EASE }} className="relative hidden aspect-[4/5] overflow-hidden rounded-[2rem] bg-accent p-6 lg:col-span-4 lg:block">
-        <div className="absolute -right-16 -top-16 h-64 w-64 rounded-full border border-background/30" />
-        <div className="absolute -bottom-24 -left-12 h-72 w-72 rounded-full border border-background/30" />
-        <div className="relative flex h-full flex-col justify-between text-background">
-          <span className="font-mono text-[10px] tracking-[0.2em]">ELISHA BASSEY</span>
-          <div>
-            <p className="text-4xl font-medium leading-none tracking-[-0.06em]">DATA<br />TO<br />DECISIONS</p>
-            <p className="mt-5 max-w-[13rem] text-sm leading-relaxed text-background/75">
-              Analytics, BI, machine learning, and systems designed for clearer business action.
-            </p>
-          </div>
-          <span className="font-mono text-[10px] tracking-[0.2em]">SCROLL TO EXPLORE ↓</span>
-        </div>
-      </motion.div>
+      {featured && (
+        <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ duration: 0.6 }}>
+          <Link href={`/projects/${featured.slug}`} className="group relative block overflow-hidden rounded-[2rem] bg-surface-secondary p-6 transition-transform duration-500 hover:-translate-y-1 md:p-10 lg:p-14">
+            <div className="absolute right-0 top-0 h-48 w-48 rounded-full bg-accent/10 blur-3xl transition-transform duration-700 group-hover:scale-150" />
+            <div className="relative grid gap-12 lg:grid-cols-[1fr_auto] lg:items-end">
+              <div>
+                <div className="mb-16 flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.16em] text-text-muted">
+                  <span>Featured case study</span>
+                  <span>{featured.status}</span>
+                </div>
+                <p className="font-mono text-xs uppercase tracking-[0.16em] text-accent">{featured.title}</p>
+                <h3 className="mt-4 max-w-3xl text-3xl font-medium leading-tight tracking-[-0.05em] text-text-primary md:text-5xl">{featured.tagline}</h3>
+                <p className="mt-6 max-w-xl text-sm leading-relaxed text-text-secondary">{featured.problem}</p>
+                <p className="mt-8 font-mono text-[10px] uppercase tracking-[0.12em] text-text-muted">{featured.stack.join(" · ")}</p>
+              </div>
+              <div className="flex items-end justify-between gap-8 lg:block lg:text-right">
+                <div>
+                  <p className="text-4xl font-medium tracking-[-0.06em] text-text-primary">{featured.metric.value}</p>
+                  <p className="mt-1 max-w-40 font-mono text-[10px] uppercase leading-relaxed text-text-muted lg:ml-auto">{featured.metric.label}</p>
+                </div>
+                <span className="text-2xl text-accent transition-transform duration-300 group-hover:translate-x-2">→</span>
+              </div>
+            </div>
+          </Link>
+        </motion.div>
+      )}
+
+      <div className="mt-4 grid grid-cols-1 gap-4 md:grid-cols-2">
+        {secondary.map((project, index) => (
+          <motion.div
+            key={project.slug}
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: index * 0.1 }}
+          >
+            <Link href={`/projects/${project.slug}`} className="group rounded-[1.75rem] border border-border p-6 transition-all duration-300 hover:-translate-y-1 hover:border-accent hover:bg-surface-secondary md:p-8">
+              <div className="flex items-start justify-between gap-4">
+                <span className="font-mono text-[10px] text-text-muted">0{index + 2} / {project.status}</span>
+                <span className="text-xl text-text-muted transition-colors group-hover:text-accent">→</span>
+              </div>
+              <h3 className="mt-16 text-2xl font-medium tracking-[-0.04em] text-text-primary">{project.title}</h3>
+              <p className="mt-3 max-w-md text-sm leading-relaxed text-text-secondary">{project.tagline}</p>
+              <div className="mt-8 flex items-end justify-between gap-4 border-t border-border pt-4">
+                <span className="font-mono text-[10px] uppercase text-text-muted">{project.stack.slice(0, 2).join(" · ")}</span>
+                <span className="font-mono text-xs font-medium text-accent">{project.metric.value}</span>
+              </div>
+            </Link>
+          </motion.div>
+        ))}
+      </div>
     </section>
   );
 }
