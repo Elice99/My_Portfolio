@@ -16,10 +16,8 @@ export interface Project {
   metric: { value: string; label: string };
   status: ProjectStatus;
   featured: boolean;
-  // Set to true once the two placeholder projects below have real,
-  // verified figures. Do NOT fabricate numbers to fill this in —
-  // per the design spec: "No fake statistics. No invented project results."
   verified: boolean;
+  image?: string;
 }
 
 export const projects: Project[] = [
@@ -76,30 +74,28 @@ export const projects: Project[] = [
     verified: true,
   },
   {
-    // TODO(Elice): fill in real tagline/problem/stack/metric before launch.
-    // Left as a structural placeholder only — do not publish with these values.
-    slug: "golden-wok",
-    title: "Golden Wok",
-    category: ["business"],
-    tagline: "PLACEHOLDER — needs your real project details",
-    problem: "PLACEHOLDER — needs your real project details",
-    stack: [],
-    metric: { value: "—", label: "NEEDS REAL DATA" },
-    status: "shipped",
-    featured: false,
-    verified: false,
-  },
-  {
     slug: "glowmart",
-    title: "GlowMart",
-    category: ["analytics", "bi"],
-    tagline:
-      "Sales & inventory dashboard that reframed a supply crisis as a perception gap.",
+    title: "GlowMart Sales & Inventory Intelligence",
+    category: ["business", "bi"],
+    tagline: "Executive BI dashboard that resolved an inventory conflict with evidence.",
     problem:
-      "GlowMart Nigeria's Sales and Inventory managers believed they had a supply distribution conflict across cities. The data showed all five cities were within 0.3% of a fair revenue share — the real problem was flat +1.6% YoY growth against a 5% target.",
+      "GlowMart Nigeria's Sales and Inventory managers disagreed on resource allocation. The data showed all five cities were within 0.3% of fair revenue share — but revealed deeper business issues: revenue stagnation, ineffective discount strategies, and city-specific performance gaps.",
     stack: ["Excel", "Power Query", "Power Pivot", "PivotTables/Charts"],
     metric: { value: "₦652.6M", label: "TOTAL REVENUE ANALYZED" },
     status: "shipped",
+    featured: false,
+    verified: true,
+  },
+  {
+    slug: "datadna",
+    title: "DataDNA AI Workforce Challenge",
+    category: ["analytics", "bi"],
+    tagline: "Power BI multi-dimensional workforce intelligence dashboard.",
+    problem:
+      "Monthly Onyx Data Challenge project analyzing AI workforce adoption patterns across countries, industries, and skills using multi-dimensional data modeling.",
+    stack: ["Power BI", "DAX"],
+    metric: { value: "38.2 / 100", label: "AI ADOPTION INDEX" },
+    status: "active",
     featured: false,
     verified: true,
   },
