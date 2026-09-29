@@ -12,6 +12,11 @@
   --accent: #b8d83f;
   --insight: #b7791f;
   --anomaly: #c9583f;
+  --data-mark: #7f9a1c;
+  --text-h1: clamp(2.75rem, 6vw, 5.5rem);
+  --text-h2: clamp(2rem, 4vw, 3.5rem);
+  --text-h3: clamp(1.5rem, 2.5vw, 2.25rem);
+  --text-body-lg: clamp(1.05rem, 1.4vw, 1.25rem);
 }
 
 .dark {
@@ -26,6 +31,7 @@
   --accent: #c6e84b;
   --insight: #e7aa3b;
   --anomaly: #e76f51;
+  --data-mark: #86a22a;
 }
 
 @theme inline {
@@ -40,6 +46,7 @@
   --color-accent: var(--accent);
   --color-insight: var(--insight);
   --color-anomaly: var(--anomaly);
+  --color-data-mark: var(--data-mark);
   --font-sans: var(--font-geist);
   --font-mono: var(--font-plex-mono);
 }
@@ -49,7 +56,39 @@ html { scroll-behavior: smooth; }
 body { background: var(--background); color: var(--text-primary); transition: background-color .3s ease, color .3s ease; }
 ::selection { background: var(--accent); color: var(--background); }
 :focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* Small uppercase technical label used across the site. */
+.text-technical { font-size: 0.6875rem; letter-spacing: 0.16em; text-transform: uppercase; line-height: 1.5; }
+
+/* Film-grain overlay: fixed and non-interactive so it never repaints on scroll. */
+.grain {
+  pointer-events: none;
+  position: fixed;
+  inset: -50%;
+  z-index: 90;
+  opacity: 0.05;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation: grain 8s steps(10) infinite;
+}
+.dark .grain { opacity: 0.07; }
+@keyframes grain {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-3%, 2%); }
+  40% { transform: translate(2%, -4%); }
+  60% { transform: translate(-4%, -1%); }
+  80% { transform: translate(3%, 3%); }
+}
+
+/* Infinite marquee; the track holds two copies of its content. */
+.marquee-track { animation: marquee var(--marquee-duration, 40s) linear infinite; }
+.marquee:hover .marquee-track { animation-play-state: paused; }
+@keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* Hide the native cursor only when the custom cursor is active (fine pointers). */
+html.has-custom-cursor, html.has-custom-cursor * { cursor: none !important; }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation-duration: .01ms !important; transition-duration: .01ms !important; }
+  .grain, .marquee-track { animation: none; }
 }
