@@ -1,0 +1,60 @@
+    <section class="section-padding" style="padding-top:calc(var(--header-height) + var(--space-10))">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up" style="text-align:left;margin-bottom:2rem">
+                <h1 class="section-title" style="text-align:left">Work</h1>
+                <p style="color:var(--text-secondary);max-width:560px">A collection of analytical systems, business intelligence projects, experiments and products.</p>
+            </div>
+
+            <div class="project-filters" data-aos="fade-up">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="analytics">Analytics</button>
+                <button class="filter-btn" data-filter="bi">BI</button>
+                <button class="filter-btn" data-filter="ml">ML</button>
+                <button class="filter-btn" data-filter="business">Business</button>
+                <button class="filter-btn" data-filter="systems">Systems</button>
+            </div>
+
+            <div class="projects-grid" id="workGrid"></div>
+
+            <!-- Flagships are the full cards above. Everything else lives
+                 in this compact archive -- flip `flagship` in
+                 _build/projects_data.py to promote a project. -->
+            <div class="work-archive" id="workArchive" hidden>
+                <p class="work-archive-label">EVERYTHING ELSE</p>
+                <div id="archiveList"></div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var grid = document.getElementById('workGrid');
+            if (!grid || typeof PROJECTS === 'undefined') return;
+            if (typeof projectCardHTML !== 'function') return;
+
+            var flagships = PROJECTS.filter(function (p) { return p.flagship; });
+            var archive = PROJECTS.filter(function (p) { return !p.flagship; });
+            // Safety net: if no project is flagged, show everything as before.
+            var renderSet = flagships.length ? flagships : PROJECTS;
+            grid.innerHTML = renderSet.map(function (p) {
+                return projectCardHTML(p, {
+                    aos: 'fade-up',
+                    dataCategory: p.category.join(' '),
+                    showStatus: true
+                });
+            }).join('');
+
+            var archiveRoot = document.getElementById('workArchive');
+            if (archiveRoot && flagships.length && archive.length) {
+                archiveRoot.hidden = false;
+                document.getElementById('archiveList').innerHTML = archive.map(function (p) {
+                    var ROOT = window.SITE_ROOT || '';
+                    return '<a class="archive-row" data-category="' + p.category.join(' ') + '" href="' + ROOT + 'projects/' + p.slug + '.html">' +
+                        '<span class="archive-title">' + p.title + '</span>' +
+                        '<span class="archive-tagline">' + p.tagline + '</span>' +
+                        (p.status ? '<span class="archive-status">' + p.status + '</span>' : '<span></span>') +
+                        '<i class="fas fa-arrow-right archive-arrow" aria-hidden="true"></i></a>';
+                }).join('');
+            }
+        });
+    </script>

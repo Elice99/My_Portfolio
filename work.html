@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="A collection of analytical systems, business intelligence projects, and experiments.">
+    <meta name="author" content="Elisha Bassey">
+    <meta property="og:title" content="Work | Elisha Bassey">
+    <meta property="og:description" content="A collection of analytical systems, business intelligence projects, and experiments.">
+    <meta property="og:type" content="website">
+    <link rel="canonical" href="https://elishabassey.netlify.app/work.html">
+    <meta property="og:url" content="https://elishabassey.netlify.app/work.html">
+    <meta property="og:image" content="https://elishabassey.netlify.app/images/Elice_1.webp">
+    <meta property="og:image:alt" content="Elisha Bassey">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Work | Elisha Bassey">
+    <meta name="twitter:description" content="A collection of analytical systems, business intelligence projects, and experiments.">
+    <meta name="twitter:image" content="https://elishabassey.netlify.app/images/Elice_1.webp">
+    <title>Work | Elisha Bassey</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/styles.css?v=356556e9">
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "Elisha Bassey", "jobTitle": "Data Analyst & Analytics Engineer", "sameAs": ["https://github.com/Elice99", "https://linktr.ee/elice99"], "knowsAbout": ["Data Analysis", "Business Intelligence", "Machine Learning", "Analytics Engineering"], "url": "https://elishabassey.netlify.app/", "image": "https://elishabassey.netlify.app/images/Elice_1.webp"}</script>
+    <script>window.SITE_ROOT = "";</script>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <span class="logo-bracket">&lt;</span>
+                <span class="logo-text">EB</span>
+                <span class="logo-bracket">/&gt;</span>
+            </a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="work.html" class="nav-link" aria-current="page">Work</a></li><li><a href="about.html" class="nav-link">About</a></li><li><a href="experience.html" class="nav-link">Experience</a></li><li><a href="capabilities.html" class="nav-link">Capabilities</a></li><li><a href="now.html" class="nav-link">Now</a></li>
+            </ul>
+            <div class="nav-controls">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle Dark Mode"><i class="fas fa-moon"></i></button>
+                <a href="resume.html" class="nav-link" style="margin-right:0.5rem">CV</a>
+                <a href="contact.html" class="nav-link" style="margin-right:0.5rem">Contact</a>
+                <button class="theme-toggle" data-cmdk-trigger aria-label="Open command palette (Cmd/Ctrl+K)"><i class="fas fa-magnifying-glass"></i></button>
+                <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle Menu">
+                    <span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+    <main id="main-content">
+    <section class="section-padding" style="padding-top:calc(var(--header-height) + var(--space-10))">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up" style="text-align:left;margin-bottom:2rem">
+                <h1 class="section-title" style="text-align:left">Work</h1>
+                <p style="color:var(--text-secondary);max-width:560px">A collection of analytical systems, business intelligence projects, experiments and products.</p>
+            </div>
+
+            <div class="project-filters" data-aos="fade-up">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="analytics">Analytics</button>
+                <button class="filter-btn" data-filter="bi">BI</button>
+                <button class="filter-btn" data-filter="ml">ML</button>
+                <button class="filter-btn" data-filter="business">Business</button>
+                <button class="filter-btn" data-filter="systems">Systems</button>
+            </div>
+
+            <div class="projects-grid" id="workGrid"></div>
+
+            <!-- Flagships are the full cards above. Everything else lives
+                 in this compact archive -- flip `flagship` in
+                 _build/projects_data.py to promote a project. -->
+            <div class="work-archive" id="workArchive" hidden>
+                <p class="work-archive-label">EVERYTHING ELSE</p>
+                <div id="archiveList"></div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            var grid = document.getElementById('workGrid');
+            if (!grid || typeof PROJECTS === 'undefined') return;
+            if (typeof projectCardHTML !== 'function') return;
+
+            var flagships = PROJECTS.filter(function (p) { return p.flagship; });
+            var archive = PROJECTS.filter(function (p) { return !p.flagship; });
+            // Safety net: if no project is flagged, show everything as before.
+            var renderSet = flagships.length ? flagships : PROJECTS;
+            grid.innerHTML = renderSet.map(function (p) {
+                return projectCardHTML(p, {
+                    aos: 'fade-up',
+                    dataCategory: p.category.join(' '),
+                    showStatus: true
+                });
+            }).join('');
+
+            var archiveRoot = document.getElementById('workArchive');
+            if (archiveRoot && flagships.length && archive.length) {
+                archiveRoot.hidden = false;
+                document.getElementById('archiveList').innerHTML = archive.map(function (p) {
+                    var ROOT = window.SITE_ROOT || '';
+                    return '<a class="archive-row" data-category="' + p.category.join(' ') + '" href="' + ROOT + 'projects/' + p.slug + '.html">' +
+                        '<span class="archive-title">' + p.title + '</span>' +
+                        '<span class="archive-tagline">' + p.tagline + '</span>' +
+                        (p.status ? '<span class="archive-status">' + p.status + '</span>' : '<span></span>') +
+                        '<i class="fas fa-arrow-right archive-arrow" aria-hidden="true"></i></a>';
+                }).join('');
+            }
+        });
+    </script>
+
+    </main>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    &lt;EB/&gt;
+                    <p>I build systems that turn messy data into useful decisions.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="work.html">Work</a>
+                    <a href="about.html">About</a>
+                    <a href="resume.html">Resume</a>
+                    <a href="https://github.com/Elice99" target="_blank">GitHub</a>
+                    <a href="https://linktr.ee/elice99" target="_blank">LinkedIn</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; 2026 Elisha Bassey &middot; SYSTEM STATUS <span style="color:var(--teal-600)">&#9679; ONLINE</span></span>
+            </div>
+        </div>
+    </footer>
+    <button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+
+    <div class="cmdk-overlay" id="cmdkOverlay">
+        <div class="cmdk-modal">
+            <input type="text" id="cmdkInput" class="cmdk-input" placeholder="Search Elisha's portfolio..." autocomplete="off">
+            <div class="cmdk-list" id="cmdkList"></div>
+        </div>
+    </div>
+    <div class="cmdk-hint"><kbd>&#8984;</kbd><kbd>K</kbd><span>Search</span></div>
+
+    <!-- Visitor analytics: add a GoatCounter (or similar) script here when
+         the site is deployed, then restore the counter in the footer. -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="js/projects-data.js?v=f9fe40b4"></script>
+    <script src="js/main.js?v=733e8b90"></script>
+</body>
+</html>

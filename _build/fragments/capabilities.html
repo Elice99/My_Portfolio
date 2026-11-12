@@ -1,0 +1,72 @@
+    <section class="section-padding" style="padding-top:calc(var(--header-height) + var(--space-10))">
+        <div class="container">
+            <div class="section-header" data-aos="fade-up" style="text-align:left;margin-bottom:3rem">
+                <span class="section-eyebrow">What I Bring</span>
+                <h1 class="section-title" style="text-align:left">Capabilities</h1>
+                <p class="section-subtitle" style="margin:0;text-align:left">Click a category to see the real projects that put it into practice.</p>
+            </div>
+
+            <div class="skills-grid">
+                <button class="skill-category capability-card" data-category="analytics" data-aos="fade-up" data-aos-delay="0" style="text-align:left;cursor:pointer;width:100%">
+                    <div class="skill-category-header">
+                        <div class="skill-category-icon"><i class="fas fa-database"></i></div>
+                        <div class="skill-category-title"><h3>Data</h3></div>
+                    </div>
+                    <div class="project-tech">
+                        <span>SQL</span><span>Python</span><span>Excel</span><span>Data Cleaning</span><span>Data Validation</span>
+                    </div>
+                </button>
+
+                <button class="skill-category capability-card" data-category="bi" data-aos="fade-up" data-aos-delay="100" style="text-align:left;cursor:pointer;width:100%">
+                    <div class="skill-category-header">
+                        <div class="skill-category-icon"><i class="fas fa-chart-pie"></i></div>
+                        <div class="skill-category-title"><h3>Intelligence</h3></div>
+                    </div>
+                    <div class="project-tech">
+                        <span>Power BI</span><span>EDA</span><span>Statistics</span><span>Data Storytelling</span>
+                    </div>
+                </button>
+
+                <button class="skill-category capability-card" data-category="ml" data-aos="fade-up" data-aos-delay="0" style="text-align:left;cursor:pointer;width:100%">
+                    <div class="skill-category-header">
+                        <div class="skill-category-icon"><i class="fas fa-brain"></i></div>
+                        <div class="skill-category-title"><h3>Prediction</h3></div>
+                    </div>
+                    <div class="project-tech">
+                        <span>Machine Learning</span><span>XGBoost</span><span>Predictive Analytics</span>
+                    </div>
+                </button>
+
+                <button class="skill-category capability-card" data-category="systems" data-aos="fade-up" data-aos-delay="100" style="text-align:left;cursor:pointer;width:100%">
+                    <div class="skill-category-header">
+                        <div class="skill-category-icon"><i class="fas fa-server"></i></div>
+                        <div class="skill-category-title"><h3>Systems</h3></div>
+                    </div>
+                    <div class="project-tech">
+                        <span>FastAPI</span><span>PostgreSQL</span><span>Docker</span><span>APIs</span>
+                    </div>
+                </button>
+
+                <button class="skill-category capability-card" data-category="business" data-aos="fade-up" data-aos-delay="0" style="text-align:left;cursor:pointer;width:100%;grid-column:span 2">
+                    <div class="skill-category-header">
+                        <div class="skill-category-icon"><i class="fas fa-briefcase"></i></div>
+                        <div class="skill-category-title"><h3>Business</h3></div>
+                    </div>
+                    <div class="project-tech">
+                        <span>Business Analysis</span><span>Product Analytics</span><span>Operations</span><span>Decision Support</span>
+                    </div>
+                </button>
+            </div>
+
+            <div id="capabilityResults" class="capability-results" style="display:none"></div>
+
+            <!-- ===== TOOLS & PLATFORMS ===== -->
+            <div class="skill-category" style="margin-top:3rem" data-aos="fade-up">
+                <div class="skill-category-header">
+                    <div class="skill-category-icon"><i class="fas fa-toolbox"></i></div>
+                    <div class="skill-category-title"><h3>Tools &amp; Platforms</h3></div>
+                </div>
+                {{TOOLS_GRID}}
+            </div>
+        </div>
+    </section>

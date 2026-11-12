@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="A one-page Power BI report on ER visit volume, waiting time and satisfaction, built on synthetic data.">
+    <meta name="author" content="Elisha Bassey">
+    <meta property="og:title" content="Emergency Room Patient Analysis | Elisha Bassey">
+    <meta property="og:description" content="A one-page Power BI report on ER visit volume, waiting time and satisfaction, built on synthetic data.">
+    <meta property="og:type" content="website">
+    <link rel="canonical" href="https://elishabassey.netlify.app/projects/er-patient-analysis.html">
+    <meta property="og:url" content="https://elishabassey.netlify.app/projects/er-patient-analysis.html">
+    <meta property="og:image" content="https://elishabassey.netlify.app/images/Elice_1.webp">
+    <meta property="og:image:alt" content="Elisha Bassey">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Emergency Room Patient Analysis | Elisha Bassey">
+    <meta name="twitter:description" content="A one-page Power BI report on ER visit volume, waiting time and satisfaction, built on synthetic data.">
+    <meta name="twitter:image" content="https://elishabassey.netlify.app/images/Elice_1.webp">
+    <title>Emergency Room Patient Analysis | Elisha Bassey</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css?v=356556e9">
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "Elisha Bassey", "jobTitle": "Data Analyst & Analytics Engineer", "sameAs": ["https://github.com/Elice99", "https://linktr.ee/elice99"], "knowsAbout": ["Data Analysis", "Business Intelligence", "Machine Learning", "Analytics Engineering"], "url": "https://elishabassey.netlify.app/", "image": "https://elishabassey.netlify.app/images/Elice_1.webp"}</script>
+    <script>window.SITE_ROOT = "../";</script>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="logo-bracket">&lt;</span>
+                <span class="logo-text">EB</span>
+                <span class="logo-bracket">/&gt;</span>
+            </a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="../work.html" class="nav-link">Work</a></li><li><a href="../about.html" class="nav-link">About</a></li><li><a href="../experience.html" class="nav-link">Experience</a></li><li><a href="../capabilities.html" class="nav-link">Capabilities</a></li><li><a href="../now.html" class="nav-link">Now</a></li>
+            </ul>
+            <div class="nav-controls">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle Dark Mode"><i class="fas fa-moon"></i></button>
+                <a href="../resume.html" class="nav-link" style="margin-right:0.5rem">CV</a>
+                <a href="../contact.html" class="nav-link" style="margin-right:0.5rem">Contact</a>
+                <button class="theme-toggle" data-cmdk-trigger aria-label="Open command palette (Cmd/Ctrl+K)"><i class="fas fa-magnifying-glass"></i></button>
+                <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle Menu">
+                    <span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+    <main id="main-content">
+    <section class="case-hero" style="padding-left:0;padding-right:0">
+        <div class="container">
+            <span class="case-status">PROTOTYPE</span>
+            <h1 class="case-title">EMERGENCY ROOM PATIENT ANALYSIS</h1>
+            <p class="case-tagline">A one-page Power BI report on ER visit volume, waiting time and satisfaction, built on synthetic data.</p>
+            <p class="case-stack">Power BI &middot; DAX &middot; Power Query (M)</p>
+            
+        </div>
+    </section>
+
+    <div class="container">
+        <nav class="doc-tabs" aria-label="Emergency Room Patient Analysis sections"><a href="../projects/er-patient-analysis.html" class="doc-tab active" aria-current="page">Overview</a><a href="../projects/er-patient-analysis-business.html" class="doc-tab">Business insights</a><a href="../projects/er-patient-analysis-technical.html" class="doc-tab">Technical documentation</a></nav>
+        <div class="media-frame code-float-wrap" data-aos="fade-up"><div class="media-gallery"><div class="media-gallery-frame single"><img src="../images/ERPatient_1.webp" alt="Emergency Room Patient Analysis screenshot 1" loading="lazy" decoding="async"></div></div><div class="code-float">
+        <div class="code-float-bar">
+            <span class="code-float-dot"></span><span class="code-float-dot"></span><span class="code-float-dot"></span>
+            <span style="margin-left:6px;font-family:'JetBrains Mono',monospace;font-size:0.6875rem;color:#8a8a8a">Parameter (field parameter)</span>
+        </div>
+        <pre>{
+    (<span class="tok-str">&quot;Avg Satisfaction&quot;</span>, <span class="tok-fn">NAMEOF</span>(&#x27;Calculation&#x27;[Average Satisfaction Score]), <span class="tok-num">0</span>),
+    (<span class="tok-str">&quot;Avg wait Time&quot;</span>, <span class="tok-fn">NAMEOF</span>(&#x27;Calculation&#x27;[Average wait Time]), <span class="tok-num">1</span>)
+}</pre>
+    </div></div>
+
+        <div class="case-metric-strip">
+            <span class="case-metric-value">9,216</span>
+            <span class="case-metric-label">Synthetic ER visits</span>
+        </div>
+
+        
+        <p class="doc-bottom-label" style="margin-top:var(--space-8)">Go deeper</p><div class="go-deeper"><a href="../projects/er-patient-analysis-business.html" class="go-deeper-card"><i class="fas fa-chart-pie"></i><div><h3>Business insights</h3><p>The question, the evidence and what I would do about it, in plain language.</p></div><span class="go-deeper-arrow">&rarr;</span></a><a href="../projects/er-patient-analysis-technical.html" class="go-deeper-card"><i class="fas fa-gears"></i><div><h3>Technical documentation</h3><p>The data model, formulas and measures, cleaning steps, and why I chose each visual.</p></div><span class="go-deeper-arrow">&rarr;</span></a></div>
+
+        
+        <section class="case-section" data-aos="fade-up">
+            <h2>THE PROBLEM</h2>
+            <p>Emergency departments watch volume, waiting time, satisfaction and referrals, but usually in separate reports. This project puts them in one view so the first questions are easier to ask. The dataset is synthetic, so nothing here describes a real hospital.</p>
+        </section>
+        <section class="case-section" data-aos="fade-up">
+            <h2>APPROACH</h2>
+            <p>I loaded a 9,216 row synthetic CSV into Power BI with Power Query, added calculated columns and a date table in DAX, wrote reusable measures in a dedicated Calculation table, and built a one-page report. A field parameter lets one heatmap switch between satisfaction and wait time.</p>
+        </section>
+        <section class="case-section" data-aos="fade-up">
+            <h2>OUTCOME</h2>
+            <p>A working monitoring and exploration prototype, plus an honest list of what to fix. Most visits have no satisfaction rating, the wait time has no stated unit, two report numbers do not match the source file, and the model has a duplicate patient table.</p>
+        </section>
+
+        
+        
+        
+
+        <div class="case-next">
+            <p class="case-next-label">NEXT CASE STUDY</p>
+            <a href="../projects/developer-survey-analysis.html">Developer Survey Analysis &rarr;</a>
+        </div>
+    </div>
+
+    </main>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    &lt;EB/&gt;
+                    <p>I build systems that turn messy data into useful decisions.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="../work.html">Work</a>
+                    <a href="../about.html">About</a>
+                    <a href="../resume.html">Resume</a>
+                    <a href="https://github.com/Elice99" target="_blank">GitHub</a>
+                    <a href="https://linktr.ee/elice99" target="_blank">LinkedIn</a>
+                    <a href="../contact.html">Contact</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; 2026 Elisha Bassey &middot; SYSTEM STATUS <span style="color:var(--teal-600)">&#9679; ONLINE</span></span>
+            </div>
+        </div>
+    </footer>
+    <button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+
+    <div class="cmdk-overlay" id="cmdkOverlay">
+        <div class="cmdk-modal">
+            <input type="text" id="cmdkInput" class="cmdk-input" placeholder="Search Elisha's portfolio..." autocomplete="off">
+            <div class="cmdk-list" id="cmdkList"></div>
+        </div>
+    </div>
+    <div class="cmdk-hint"><kbd>&#8984;</kbd><kbd>K</kbd><span>Search</span></div>
+
+    <!-- Visitor analytics: add a GoatCounter (or similar) script here when
+         the site is deployed, then restore the counter in the footer. -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="../js/projects-data.js?v=f9fe40b4"></script>
+    <script src="../js/main.js?v=733e8b90"></script>
+</body>
+</html>
