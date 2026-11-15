@@ -130,6 +130,7 @@ const PROJECTS = [
     "slug": "airbnb-market-intelligence",
     "imagePrefix": "Airbnb",
     "title": "Airbnb Market Intelligence",
+    "hasDocs": true,
     "category": [
       "analytics",
       "bi",
@@ -155,7 +156,11 @@ const PROJECTS = [
     "github": "https://github.com/Elice99/airbnb-market-intelligence",
     "demo": null,
     "codeSnippet": null,
-    "images": [],
+    "images": [
+      "images/Airbnb_1.webp",
+      "images/Airbnb_2.webp",
+      "images/Airbnb_3.webp"
+    ],
     "video": "/video/AirBnB.mp4"
   },
   {

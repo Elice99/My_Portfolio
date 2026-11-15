@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="The full pipeline: the cleaning and feature engineering with their real logged numbers, the PostgreSQL layer, the 16 SQL analytics queries, the three-model comparison, the FastAPI service, and the Streamlit app.">
+    <meta name="author" content="Elisha Bassey">
+    <meta property="og:title" content="Airbnb Market Intelligence: Technical documentation | Elisha Bassey">
+    <meta property="og:description" content="The full pipeline: the cleaning and feature engineering with their real logged numbers, the PostgreSQL layer, the 16 SQL analytics queries, the three-model comparison, the FastAPI service, and the Streamlit app.">
+    <meta property="og:type" content="website">
+    <link rel="canonical" href="https://elishabassey.netlify.app/projects/airbnb-market-intelligence-technical.html">
+    <meta property="og:url" content="https://elishabassey.netlify.app/projects/airbnb-market-intelligence-technical.html">
+    <meta property="og:image" content="https://elishabassey.netlify.app/images/Elice_1.webp">
+    <meta property="og:image:alt" content="Elisha Bassey">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Airbnb Market Intelligence: Technical documentation | Elisha Bassey">
+    <meta name="twitter:description" content="The full pipeline: the cleaning and feature engineering with their real logged numbers, the PostgreSQL layer, the 16 SQL analytics queries, the three-model comparison, the FastAPI service, and the Streamlit app.">
+    <meta name="twitter:image" content="https://elishabassey.netlify.app/images/Elice_1.webp">
+    <title>Airbnb Market Intelligence: Technical documentation | Elisha Bassey</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css?v=29111c74">
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "Elisha Bassey", "jobTitle": "Data Analyst & Analytics Engineer", "sameAs": ["https://github.com/Elice99", "https://linktr.ee/elice99"], "knowsAbout": ["Data Analysis", "Business Intelligence", "Machine Learning", "Analytics Engineering"], "url": "https://elishabassey.netlify.app/", "image": "https://elishabassey.netlify.app/images/Elice_1.webp"}</script>
+    <script>window.SITE_ROOT = "../";</script>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="logo-bracket">&lt;</span>
+                <span class="logo-text">EB</span>
+                <span class="logo-bracket">/&gt;</span>
+            </a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="../work.html" class="nav-link">Work</a></li><li><a href="../about.html" class="nav-link">About</a></li><li><a href="../experience.html" class="nav-link">Experience</a></li><li><a href="../capabilities.html" class="nav-link">Capabilities</a></li><li><a href="../now.html" class="nav-link">Now</a></li>
+            </ul>
+            <div class="nav-controls">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle Dark Mode"><i class="fas fa-moon"></i></button>
+                <a href="../resume.html" class="nav-link" style="margin-right:0.5rem">CV</a>
+                <a href="../contact.html" class="nav-link" style="margin-right:0.5rem">Contact</a>
+                <button class="theme-toggle" data-cmdk-trigger aria-label="Open command palette (Cmd/Ctrl+K)"><i class="fas fa-magnifying-glass"></i></button>
+                <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle Menu">
+                    <span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+    <main id="main-content">
+    <section class="case-hero" style="padding-left:0;padding-right:0;padding-bottom:var(--space-6)">
+        <div class="container">
+            <a href="../projects/airbnb-market-intelligence.html" class="doc-back">&larr; Airbnb Market Intelligence overview</a>
+            <span class="case-status">TECHNICAL DOCUMENTATION</span>
+            <h1 class="case-title doc-title">Airbnb Market Intelligence: how it was built</h1>
+            <p class="case-tagline">The full pipeline: the cleaning and feature engineering with their real logged numbers, the PostgreSQL layer, the 16 SQL analytics queries, the three-model comparison, the FastAPI service, and the Streamlit app.</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <nav class="doc-tabs" aria-label="Airbnb Market Intelligence sections"><a href="../projects/airbnb-market-intelligence.html" class="doc-tab">Overview</a><a href="../projects/airbnb-market-intelligence-business.html" class="doc-tab">Business insights</a><a href="../projects/airbnb-market-intelligence-technical.html" class="doc-tab active" aria-current="page">Technical documentation</a></nav>
+        <div class="doc-shell">
+            <aside class="doc-toc" aria-label="On this page"><p>On this page</p><a href="#solution">The solution</a><a href="#data">The data and cleaning</a><a href="#features">Feature engineering and the leakage call</a><a href="#model">The model and its real numbers</a><a href="#serving">Serving the model</a><a href="#sql">The SQL analytics layer</a><a href="#app">The Streamlit app</a><a href="#validation">How I verified the numbers</a><a href="#decisions">Decisions and trade-offs</a><a href="#upkeep">Deployment and next steps</a><a href="#reflection">What this project shows</a></aside>
+            <article class="doc-body">
+<section class="doc-section" id="solution"><h2>The solution</h2><div class="doc-note"><i class="fas fa-circle-info"></i><p>Code on this page is copied as stored from the project repo and only re-indented. Long functions are excerpts and say what was cut. Every number traces to a saved output: models/model_info.txt, the training and cleaning run lines in reports/app.log, sql/analytics.sql, and the generated charts in reports/charts/.</p></div><p>The project is one pipeline with three consumers. The ETL layer (data_loader, data_cleaner, feature_engineer, db_loader) takes the raw CSV, cleans and enriches it, and loads it into PostgreSQL. The SQL analytics file answers the market questions against the loaded table. The ML branch trains and compares three models, cross-validates the winner, and saves the full sklearn pipeline (preprocessing included) as one artifact. The FastAPI backend loads that artifact and serves predictions, and the Streamlit frontend gives the four explorer pages. A set of 15 generated charts in reports/charts documents the EDA and the model evaluation, six of which are embedded across these two pages.</p><div class="doc-table-wrap"><table class="doc-table"><thead><tr><th>Component</th><th>Where it lives</th><th>Role</th></tr></thead><tbody><tr><td>Raw data</td><td>data/raw/AB_NYC_2019.csv</td><td>Public Airbnb NYC 2019 open dataset, 48,895 listings</td></tr><tr><td>ETL pipeline</td><td>pipelines/data_cleaner.py, feature_engineer.py</td><td>Cleaning steps, outlier caps, 11 engineered feature functions</td></tr><tr><td>Database layer</td><td>pipelines/db_loader.py, db_connection.py</td><td>SQLAlchemy load into PostgreSQL</td></tr><tr><td>SQL analytics</td><td>sql/analytics.sql</td><td>16 business queries in 6 sections, including window functions</td></tr><tr><td>Training code</td><td>pipelines/ml_pipeline.py</td><td>Three models, preprocessing, 5-fold CV, evaluation, 3 charts</td></tr><tr><td>Model artifact</td><td>models/best_model_xgboost.pkl + model_info.txt</td><td>Full pipeline (preprocessor + XGBoost) and the saved metrics</td></tr><tr><td>API</td><td>app/backend/ (FastAPI)</td><td>health, predict, model-info endpoints with Pydantic validation</td></tr><tr><td>Frontend</td><td>app/frontend/ (Streamlit)</td><td>Market analytics, price prediction, neighbourhood explorer, model performance</td></tr><tr><td>Generated evidence</td><td>reports/charts/ (15 charts), app.log</td><td>EDA charts, evaluation charts, and the run lines every number here quotes</td></tr></tbody></table></div><p>One scoping note: the README describes a Docker Compose deployment and cloud targets as the plan. The container files are not part of the repo yet, so I treat deployment as documented intent, not something I claim as running.</p></section><section class="doc-section" id="data"><h2>The data and cleaning</h2><p>The raw file is the Airbnb NYC 2019 open dataset: 48,895 rows, 16 columns. Each cleaning function does one job, logs what it did, and the run log preserves the counts. These are the logged actions:</p><div class="doc-table-wrap"><table class="doc-table"><thead><tr><th>Step</th><th>What it did</th><th>Why</th></tr></thead><tbody><tr><td>Drop zero prices</td><td>11 rows removed</td><td>A $0 listing is an invalid record that breaks averages and models</td></tr><tr><td>Cap price outliers</td><td>Prices above the 99th percentile ($799) clipped to it</td><td>Raw max is $10,000 against a median of $106. Capping keeps real rows but limits their pull</td></tr><tr><td>Cap minimum nights</td><td>Values above the 99th percentile clipped</td><td>Raw max is 1,250 nights, about 3.4 years, which would distort the model</td></tr><tr><td>Fill review nulls</td><td>10,052 rows: reviews_per_month set to 0, last_review flagged</td><td>Those rows have never been reviewed. Zero is the true value, not a placeholder</td></tr><tr><td>Fill text nulls</td><td>16 listing names, 21 host names set to &#x27;Unknown&#x27;</td><td>The rows stay valid; the text is just missing</td></tr><tr><td>Standardise text</td><td>Whitespace stripped, neighbourhoods title-cased</td><td>So &#x27;Manhattan&#x27; and &#x27; Manhattan&#x27; do not split into two categories</td></tr><tr><td>Parse dates</td><td>last_review converted to datetime, unparsable values kept as null</td><td>Time-based features need a real date type</td></tr></tbody></table></div><div class="doc-code"><div class="doc-code-bar"><span>The outlier handling (data_cleaner.py, excerpt)</span><span class="doc-code-lang">PYTHON</span></div><pre><code><span class="tok-kw">def</span> <span class="tok-fn">cap_price_outliers</span>(df: pd.DataFrame) -&gt; pd.DataFrame:
+    <span class="tok-str">&quot;&quot;</span><span class="tok-str">&quot;
+    Why cap instead of drop?
+    - Dropping removes real data (some listings ARE expensive).
+    - Capping keeps the row but limits its influence on the model.
+    - The 99th percentile is a standard industry threshold.
+    &quot;</span><span class="tok-str">&quot;&quot;</span>
+    cap_value = df[<span class="tok-str">&quot;price&quot;</span>].<span class="tok-fn">quantile</span>(<span class="tok-num">0.99</span>)
+    df[<span class="tok-str">&quot;price&quot;</span>] = df[<span class="tok-str">&quot;price&quot;</span>].<span class="tok-fn">clip</span>(upper=cap_value)
+    <span class="tok-kw">return</span> df</code></pre></div><p>The validation report at the end of the run confirms the result: 48,884 rows, 16 columns, no missing values left in the modelling columns, price max $799.</p></section><section class="doc-section" id="features"><h2>Feature engineering and the leakage call</h2><p>Eleven feature functions run after cleaning. Some serve the dashboards, some serve the model. The ones the model actually uses are 16: three categoricals (borough, neighbourhood, room type), two price-encoded geography columns, and eleven numeric features.</p><div class="doc-code"><div class="doc-code-bar"><span>The model&#x27;s feature list (ml_pipeline.py)</span><span class="doc-code-lang">PYTHON</span></div><pre><code>    FEATURES = [
+        <span class="tok-com"># Categorical</span>
+        <span class="tok-str">&quot;neighbourhood_group&quot;</span>,
+        <span class="tok-str">&quot;neighbourhood&quot;</span>,
+        <span class="tok-str">&quot;room_type&quot;</span>,
+         <span class="tok-com"># Numeric - price-encoded geography</span>
+        <span class="tok-str">&quot;neighbourhood_median_price&quot;</span>,
+        <span class="tok-str">&quot;neighbourhood_group_median_price&quot;</span>,
+        <span class="tok-com"># Numeric - original</span>
+        <span class="tok-str">&quot;minimum_nights&quot;</span>,
+        <span class="tok-str">&quot;number_of_reviews&quot;</span>,
+        <span class="tok-str">&quot;reviews_per_month&quot;</span>,
+        <span class="tok-str">&quot;calculated_host_listings_count&quot;</span>,
+        <span class="tok-str">&quot;availability_365&quot;</span>,
+        <span class="tok-com"># Numeric - engineered</span>
+        <span class="tok-str">&quot;is_reviewed&quot;</span>,
+        <span class="tok-str">&quot;host_is_superhost_proxy&quot;</span>,
+        <span class="tok-str">&quot;availability_ratio&quot;</span>,
+        <span class="tok-str">&quot;is_long_term&quot;</span>,
+        <span class="tok-str">&quot;name_length&quot;</span>,
+        <span class="tok-str">&quot;days_since_last_review&quot;</span>,
+    ]</code></pre></div><p>The geography encoding is the interesting one. It replaces raw names with each area&#x27;s median price, so the model gets numeric signal it can split on, and it stays compact where one-hot encoding 221 neighbourhoods would not.</p><div class="doc-code"><div class="doc-code-bar"><span>Neighbourhood target encoding (feature_engineer.py, excerpt)</span><span class="doc-code-lang">PYTHON</span></div><pre><code>    <span class="tok-str">&quot;&quot;</span><span class="tok-str">&quot;
+    Why this works better than ordinal encoding:
+    OrdinalEncoder assigns arbitrary numbers - &#x27;Tribeca&#x27;=187,
+    &#x27;Bronx&#x27;=23. The model has no idea 187 means expensive.
+
+    Median price encoding gives the model real signal:
+    &#x27;Tribeca&#x27; -&gt; $295, &#x27;Fordham&#x27; -&gt; $55.
+    &quot;</span><span class="tok-str">&quot;&quot;</span>
+    neigh_median = (
+        <span class="tok-fn">df.groupby</span>(<span class="tok-str">&quot;neighbourhood&quot;</span>)[<span class="tok-str">&quot;price&quot;</span>]
+        .<span class="tok-fn">median</span>()
+        .<span class="tok-fn">rename</span>(<span class="tok-str">&quot;neighbourhood_median_price&quot;</span>)
+    )
+    df[<span class="tok-str">&quot;neighbourhood_median_price&quot;</span>] = df[<span class="tok-str">&quot;neighbourhood&quot;</span>].<span class="tok-fn">map</span>(neigh_median)</code></pre></div><h3 class="doc-sub">Two features were built and then excluded</h3><p>The engineering step also creates price_per_review (price divided by reviews) and price_category (budget to luxury buckets). Neither reaches the model. Both are derived from the target, so training on them would hand the model the answer. The code comment on the feature list says exactly that, and the correlation heatmap shows why the temptation exists: price_per_review is the only feature correlating with price at 0.37.</p><figure class="doc-figure"><img src="../images/AirbnbDoc_6.webp" alt="The feature correlation heatmap from the EDA pipeline. Price&#x27;s strongest correlations with the retained features are 0.12 (host listing count, availability); the visible 0.37 with price_per_review is the excluded, target-derived feature." loading="lazy"><figcaption>The feature correlation heatmap from the EDA pipeline. Price&#x27;s strongest correlations with the retained features are 0.12 (host listing count, availability); the visible 0.37 with price_per_review is the excluded, target-derived feature.</figcaption></figure><p>One preprocessing note: categoricals go through an OrdinalEncoder with an unknown-value fallback rather than one-hot encoding. With 221 unique neighbourhoods, one-hot would add 221 columns; the ordinal route keeps the matrix compact, and the tree models do the category work themselves.</p></section><section class="doc-section" id="model"><h2>The model and its real numbers</h2><p>Training is one script. It loads the featured data, drops rows with any missing feature or target value (38,833 rows remain), splits 80/20 into 31,066 training and 7,767 test rows with a fixed random state, builds a preprocessing pipeline (encoding plus scaling), and trains three models on identical inputs.</p><div class="doc-code"><div class="doc-code-bar"><span>The candidate models (ml_pipeline.py, excerpt)</span><span class="doc-code-lang">PYTHON</span></div><pre><code>        <span class="tok-str">&quot;RandomForest&quot;</span>: <span class="tok-fn">Pipeline</span>([
+            (<span class="tok-str">&quot;preprocessor&quot;</span>, preprocessor),
+            (<span class="tok-str">&quot;model&quot;</span>, <span class="tok-fn">RandomForestRegressor</span>(
+                n_estimators=<span class="tok-num">200</span>, max_depth=<span class="tok-num">15</span>,
+                min_samples_leaf=<span class="tok-num">5</span>, max_features=<span class="tok-num">0.8</span>,
+                random_state=<span class="tok-num">42</span>, n_jobs=-<span class="tok-num">1</span>
+            ))
+        ]),
+
+        <span class="tok-str">&quot;XGBoost&quot;</span>: <span class="tok-fn">Pipeline</span>([
+            (<span class="tok-str">&quot;preprocessor&quot;</span>, preprocessor),
+            (<span class="tok-str">&quot;model&quot;</span>, <span class="tok-fn">XGBRegressor</span>(
+                n_estimators=<span class="tok-num">300</span>, learning_rate=<span class="tok-num">0.05</span>,
+                max_depth=<span class="tok-num">6</span>, subsample=<span class="tok-num">0.8</span>, colsample_bytree=<span class="tok-num">0.8</span>,
+                random_state=<span class="tok-num">42</span>, n_jobs=-<span class="tok-num">1</span>, verbosity=<span class="tok-num">0</span>
+            ))
+        ]),</code></pre></div><p>The script also carries a fourth configuration, an XGBoost with heavier regularisation, alongside these. The comparison picks the lowest test RMSE, cross-validates the winner, and saves the full pipeline so the API can accept raw inputs without repeating preprocessing.</p><div class="doc-table-wrap"><table class="doc-table"><thead><tr><th>Model</th><th>Test RMSE</th><th>Test MAE</th><th>R²</th></tr></thead><tbody><tr><td>Linear regression</td><td>$90.58</td><td>$53.19</td><td>0.3529</td></tr><tr><td>Random forest</td><td>$83.83</td><td>$47.43</td><td>0.4457</td></tr><tr><td>XGBoost (selected)</td><td>$83.10</td><td>$47.20</td><td>0.4553</td></tr></tbody></table></div><div class="doc-stat-grid"><div class="doc-stat"><span class="doc-stat-value">$83.10</span><span class="doc-stat-label">Test RMSE, XGBoost</span></div><div class="doc-stat"><span class="doc-stat-value">$47.20</span><span class="doc-stat-label">Test MAE</span></div><div class="doc-stat"><span class="doc-stat-value">R² 0.4553</span><span class="doc-stat-label">Variance explained</span></div><div class="doc-stat"><span class="doc-stat-value">$80.65 ± $1.31</span><span class="doc-stat-label">5-fold cross-validated RMSE</span></div><div class="doc-stat"><span class="doc-stat-value">7,767</span><span class="doc-stat-label">Held-out test rows</span></div><div class="doc-stat"><span class="doc-stat-value">16</span><span class="doc-stat-label">Features</span></div></div><p>These are the numbers saved in models/model_info.txt at the end of the run, and they match the comparison table in the README and the final run lines in the log.</p><figure class="doc-figure"><img src="../images/AirbnbDoc_4.webp" alt="Actual versus predicted price on the test set, with the saved metrics in the title. The cloud tracks the diagonal through the mid market; at high actual prices the predictions flatten below the line, which is what a $799 training cap predicts it would do." loading="lazy"><figcaption>Actual versus predicted price on the test set, with the saved metrics in the title. The cloud tracks the diagonal through the mid market; at high actual prices the predictions flatten below the line, which is what a $799 training cap predicts it would do.</figcaption></figure><figure class="doc-figure"><img src="../images/AirbnbDoc_5.webp" alt="Residual analysis from the same run: residuals against predicted price, and their distribution. The spread widens as predicted price rises, the usual shape for right-skewed price data, and the distribution stays centred on zero." loading="lazy"><figcaption>Residual analysis from the same run: residuals against predicted price, and their distribution. The spread widens as predicted price rises, the usual shape for right-skewed price data, and the distribution stays centred on zero.</figcaption></figure></section><section class="doc-section" id="serving"><h2>Serving the model</h2><p>The FastAPI backend loads the pickle once at startup and exposes three endpoints: GET /health, POST /predict and GET /model-info, with FastAPI&#x27;s own docs page generated at /docs. The predict router is the part worth reading, because it rebuilds every engineered feature from the raw request so the served input matches the training input exactly.</p><div class="doc-code"><div class="doc-code-bar"><span>Rebuilding the engineered features (routers/predict.py, excerpt)</span><span class="doc-code-lang">PYTHON</span></div><pre><code>    <span class="tok-com"># Derived features - same logic as feature_engineer.py</span>
+    is_reviewed  = <span class="tok-num">1</span> <span class="tok-kw">if</span> request.number_of_reviews &gt; <span class="tok-num">0</span> <span class="tok-kw">else</span> <span class="tok-num">0</span>
+    is_long_term = <span class="tok-num">1</span> <span class="tok-kw">if</span> request.minimum_nights &gt;= <span class="tok-num">30</span> <span class="tok-kw">else</span> <span class="tok-num">0</span>
+    host_proxy   = <span class="tok-num">1</span> <span class="tok-kw">if</span> request.calculated_host_listings_count &gt;= <span class="tok-num">5</span> <span class="tok-kw">else</span> <span class="tok-num">0</span>
+    avail_ratio  = <span class="tok-fn">round</span>(request.availability_365 / <span class="tok-num">365</span>, <span class="tok-num">4</span>)
+
+    <span class="tok-com"># Neighbourhood price encoding</span>
+    neigh_median = <span class="tok-fn">NEIGHBOURHOOD_MEDIANS.get</span>(
+        request.neighbourhood,
+        <span class="tok-fn">BOROUGH_MEDIANS.get</span>(request.neighbourhood_group, <span class="tok-num">106.0</span>)
+    )
+    group_median = <span class="tok-fn">BOROUGH_MEDIANS.get</span>(request.neighbourhood_group, <span class="tok-num">106.0</span>)
+
+    <span class="tok-com"># days_since_last_review - use training mean for new listings</span>
+    days_since = <span class="tok-num">277.95</span></code></pre></div><p>Three serving decisions sit in this excerpt. Unknown neighbourhoods fall back to their borough median, and unrecognised boroughs to an overall median of $106, so the endpoint never crashes on a spelling difference. New listings with no review history get the training mean for review recency instead of a null. And the output is clipped to a realistic band before it leaves the service.</p><div class="doc-code"><div class="doc-code-bar"><span>The response shape (routers/predict.py, excerpt)</span><span class="doc-code-lang">PYTHON</span></div><pre><code>    <span class="tok-com"># Clip to realistic range - model can sometimes predict</span>
+    <span class="tok-com"># negative or extremely high values for edge cases</span>
+    predicted_price = <span class="tok-fn">max</span>(<span class="tok-num">10.0</span>, <span class="tok-fn">min</span>(predicted_price, <span class="tok-num">799.0</span>))
+    predicted_price = <span class="tok-fn">round</span>(predicted_price, <span class="tok-num">2</span>)
+
+    <span class="tok-com"># Build price range using MAE as uncertainty estimate</span>
+    price_low  = <span class="tok-fn">round</span>(<span class="tok-fn">max</span>(<span class="tok-num">10.0</span>, predicted_price - MODEL_MAE), <span class="tok-num">2</span>)
+    price_high = <span class="tok-fn">round</span>(<span class="tok-fn">min</span>(<span class="tok-num">799.0</span>, predicted_price + MODEL_MAE), <span class="tok-num">2</span>)
+
+    <span class="tok-kw">return</span> <span class="tok-fn">PredictionResponse</span>(
+        predicted_price=predicted_price,
+        price_range_low=price_low,
+        price_range_high=price_high,
+        currency=<span class="tok-str">&quot;USD&quot;</span>,
+        model_version=<span class="tok-str">&quot;xgboost_v1&quot;</span>,
+        ...
+    )</code></pre></div><p>MODEL_MAE is the saved test MAE ($47.20), so the uncertainty band is measured, not decorative. A real run of this service is captured in the project screenshots: a Manhattan entire home with a two-night minimum returned predicted_price 243.58 with a range of 196.38 to 290.78 and model_version xgboost_v1.</p><div class="doc-table-wrap"><table class="doc-table"><thead><tr><th>Endpoint</th><th>Method</th><th>Purpose</th></tr></thead><tbody><tr><td>/</td><td>GET</td><td>Service index</td></tr><tr><td>/health</td><td>GET</td><td>Service and model status</td></tr><tr><td>/predict</td><td>POST</td><td>Listing details in, price with low/high range out</td></tr><tr><td>/model-info</td><td>GET</td><td>Model version, feature count, target and dataset</td></tr><tr><td>/docs</td><td>GET</td><td>Auto-generated OpenAPI documentation</td></tr></tbody></table></div></section><section class="doc-section" id="sql"><h2>The SQL analytics layer</h2><p>analytics.sql holds 16 queries in six sections, all written against the featured_listings table in PostgreSQL: market overview, pricing intelligence, host analytics, availability and demand, review analytics, and window-function analytics. The section headings mirror the dashboard brief, so every query maps to a question a host or a platform team would ask.</p><div class="doc-code"><div class="doc-code-bar"><span>The percentile-rank query (analytics.sql, query 6.3)</span><span class="doc-code-lang">PYTHON</span></div><pre><code>-- Percentile rank of every listing within its borough
+-- Useful <span class="tok-kw">for</span> telling a host <span class="tok-str">&quot;your listing is in the top X%&quot;</span>
+SELECT
+    id,
+    name,
+    neighbourhood_group AS borough,
+    room_type,
+    price,
+    <span class="tok-fn">ROUND</span>(
+        (
+            <span class="tok-fn">PERCENT_RANK</span>() OVER (
+                PARTITION BY neighbourhood_group
+                ORDER BY price
+            ) * <span class="tok-num">100</span>
+        )::numeric,
+        <span class="tok-num">1</span>
+    ) AS price_percentile_in_borough
+FROM featured_listings
+ORDER BY neighbourhood_group, price_percentile_in_borough DESC
+LIMIT <span class="tok-num">20</span>;</code></pre></div><p>That query is the bridge between the analytics layer and the product: it converts a price into a position, which is what a host actually needs to know. The other window queries rank neighbourhoods inside each borough (RANK), and build running totals and rolling three-row averages ordered by price (SUM and AVG with window frames).</p><div class="doc-table-wrap"><table class="doc-table"><thead><tr><th>Section</th><th>Queries</th><th>What they answer</th></tr></thead><tbody><tr><td>Market overview</td><td>3</td><td>Total listings, hosts, neighbourhoods, average and median price; per-borough and per-room-type shares</td></tr><tr><td>Pricing intelligence</td><td>3</td><td>Top 15 neighbourhoods by price (min 30 listings), price-category mix per borough, room-type cross-tab</td></tr><tr><td>Host analytics</td><td>3</td><td>Top hosts by listings, proxy-superhost comparison, hosts by average review volume</td></tr><tr><td>Availability and demand</td><td>2</td><td>Availability category mix, availability by borough and room type</td></tr><tr><td>Review analytics</td><td>2</td><td>Review activity by borough, review-score category breakdown</td></tr><tr><td>Window functions</td><td>3</td><td>In-borough price ranks, running totals and rolling averages, per-listing percentile rank</td></tr></tbody></table></div></section><section class="doc-section" id="app"><h2>The Streamlit app</h2><p>The frontend is a multipage Streamlit app with a shared utils module. Its job is to make the two layers usable without SQL or Python: a host enters listing details and gets a price with a range; an analyst browses the market with filters.</p><div class="doc-table-wrap"><table class="doc-table"><thead><tr><th>Page</th><th>What it does</th></tr></thead><tbody><tr><td>Market analytics</td><td>Interactive charts and filters over the cleaned market data</td></tr><tr><td>Price prediction</td><td>Listing form, calls the /predict endpoint, shows the price with its range</td></tr><tr><td>Neighbourhood explorer</td><td>Compares areas by price, reviews and availability</td></tr><tr><td>Model performance</td><td>Shows the model metrics and the feature importance chart</td></tr></tbody></table></div><p>A walkthrough recording of the app is embedded on the project page above these documents.</p></section><section class="doc-section" id="validation"><h2>How I verified the numbers</h2><p>Every number both pages quote comes from a saved output in the repo. The checks I ran while writing these pages:</p><div class="doc-table-wrap"><table class="doc-table"><thead><tr><th>Check</th><th>Source</th><th>Result</th></tr></thead><tbody><tr><td>Final metrics $83.10 / $47.20 / R² 0.4553</td><td>models/model_info.txt</td><td>Matches the README comparison table and the final training run line in app.log</td></tr><tr><td>Cross-validation $80.65 ± $1.31</td><td>Final run line in reports/app.log</td><td>Matches the README cross-validation note</td></tr><tr><td>Cleaning counts (11 dropped, $799 cap, 10,052 review fills, 48,884 final rows)</td><td>Run lines in reports/app.log</td><td>Matches the cleaning code&#x27;s documented expectations</td></tr><tr><td>Training shapes 38,833 / 31,066 / 7,767</td><td>Run lines in reports/app.log</td><td>Consistent with an 80/20 split of the modelling rows</td></tr><tr><td>16 SQL queries</td><td>sql/analytics.sql</td><td>Counted directly from the file</td></tr><tr><td>Feature importance and market charts</td><td>reports/charts/</td><td>Generated by ml_pipeline.py and the EDA pipeline; copied into this site as the figures on these pages</td></tr><tr><td>Live prediction run</td><td>Project screenshots</td><td>/predict returned $243.58 (range $196.38 to $290.78) for a Manhattan entire home, model_version xgboost_v1</td></tr></tbody></table></div><div class="doc-note"><i class="fas fa-circle-info"></i><p>One honesty note: the log&#x27;s final run is the source of the headline metrics, and an earlier logged run shows RMSE $83.55 at 14 features before the price-encoded geography columns landed. The improvement from the encoding is small but real, which is why I describe the encoding as signal, not magic.</p></div></section><section class="doc-section" id="decisions"><h2>Decisions and trade-offs</h2><div class="doc-table-wrap"><table class="doc-table"><thead><tr><th>Decision</th><th>Why</th><th>Trade-off I accepted</th></tr></thead><tbody><tr><td>Cap outliers at the 99th percentile instead of dropping</td><td>Keeps real expensive listings in the data</td><td>The model never trains on true luxury prices, so it should not be asked about them</td></tr><tr><td>Fill never-reviewed listings&#x27; review counts with 0</td><td>Zero is the true value, not a missing one</td><td>Recency features are null for them, which drops those rows from training</td></tr><tr><td>Target-encode neighbourhoods with median price</td><td>Gives the model real numeric geography signal, compact with 221 neighbourhoods</td><td>Medians are computed on the full dataset before the split, justified as stable geographic facts, but it is a choice worth re-testing with fold-wise encoding</td></tr><tr><td>Ordinal-encode the remaining categoricals</td><td>Keeps the matrix compact</td><td>Imposes an arbitrary order the trees must work around</td></tr><tr><td>Exclude price_per_review and price_category from the model</td><td>Both are derived from the target, so they leak</td><td>Loses the single strongest correlate of price in the heatmap</td></tr><tr><td>Build the response range from the test MAE</td><td>The uncertainty is measured, not invented</td><td>The band is uniform in dollars; it is wider than needed at the low end</td></tr><tr><td>Save the whole pipeline, preprocessing included</td><td>The API accepts raw inputs with no duplicate cleaning logic</td><td>The pickle carries sklearn version coupling</td></tr><tr><td>Clip predictions to $10 to $799</td><td>Serves plausible outputs on edge cases</td><td>Hides model failure at the extremes rather than surfacing it</td></tr></tbody></table></div></section><section class="doc-section" id="upkeep"><h2>Deployment and next steps</h2><ol class="doc-steps"><li><strong>Refresh the data</strong><span>The 2019 snapshot ages; re-pull, re-run the ETL, retrain, and quote new metrics.</span></li><li><strong>Finish the container story</strong><span>The README plans Docker Compose for the API and database; ship the Dockerfile and compose file, then the one-command run is real.</span></li><li><strong>Fold-wise target encoding</strong><span>Re-test the neighbourhood medians computed inside each fold to remove the before-split computation entirely.</span></li><li><strong>Add the missing signals</strong><span>Amenities, review quality and seasonality are where the unexplained half of price variance lives.</span></li><li><strong>Keep the validation report</strong><span>The cleaning pipeline&#x27;s end-of-run report is the first thing to check after any data refresh.</span></li><li><strong>Guard the endpoint</strong><span>Authentication and rate limits are not part of the demo service; they are the first requirement if it is exposed publicly.</span></li></ol></section><section class="doc-section" id="reflection"><h2>What this project shows</h2><p>This is an end-to-end analytics and ML build, not a notebook: a cleaning pipeline whose every action is logged and countable, a leakage call made before it could flatter the metrics, a three-model comparison with cross-validation behind the headline number, an API that rebuilds its own features so serve-time inputs match training inputs, and a SQL layer that answers the benchmark questions the model alone cannot.</p><p>The habits are the part I would carry forward: cap rather than delete and say so, measure the uncertainty and ship it in the response, and let the saved log be the source of truth for every number a page quotes.</p></section>
+            </article>
+        </div>
+        <div class="doc-bottom"><p class="doc-bottom-label">Want the business side?</p><div class="go-deeper"><a href="../projects/airbnb-market-intelligence-business.html" class="go-deeper-card"><i class="fas fa-chart-pie"></i><div><h3>Business insights</h3><p>The question, the evidence and what I would do about it, in plain language.</p></div><span class="go-deeper-arrow">&rarr;</span></a><a href="../projects/airbnb-market-intelligence.html" class="go-deeper-card"><i class="fas fa-table-columns"></i><div><h3>Project overview</h3><p>The short version: problem, approach and outcome.</p></div><span class="go-deeper-arrow">&rarr;</span></a></div><div class="case-links"><a href="https://github.com/Elice99/airbnb-market-intelligence" target="_blank" rel="noopener" class="btn btn-secondary"><i class="fab fa-github"></i> View on GitHub</a></div></div>
+    </div>
+
+    </main>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    &lt;EB/&gt;
+                    <p>I build systems that turn messy data into useful decisions.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="../work.html">Work</a>
+                    <a href="../about.html">About</a>
+                    <a href="../resume.html">Resume</a>
+                    <a href="https://github.com/Elice99" target="_blank">GitHub</a>
+                    <a href="https://linktr.ee/elice99" target="_blank">LinkedIn</a>
+                    <a href="../contact.html">Contact</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; 2026 Elisha Bassey &middot; SYSTEM STATUS <span style="color:var(--teal-600)">&#9679; ONLINE</span></span>
+            </div>
+        </div>
+    </footer>
+    <button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+
+    <div class="cmdk-overlay" id="cmdkOverlay">
+        <div class="cmdk-modal">
+            <input type="text" id="cmdkInput" class="cmdk-input" placeholder="Search Elisha's portfolio..." autocomplete="off">
+            <div class="cmdk-list" id="cmdkList"></div>
+        </div>
+    </div>
+    <div class="cmdk-hint"><kbd>&#8984;</kbd><kbd>K</kbd><span>Search</span></div>
+
+    <!-- Visitor analytics: add a GoatCounter (or similar) script here when
+         the site is deployed, then restore the counter in the footer. -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="../js/projects-data.js?v=04265d06"></script>
+    <script src="../js/main.js?v=733e8b90"></script>
+</body>
+</html>

@@ -132,6 +132,7 @@ PROJECTS = [
         "slug": "airbnb-market-intelligence",
         "imagePrefix": "Airbnb",
         "title": "Airbnb Market Intelligence",
+        "hasDocs": True,
         "category": ["analytics", "bi", "ml"],
         "tagline": "Price prediction and market analytics for the NYC short-term rental market.",
         "problem": "Hosts need to price competitively against neighbourhood benchmarks in New York City's short-term rental market but usually have no structured way to see where they sit relative to comparable listings.",
