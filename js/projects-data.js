@@ -33,7 +33,8 @@ const PROJECTS = [
     "github": "https://github.com/Elice99/TrustLake",
     "demo": null,
     "codeSnippet": null,
-    "images": []
+    "images": [],
+    "video": null
   },
   {
     "slug": "sales-pipeline-prediction",
@@ -82,7 +83,8 @@ const PROJECTS = [
       "images/SalesPipeline_9.webp",
       "images/SalesPipeline_10.webp",
       "images/SalesPipeline_11.webp"
-    ]
+    ],
+    "video": null
   },
   {
     "slug": "glowmart",
@@ -121,7 +123,8 @@ const PROJECTS = [
       "images/GlowMart_1.webp",
       "images/GlowMart_2.webp",
       "images/GlowMart_3.webp"
-    ]
+    ],
+    "video": null
   },
   {
     "slug": "airbnb-market-intelligence",
@@ -152,7 +155,8 @@ const PROJECTS = [
     "github": "https://github.com/Elice99/airbnb-market-intelligence",
     "demo": null,
     "codeSnippet": null,
-    "images": []
+    "images": [],
+    "video": "/video/AirBnB.mp4"
   },
   {
     "slug": "golden-wok",
@@ -182,7 +186,8 @@ const PROJECTS = [
       "images/GoldenWok_3.webp",
       "images/GoldenWok_4.webp",
       "images/GoldenWok_5.webp"
-    ]
+    ],
+    "video": null
   },
   {
     "slug": "african-digital-wallet-risk",
@@ -215,7 +220,8 @@ const PROJECTS = [
       "images/DigitalWallet_3.webp",
       "images/DigitalWallet_4.webp",
       "images/DigitalWallet_5.webp"
-    ]
+    ],
+    "video": null
   },
   {
     "slug": "customer-churn-prediction",
@@ -246,7 +252,8 @@ const PROJECTS = [
     "images": [
       "images/CustomerChurn_1.webp",
       "images/CustomerChurn_2.webp"
-    ]
+    ],
+    "video": null
   },
   {
     "slug": "ecommerce-demand-forecasting",
@@ -278,7 +285,8 @@ const PROJECTS = [
     "github": null,
     "demo": null,
     "codeSnippet": null,
-    "images": []
+    "images": [],
+    "video": null
   },
   {
     "slug": "er-patient-analysis",
@@ -318,7 +326,8 @@ const PROJECTS = [
     },
     "images": [
       "images/ERPatient_1.webp"
-    ]
+    ],
+    "video": null
   },
   {
     "slug": "developer-survey-analysis",
@@ -348,7 +357,8 @@ const PROJECTS = [
     "codeSnippet": null,
     "images": [
       "images/DevSurvey_1.webp"
-    ]
+    ],
+    "video": null
   },
   {
     "slug": "inventory-log-analysis",
@@ -378,7 +388,8 @@ const PROJECTS = [
     "images": [
       "images/InventoryLog_1.webp",
       "images/InventoryLog_2.webp"
-    ]
+    ],
+    "video": null
   },
   {
     "slug": "data-cleaning-eda",
@@ -403,7 +414,8 @@ const PROJECTS = [
     "github": "https://github.com/Elice99/analystlab-batch-b-week1-2/blob/main/README.md",
     "demo": null,
     "codeSnippet": null,
-    "images": []
+    "images": [],
+    "video": null
   }
 ];
 

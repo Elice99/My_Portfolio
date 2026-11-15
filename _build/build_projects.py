@@ -30,6 +30,19 @@ def detect_profile_images(root, max_n=5):
     return detect_images(root, "Elice", max_n)
 
 
+def detect_video(root, prefix):
+    """Scan /video/ for {prefix}.mp4, case-insensitive on the filename,
+    returning the web path with the file's real casing. Same philosophy as
+    detect_images: drop a correctly-named file in, rebuild, done."""
+    video_dir = os.path.join(root, "video")
+    if not os.path.isdir(video_dir):
+        return None
+    for entry in sorted(os.listdir(video_dir)):
+        if entry.lower() == f"{prefix.lower()}.mp4":
+            return f"/video/{entry}"
+    return None
+
+
 def with_detected_images(root):
     """Returns a deep-ish copy of PROJECTS with an `images` list merged in
     from whatever files actually exist in /images/ right now. This runs
@@ -39,6 +52,7 @@ def with_detected_images(root):
     for p in PROJECTS:
         p = dict(p)
         p["images"] = detect_images(root, p["imagePrefix"])
+        p["video"] = detect_video(root, p["imagePrefix"])
         out.append(p)
     return out
 
@@ -200,18 +214,29 @@ def media_or_gallery(project):
     treatment for this project's configured style. Works the same
     whether Elice drops in 1 image or 5 -- no per-count layout decisions."""
     images = project.get("images") or []
+    out = ""
     if not images:
-        return media_block(project)
-    frames = "".join(
-        f'<div class="media-gallery-frame{" single" if len(images) == 1 else ""}">'
-        f'<img src="{src}" alt="{project["title"]} screenshot {i+1}" loading="lazy" decoding="async"></div>'
-        for i, src in enumerate(images)
-    )
-    count_label = (
-        f'<p class="media-gallery-count">{len(images)} SCREENSHOTS, SCROLL TO SEE MORE &rarr;</p>'
-        if len(images) > 1 else ""
-    )
-    return f'<div class="media-gallery">{frames}</div>{count_label}'
+        out = media_block(project)
+    else:
+        frames = "".join(
+            f'<div class="media-gallery-frame{" single" if len(images) == 1 else ""}">'
+            f'<img src="{src}" alt="{project["title"]} screenshot {i+1}" loading="lazy" decoding="async"></div>'
+            for i, src in enumerate(images)
+        )
+        count_label = (
+            f'<p class="media-gallery-count">{len(images)} SCREENSHOTS, SCROLL TO SEE MORE &rarr;</p>'
+            if len(images) > 1 else ""
+        )
+        out = f'<div class="media-gallery">{frames}</div>{count_label}'
+    video = project.get("video")
+    if video:
+        out += (
+            f'<div class="media-video">'
+            f'<video controls preload="metadata" src="{video}"></video>'
+            f'<p class="media-gallery-count">PRODUCT WALKTHROUGH &middot; PRESS PLAY</p>'
+            f'</div>'
+        )
+    return out
 
 
 def case_study_fragment(project, next_project):
