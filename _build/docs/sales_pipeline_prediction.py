@@ -77,10 +77,10 @@ ARCH_SVG = _arch_svg()
 # ---------------------------------------------------------------- business
 BUSINESS = {
     "title": "CRM Sales Analytics: what the model is worth",
-    "lede": "A cleaned SQL layer, a Power BI dashboard for what happened, and an XGBoost model behind a FastAPI service for what might happen next. This page covers what each layer does, what the model says about the 1,589 open deals, and how I verified every number against the project's saved outputs.",
+    "lede": "A cleaned SQL layer, a Power BI dashboard for what happened, and an XGBoost model behind a FastAPI service for what might happen next. This page covers what each layer does, what the model says about the 1,589 open deals, and where every number comes from in my own saved outputs.",
     "sections": [
         {"id": "problem", "heading": "The problem", "blocks": [
-            {"type": "note", "text": "The data is a public CRM practice dataset (a sales pipeline with accounts, products and sales teams). SPOTA, the company in the brief, is the fictional framing the project was written against. Nothing here measures a real company's revenue."},
+            {"type": "note", "text": "The data is a public CRM practice dataset (a sales pipeline with accounts, products and sales teams). SPOTA, the company in the brief, is the fictional framing I wrote the project against. Nothing here measures a real company's revenue."},
             {"type": "p", "items": [
                 "The brief describes a B2B company with the usual sales reporting problems: performance scattered across regions, products and agents; no shared view of the funnel; no way to know which open deals deserve attention; and coaching decisions made on gut feel.",
                 "I built three things that answer it in layers. A SQL Server database with two cleaning scripts, so every consumer reads the same corrected tables. A three-page Power BI dashboard with DAX measures for the descriptive questions: revenue, win rates, agent rankings, month over month movement. And the predictive layer: an XGBoost model trained on closed deals, wrapped in a FastAPI service, containerised with Docker, and run against all 1,589 open deals in the data.",
@@ -100,7 +100,7 @@ BUSINESS = {
                 ("0.6085", "ROC-AUC on the held-out test set"),
                 ("28", "features, after experiment-driven pruning"),
             ]},
-            {"type": "p", "text": "Sources: the stage counts and win rate come from a direct profile of the pipeline CSV, the scoring counts come from the project's own test summary report, and the model numbers come from metrics.json, the file the training run writes on every run."},
+            {"type": "p", "text": "Where they come from: I profiled the pipeline CSV directly for the stage counts and win rate, my test summary report holds the scoring counts, and metrics.json, the file my training run writes on every run, holds the model numbers."},
         ]},
         {"id": "meaning", "heading": "How to read each number", "blocks": [
             {"type": "table", "headers": ["Number", "How it is worked out", "How to read it"], "rows": [
@@ -218,8 +218,8 @@ TECHNICAL = {
     "lede": "The full pipeline: the SQL cleaning layer, the Python feature engineering and its leakage decisions, the model with its real evaluation numbers, the FastAPI service in Docker, and the DAX behind the Power BI dashboard.",
     "sections": [
         {"id": "solution", "heading": "The solution", "blocks": [
-            {"type": "note", "text": "Code on this page is copied as stored from the project folder and only re-indented. Long functions are excerpts and say what was cut. Every number traces to metrics.json, the file the canonical training run writes, plus the test summary report and the raw CSV profiles."},
-            {"type": "p", "text": "The project is one pipeline with three consumers. CSVs load into a SQL Server database, where two scripts clean and enrich the tables. The Power BI report reads those tables for the descriptive questions. The Python branch pulls a joined extract, engineers a compact 28-feature set, cross-validates and tunes on the training split only, evaluates once on the held-out test set, and pickles the model with a metrics file. A FastAPI service loads the pickle and serves predictions from Docker, and a test script scored the 1,589 open deals and wrote the summary report the business page discusses."},
+            {"type": "note", "text": "The code on this page is straight from my project files, only re-indented. Long functions are excerpts and say what I cut. Every number traces to metrics.json, the file my training run writes, plus my test summary report and my profiles of the raw CSVs."},
+            {"type": "p", "text": "I built the project as one pipeline with three consumers. CSVs load into a SQL Server database, where two scripts clean and enrich the tables. The Power BI report reads those tables for the descriptive questions. The Python branch pulls a joined extract, engineers a compact 28-feature set, cross-validates and tunes on the training split only, evaluates once on the held-out test set, and pickles the model with a metrics file. A FastAPI service loads the pickle and serves predictions from Docker, and a test script scored the 1,589 open deals and wrote the summary report the business page discusses."},
             {"type": "svg", "svg": ARCH_SVG, "caption": "How the pieces connect. The Power BI branch answers what happened; the Python branch predicts which open deals will close. Both read the same cleaned SQL Server layer."},
             {"type": "table", "headers": ["Component", "Where it lives", "Role"], "rows": [
                 ["SQL Server database", "CRM_Sales_Opportunity", "Cleaned fact and dimension tables"],
@@ -233,7 +233,7 @@ TECHNICAL = {
             ]},
         ]},
         {"id": "data", "heading": "The data and profiling", "blocks": [
-            {"type": "p", "text": "Four tables carry the model and the report. A direct profile of the CSVs, run while writing these pages, gives:"},
+            {"type": "p", "text": "Four tables carry the model and the report. When I profiled the CSVs directly, I got:"},
             {"type": "table", "headers": ["Table", "Rows", "What it holds"], "rows": [
                 ["sales_pipeline", "8,800", "One row per opportunity: agent, product, account, deal stage, engage date, close date, close value"],
                 ["accounts", "85", "Sector, year established, revenue, employees, office location"],
@@ -649,7 +649,7 @@ Greetings &  " "  &  selectedManager & ", Welcome to your Dashboard. "
             {"type": "figure", "spec": ("SalesPipeline_4", "The pipeline detail page: all 8,800 opportunities with stage, engagement date, deal duration and value, colour-flagged by outcome. The stage totals across the top are the same counts the SQL audit reconciles.")},
         ]},
         {"id": "validation", "heading": "How I verified the numbers", "blocks": [
-            {"type": "p", "text": "Every number both pages quote comes from a saved output. I re-derived the key figures from the project files while writing these pages, and these are the checks:"},
+            {"type": "p", "text": "Every number both pages quote comes from a saved output of my own. I profiled the key figures from the project files as I built these pages, and these are the checks:"},
             {"type": "table", "headers": ["Check", "Expected", "Result"], "rows": [
                 ["Stage counts", "Won + Lost + Engaging + Prospecting = 8,800", "Reconciles: 4,238 + 2,473 + 1,589 + 500"],
                 ["Structural nulls", "Missing close values = missing close dates = open deals", "Reconciles: 2,089 = 2,089 = 1,589 + 500"],

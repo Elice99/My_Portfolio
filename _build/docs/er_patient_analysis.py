@@ -258,7 +258,7 @@ TECHNICAL = {
     "lede": "The data model, the Power Query steps, every DAX column and measure with the reasoning behind it, and the problems I found in my own model.",
     "sections": [
         {"id": "solution", "heading": "The solution", "blocks": [
-            {"type": "note", "text": "Synthetic demonstration data. The formulas and metadata on this page come from the Power BI project files. Code is copied as stored and only re-indented. My local folder path in the M query is shortened."},
+            {"type": "note", "text": "I built this on synthetic demonstration data. The formulas and metadata on this page come from my Power BI project files. The code is shown as stored and only re-indented. My local folder path in the M query is shortened."},
             {"type": "p", "text": "The solution is a Power BI Project (PBIP) with a report definition and a semantic model in Import mode. M expressions read the CSV, a Date table is calculated in DAX, and a dedicated Calculation table holds the measures. A Parameter table defines a field parameter that switches the heatmap between Average Satisfaction Score and Average wait Time."},
             {"type": "svg", "svg": ARCH_SVG, "caption": "How the pieces connect. The patient_id relationship runs between the two patient tables, and the Calculation table is not joined to anything, it only holds measures."},
             {"type": "table", "headers": ["Component", "Where it lives", "Role"], "rows": [
