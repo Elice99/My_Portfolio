@@ -174,23 +174,25 @@ PROJECTS = [
         "codeSnippet": None,
     },
     {
-        # TODO(Elice): source doc explicitly called this description
-        # "deliberately conservative" and said to verify findings/stack
-        # against your README before publishing specifics.
+        # Verified against the local project folder (DataDNA August 2026
+        # challenge): PayPesa_Project_Documentation.docx, README.md, the
+        # five dashboard screenshots (copied as DigitalWallet_1..5) and a
+        # direct profile of the shipped CSV files.
         "slug": "african-digital-wallet-risk",
         "imagePrefix": "DigitalWallet",
-        "title": "African Digital Wallet Risk Intelligence",
+        "title": "PayPesa Wallet Risk Intelligence",
         "category": ["analytics", "bi", "business"],
-        "tagline": "Risk indicators across the African gig-economy and digital wallet ecosystem.",
-        "problem": "Explores financial risk patterns in the African gig economy and digital wallet ecosystem -- investigating risk indicators across transaction and user segments to flag areas needing closer monitoring.",
-        "approach": "Built from transaction data spanning Jan 2023 to Dec 2024 (USD), across 4 dimension tables and 1 fact table, as an Onyx Data monthly challenge.",
-        "outcome": "Confirm your actual verified finding here before publishing a specific number.",
-        "stack": ["Excel"],
-        "metricValue": "\u2014",
-        "metricLabel": "Needs verified finding",
+        "hasDocs": True,
+        "tagline": "A validation-first fraud investigation: what survives the audit, and what the platform's own risk scores miss.",
+        "problem": "Investigates fraud and financial risk across 50,000 digital-wallet transactions from 5,000 gig workers in Nigeria, Kenya, Ghana and South Africa -- after discovering the dataset's documentation did not match the data itself, the project became a prove-it-first audit of every hypothesis before any finding was reported.",
+        "approach": "I built a five-page Excel dashboard on Power Query and Power Pivot with every KPI as a live DAX measure, then tested each fraud hypothesis the brief named formally: chi-square and Cramér's V for all ten categorical dimensions, point-biserial correlation for the continuous ones, and a two-way channel-by-market cut when every one-way test came back flat.",
+        "outcome": "Ten single-dimension tests all returned negligible Cramér's V (below 0.04), the platform's worker risk score shows zero correlation with actual fraud losses (r = -0.003), and losses are dispersed: the top 10% of workers carry 20.4% of fraud losses, about twice their fair share but far from watchlist territory.",
+        "stack": ["Excel", "Power Query", "Power Pivot", "DAX"],
+        "metricValue": "<0.04",
+        "metricLabel": "max Cramér's V across 10 dimensions",
         "status": "Shipped",
         "featured": False,
-        "verified": False,
+        "verified": True,
         "media": "diagonal",
         "github": "https://github.com/Elice99/DataDNA-Challenge/blob/main/DataDNA%20Dataset%20Challenge%20-%202026-08%20-%20African%20Gig-Economy%20and%20Digital%20Wallet%20Risk/README.md",
         "demo": None,
