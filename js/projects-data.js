@@ -138,14 +138,13 @@ const PROJECTS = [
     ],
     "tagline": "Price prediction and market analytics for the NYC short-term rental market.",
     "problem": "Hosts need to price competitively against neighbourhood benchmarks in New York City's short-term rental market but usually have no structured way to see where they sit relative to comparable listings.",
-    "approach": "Built a full ETL pipeline into PostgreSQL, wrote 15+ SQL analytics queries, and built a 6-page Power BI dashboard. Trained an XGBoost price prediction model served through a FastAPI /predict endpoint, with a separate 5-page Streamlit app for exploring the market data, all containerized with Docker.",
+    "approach": "I built an ETL pipeline into PostgreSQL, wrote 16 SQL analytics queries, and trained an XGBoost price prediction model served through a FastAPI /predict endpoint, with a Streamlit app for exploring the market data.",
     "outcome": "RMSE $83.10, R² 0.4553 on price prediction -- a documented baseline for how much listing attributes explain price variation, not a claim of fully accurate market pricing.",
     "stack": [
       "PostgreSQL",
       "XGBoost",
       "FastAPI",
-      "Streamlit",
-      "Power BI"
+      "Streamlit"
     ],
     "metricValue": "R² 0.4553",
     "metricLabel": "Price model fit",
@@ -166,21 +165,26 @@ const PROJECTS = [
   {
     "slug": "golden-wok",
     "imagePrefix": "GoldenWok",
-    "title": "Golden Wok",
+    "title": "Golden Wok Delivery Intelligence",
     "category": [
       "business",
       "analytics"
     ],
+    "hasDocs": true,
     "tagline": "Investigating how delivery distance and traffic friction constrain service reliability.",
     "problem": "Examines how delivery distance, urban traffic friction, kitchen capacity, and service-level performance interact within a food delivery network -- looking at delivery-zone performance, SLA breaches, and kitchen-level profitability across delivery corridors.",
-    "approach": "Confirm your actual analytical approach here -- which tool, which data, which time period.",
-    "outcome": "Confirm your actual verified finding here before publishing a specific number.",
-    "stack": [],
-    "metricValue": "—",
-    "metricLabel": "Needs verified finding",
+    "approach": "I built a five-page Power BI report on the DataDNA September 2026 challenge dataset: 5,000 orders across 4 kitchens, 15 destination zones and 24 active riders in Lagos, spanning 2023 to 2024. Power Query prepared the data, a star-schema model carries the analysis, and DAX measures drive SLA severity bands, distance-band economics and dynamic pressure cards.",
+    "outcome": "Half of all orders miss their delivery promise (49.9% SLA breach rate, -4.97 minute average gap) on a 0.65% profit margin -- pressure concentrates from the 6-8 km distance band up, and the Ikeja GRA to Alimosho corridor is worst at 64.52%.",
+    "stack": [
+      "Power BI",
+      "DAX",
+      "Power Query"
+    ],
+    "metricValue": "49.9%",
+    "metricLabel": "SLA breach rate",
     "status": "Shipped",
     "featured": false,
-    "verified": false,
+    "verified": true,
     "media": "browser",
     "github": "https://github.com/Elice99/DataDNA-Challenge/blob/main/DataDNA%20Dataset%20Challenge%20-%202026-09%20-%20Golden%20Wok%20Food%20Delivery/Golden_Wok_Business_README.md",
     "demo": null,

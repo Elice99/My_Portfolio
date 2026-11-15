@@ -186,7 +186,7 @@ def cap_price_outliers(df: pd.DataFrame) -> pd.DataFrame:
             {"type": "p", "text": "My validation report at the end of the run confirms the result: 48,884 rows, 16 columns, no missing values left in the modelling columns, price max $799."},
         ]},
         {"id": "features", "heading": "My feature engineering and the leakage call", "blocks": [
-            {"type": "p", "text": "I wrote eleven feature functions that run after cleaning. Some serve my dashboards, some serve my model. The ones my model actually uses are 16: three categoricals (borough, neighbourhood, room type), two price-encoded geography columns, and eleven numeric features."},
+            {"type": "p", "text": "I wrote eleven feature functions that run after cleaning. Some serve the exploratory charts, some serve my model. The ones my model actually uses are 16: three categoricals (borough, neighbourhood, room type), two price-encoded geography columns, and eleven numeric features."},
             {"type": "code", "title": "My model's feature list (ml_pipeline.py)", "lang": "python", "code": r'''
     FEATURES = [
         # Categorical
@@ -321,7 +321,7 @@ def cap_price_outliers(df: pd.DataFrame) -> pd.DataFrame:
             ]},
         ]},
         {"id": "sql", "heading": "My SQL analytics layer", "blocks": [
-            {"type": "p", "text": "I wrote 16 queries in analytics.sql across six sections, all against my featured_listings table in PostgreSQL: market overview, pricing intelligence, host analytics, availability and demand, review analytics, and window-function analytics. I structured the section headings to mirror the dashboard brief, so every query maps to a question a host or a platform team would ask."},
+            {"type": "p", "text": "I wrote 16 queries in analytics.sql across six sections, all against my featured_listings table in PostgreSQL: market overview, pricing intelligence, host analytics, availability and demand, review analytics, and window-function analytics. I structured the section headings around the market questions, so every query maps to something a host or a platform team would ask."},
             {"type": "code", "title": "My percentile-rank query (analytics.sql, query 6.3)", "lang": "python", "code": r'''
 -- Percentile rank of every listing within its borough
 -- Useful for telling a host "your listing is in the top X%"

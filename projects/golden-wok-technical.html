@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="The model behind the report: the star schema and its relationships, the Power Query preparation, the DAX measures with the decisions inside them, the dynamic pressure analysis, and the data-quality calls I made on the way.">
+    <meta name="author" content="Elisha Bassey">
+    <meta property="og:title" content="Golden Wok Delivery Intelligence: Technical documentation | Elisha Bassey">
+    <meta property="og:description" content="The model behind the report: the star schema and its relationships, the Power Query preparation, the DAX measures with the decisions inside them, the dynamic pressure analysis, and the data-quality calls I made on the way.">
+    <meta property="og:type" content="website">
+    <link rel="canonical" href="https://elishabassey.netlify.app/projects/golden-wok-technical.html">
+    <meta property="og:url" content="https://elishabassey.netlify.app/projects/golden-wok-technical.html">
+    <meta property="og:image" content="https://elishabassey.netlify.app/images/Elice_1.webp">
+    <meta property="og:image:alt" content="Elisha Bassey">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Golden Wok Delivery Intelligence: Technical documentation | Elisha Bassey">
+    <meta name="twitter:description" content="The model behind the report: the star schema and its relationships, the Power Query preparation, the DAX measures with the decisions inside them, the dynamic pressure analysis, and the data-quality calls I made on the way.">
+    <meta name="twitter:image" content="https://elishabassey.netlify.app/images/Elice_1.webp">
+    <title>Golden Wok Delivery Intelligence: Technical documentation | Elisha Bassey</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css?v=29111c74">
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "Elisha Bassey", "jobTitle": "Data Analyst & Analytics Engineer", "sameAs": ["https://github.com/Elice99", "https://linktr.ee/elice99"], "knowsAbout": ["Data Analysis", "Business Intelligence", "Machine Learning", "Analytics Engineering"], "url": "https://elishabassey.netlify.app/", "image": "https://elishabassey.netlify.app/images/Elice_1.webp"}</script>
+    <script>window.SITE_ROOT = "../";</script>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="logo-bracket">&lt;</span>
+                <span class="logo-text">EB</span>
+                <span class="logo-bracket">/&gt;</span>
+            </a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="../work.html" class="nav-link">Work</a></li><li><a href="../about.html" class="nav-link">About</a></li><li><a href="../experience.html" class="nav-link">Experience</a></li><li><a href="../capabilities.html" class="nav-link">Capabilities</a></li><li><a href="../now.html" class="nav-link">Now</a></li>
+            </ul>
+            <div class="nav-controls">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle Dark Mode"><i class="fas fa-moon"></i></button>
+                <a href="../resume.html" class="nav-link" style="margin-right:0.5rem">CV</a>
+                <a href="../contact.html" class="nav-link" style="margin-right:0.5rem">Contact</a>
+                <button class="theme-toggle" data-cmdk-trigger aria-label="Open command palette (Cmd/Ctrl+K)"><i class="fas fa-magnifying-glass"></i></button>
+                <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle Menu">
+                    <span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+    <main id="main-content">
+    <section class="case-hero" style="padding-left:0;padding-right:0;padding-bottom:var(--space-6)">
+        <div class="container">
+            <a href="../projects/golden-wok.html" class="doc-back">&larr; Golden Wok Delivery Intelligence overview</a>
+            <span class="case-status">TECHNICAL DOCUMENTATION</span>
+            <h1 class="case-title doc-title">Golden Wok Delivery Intelligence: how I built it</h1>
+            <p class="case-tagline">The model behind the report: the star schema and its relationships, the Power Query preparation, the DAX measures with the decisions inside them, the dynamic pressure analysis, and the data-quality calls I made on the way.</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <nav class="doc-tabs" aria-label="Golden Wok Delivery Intelligence sections"><a href="../projects/golden-wok.html" class="doc-tab">Overview</a><a href="../projects/golden-wok-business.html" class="doc-tab">Business insights</a><a href="../projects/golden-wok-technical.html" class="doc-tab active" aria-current="page">Technical documentation</a></nav>
+        <div class="doc-shell">
+            <aside class="doc-toc" aria-label="On this page"><p>On this page</p><a href="#solution">The solution</a><a href="#model">The data model</a><a href="#measures">The measures and the decisions inside them</a><a href="#dynamic">The dynamic pressure analysis</a><a href="#quality">Data quality calls I made</a><a href="#validation">Where my numbers come from</a><a href="#decisions">My decisions and trade-offs</a><a href="#upkeep">Publication and next steps</a><a href="#reflection">What this project shows</a></aside>
+            <article class="doc-body">
+<section class="doc-section" id="solution"><h2>The solution</h2><div class="doc-note"><i class="fas fa-circle-info"></i><p>The code on this page is the DAX and model logic from my project files, as I wrote it. Every number traces to my dashboard pages, my two project READMEs, and a direct profile of the CSVs I loaded.</p></div><p>I built this as a Power BI project: CSV source data prepared in Power Query, loaded into a star-schema model, and surfaced through a five-page report. The model separates transactional facts from descriptive dimensions so every page can slice delivery performance by kitchen, zone, rider, time and operating conditions. The five pages follow the operational chain I wanted management to walk: executive state, delivery friction and SLA, profitability, customer experience, then corridor and network intelligence.</p><div class="doc-table-wrap"><table class="doc-table"><thead><tr><th>Component</th><th>What I built it from</th><th>Role</th></tr></thead><tbody><tr><td>fact_orders</td><td>5,000 rows, 15 fields</td><td>One row per delivery: kitchen, zone, rider, time slot, promise and actual times, distance, traffic score, costs, profit, rating</td></tr><tr><td>dim_kitchen</td><td>4 rows</td><td>Kitchen name, LGA, hourly capacity, opening date, active status</td></tr><tr><td>dim_delivery_zone</td><td>20 rows</td><td>Zone name, LGA, tier, traffic index, population density, baseline delivery time, restricted-zone flag</td></tr><tr><td>dim_rider</td><td>60 rows</td><td>Assigned kitchen, vehicle type, experience, average speed, rating, active status</td></tr><tr><td>dim_time_slot</td><td>48 rows, plus a cleaned reference table</td><td>Original slots, then my derived hour, day of week, rush-hour flag and meal period</td></tr><tr><td>dim_date</td><td>Calculated in DAX</td><td>Time intelligence for the trends</td></tr><tr><td>The report</td><td>5 pages in Power BI Desktop</td><td>Executive, SLA control, profitability, customer experience, network intelligence</td></tr></tbody></table></div><p>A direct profile of the orders shows the model touches 15 of the 20 zones and 24 of the 60 riders; the rest exist in the dimensions without orders in this dataset. I mention that so the dimension row counts and the dashboard counts do not look contradictory.</p><figure class="doc-figure"><img src="../images/GoldenWok_5.webp" alt="Page five, the network view: 4 kitchens, 15 zones and 24 riders observed in the orders, with the highest-pressure corridor callout and the corridor-level table." loading="lazy"><figcaption>Page five, the network view: 4 kitchens, 15 zones and 24 riders observed in the orders, with the highest-pressure corridor callout and the corridor-level table.</figcaption></figure></section><section class="doc-section" id="model"><h2>The data model</h2><p>The relationships are the classic star: the fact table filters its dimensions, one rider dimension is conformed to kitchens, and the date table carries the trends.</p><div class="doc-code"><div class="doc-code-bar"><span>Model relationships</span><span class="doc-code-lang">TEXT</span></div><pre><code>fact_orders[kitchen_id]        -&gt; dim_kitchen[kitchen_id]
+fact_orders[zone_id]           -&gt; dim_delivery_zone[zone_id]
+fact_orders[rider_id]          -&gt; dim_rider[rider_id]
+fact_orders[time_slot_id]      -&gt; dim_time_slot[time_slot_id]
+dim_rider[assigned_kitchen_id] -&gt; dim_kitchen[kitchen_id]
+fact_orders[order_date]        -&gt; dim_date[Date]</code></pre></div><p>One modelling decision worth calling out: the supplied time-slot table carried the raw slot information, but I derived a cleaned reference table for the analytical attributes I actually needed, hour of day, day of week, rush-hour classification and meal period. Building those once in the dimension kept the DAX simpler and the slicers consistent across pages.</p></section><section class="doc-section" id="measures"><h2>The measures and the decisions inside them</h2><p>The KPI layer is deliberately plain. I wanted every headline number to be auditable from its definition.</p><div class="doc-code"><div class="doc-code-bar"><span>Executive KPIs</span><span class="doc-code-lang">DAX</span></div><pre><code>Total Orders =
+DISTINCTCOUNT ( fact_orders[order_id] )
+
+Total Revenue =
+SUM ( fact_orders[order_value_ngn] )
+
+Total Profit =
+SUM ( fact_orders[order_profit_ngn] )
+
+Profit Margin =
+DIVIDE ( [Total Profit], [Total Revenue] )</code></pre></div><h3 class="doc-sub">The SLA layer</h3><div class="doc-code"><div class="doc-code-bar"><span>SLA measures</span><span class="doc-code-lang">DAX</span></div><pre><code>SLA Breaches =
+CALCULATE (
+    [Total Orders],
+    fact_orders[actual_delivery_min] &gt; fact_orders[promised_delivery_min]
+)
+
+SLA Breach Rate =
+DIVIDE ( [SLA Breaches], [Total Orders] )
+
+Avg Promise Gap =
+AVERAGEX (
+    fact_orders,
+    fact_orders[actual_delivery_min]
+        - fact_orders[promised_delivery_min]
+)
+
+Severe Delay Orders =
+CALCULATE (
+    [Total Orders],
+    FILTER (
+        fact_orders,
+        fact_orders[actual_delivery_min]
+            &gt; fact_orders[promised_delivery_min] + <span class="tok-num">60</span>
+    )
+)</code></pre></div><p>The severity banding is where the report earns its diagnostic value. Rather than treating every breach the same, I classify each order by how far past the promise it landed, which is what exposed the bimodal early-versus-severe split on page two.</p><div class="doc-code"><div class="doc-code-bar"><span>SLA severity</span><span class="doc-code-lang">DAX</span></div><pre><code>SLA Severity =
+<span class="tok-kw">VAR</span> Gap =
+    fact_orders[actual_delivery_min]
+        - fact_orders[promised_delivery_min]
+<span class="tok-kw">RETURN</span>
+    SWITCH (
+        TRUE (),
+        Gap &lt; <span class="tok-num">0</span>, <span class="tok-str">&quot;Early&quot;</span>,
+        Gap = <span class="tok-num">0</span>, <span class="tok-str">&quot;On Time&quot;</span>,
+        Gap &lt;= <span class="tok-num">15</span>, <span class="tok-str">&quot;Late 1-15 min&quot;</span>,
+        Gap &lt;= <span class="tok-num">30</span>, <span class="tok-str">&quot;Late 16-30 min&quot;</span>,
+        Gap &lt;= <span class="tok-num">60</span>, <span class="tok-str">&quot;Late 31-60 min&quot;</span>,
+        <span class="tok-str">&quot;Severe &gt;60 min&quot;</span>
+    )</code></pre></div><h3 class="doc-sub">The banding features</h3><div class="doc-code"><div class="doc-code-bar"><span>Distance and traffic bands</span><span class="doc-code-lang">DAX</span></div><pre><code>Distance Band =
+<span class="tok-kw">VAR</span> Distance = fact_orders[delivery_distance_km]
+<span class="tok-kw">RETURN</span>
+    SWITCH (
+        TRUE (),
+        Distance &lt;= <span class="tok-num">2</span>, <span class="tok-str">&quot;0-2 km&quot;</span>,
+        Distance &lt;= <span class="tok-num">4</span>, <span class="tok-str">&quot;2-4 km&quot;</span>,
+        Distance &lt;= <span class="tok-num">6</span>, <span class="tok-str">&quot;4-6 km&quot;</span>,
+        Distance &lt;= <span class="tok-num">8</span>, <span class="tok-str">&quot;6-8 km&quot;</span>,
+        Distance &lt;= <span class="tok-num">10</span>, <span class="tok-str">&quot;8-10 km&quot;</span>,
+        <span class="tok-str">&quot;10+ km&quot;</span>
+    )
+
+Traffic Friction Band =
+<span class="tok-kw">VAR</span> Traffic = fact_orders[traffic_friction_score]
+<span class="tok-kw">RETURN</span>
+    SWITCH (
+        TRUE (),
+        Traffic &lt; <span class="tok-num">3</span>, <span class="tok-str">&quot;Low&quot;</span>,
+        Traffic &lt; <span class="tok-num">5</span>, <span class="tok-str">&quot;Moderate&quot;</span>,
+        Traffic &lt; <span class="tok-num">7</span>, <span class="tok-str">&quot;High&quot;</span>,
+        <span class="tok-str">&quot;Very High&quot;</span>
+    )</code></pre></div><div class="doc-pairs"><div><h3>Distance bands drive the cost story</h3><p>The 6 to 8 km band carries ₦5.44K per kilometre against ₦1.2K at 4 to 6 km. One band boundary carries most of the insight, which is why I built the band as a column the whole report shares.</p></div><div><h3>Traffic bands are mine, not the data&#x27;s</h3><p>I defined the Low to Very High thresholds for display. I say so on the page, because presenting an analytical bucket as an external standard would be dishonest.</p></div><div><h3>Severe means one hour late</h3><p>The 60-minute severe threshold matches the severity bands, so the severe-delay card and the severity distribution reconcile by construction.</p></div><div><h3>Sort columns keep bands honest</h3><p>The traffic band has a numeric sort column so Low, Moderate, High and Very High never alphabetise.</p></div></div><p>The customer-experience layer carries a small detail I am fond of: the star display and the numeric label are computed from the same rounded value, so the stars and the text can never disagree.</p><div class="doc-code"><div class="doc-code-bar"><span>Customer experience</span><span class="doc-code-lang">DAX</span></div><pre><code>Low Rating Orders =
+CALCULATE (
+    [Total Orders],
+    fact_orders[customer_rating] &lt; <span class="tok-num">2.5</span>
+)
+
+Customer Rating Stars =
+<span class="tok-kw">VAR</span> Rating =
+    ROUND ( [Avg Customer Rating], <span class="tok-num">1</span> )
+<span class="tok-kw">VAR</span> FullStars =
+    INT ( Rating )
+<span class="tok-kw">VAR</span> EmptyStars =
+    <span class="tok-num">5</span> - FullStars
+<span class="tok-kw">RETURN</span>
+    REPT ( <span class="tok-str">&quot;★&quot;</span>, FullStars )
+        &amp; REPT ( <span class="tok-str">&quot;☆&quot;</span>, EmptyStars )</code></pre></div><h3 class="doc-sub">The economics layer</h3><div class="doc-code"><div class="doc-code-bar"><span>Cost and profitability</span><span class="doc-code-lang">DAX</span></div><pre><code>Delivery Cost per KM =
+DIVIDE (
+    SUM ( fact_orders[delivery_cost_ngn] ),
+    SUM ( fact_orders[delivery_distance_km] )
+)
+
+Delivery Cost % of Order Value =
+DIVIDE (
+    SUM ( fact_orders[delivery_cost_ngn] ),
+    SUM ( fact_orders[order_value_ngn] )
+)
+
+Loss-Making Orders =
+CALCULATE (
+    [Total Orders],
+    fact_orders[order_profit_ngn] &lt; <span class="tok-num">0</span>
+)</code></pre></div></section><section class="doc-section" id="dynamic"><h2>The dynamic pressure analysis</h2><p>Three outputs on the network page compute themselves from the current filter context, and each one has a sample-size or definition decision baked in.</p><p>The highest-pressure corridor ranks kitchen-to-zone pairings by SLA breach rate, but only past a minimum-order threshold. Without it, a five-order corridor with a 100% breach rate would top the list. With it, the callout points at Ikeja GRA to Alimosho, 64.52% on 62 orders, which is a finding someone can act on.</p><div class="doc-code"><div class="doc-code-bar"><span>Corridor ranking logic</span><span class="doc-code-lang">TEXT</span></div><pre><code>Kitchen x Zone
+      |
+Calculate Orders
+      |
+Calculate SLA Breach Rate
+      |
+Keep corridors with sufficient volume
+      |
+Rank by SLA pressure
+      |
+Return highest-pressure corridor</code></pre></div><p>The highest distance exposure works the same way: distance bands ranked by breach rate past a volume threshold, currently 6 to 8 km at 53.28% on 259 orders.</p><p>The capacity comparison is the one I had to define carefully. The kitchen capacity field is stated as orders per hour, so dividing total daily orders by it would be meaningless. I aggregate demand to the operating hour first, take the peak observed hour, and compare that with capacity, which puts highest utilisation at 6.67% in this dataset.</p><div class="doc-code"><div class="doc-code-bar"><span>Capacity utilisation logic</span><span class="doc-code-lang">TEXT</span></div><pre><code>Daily transaction data
+        |
+Date + operating hour
+        |
+Hourly order volume
+        |
+Peak observed hourly demand
+        |
+Compare with kitchen capacity
+        |
+Capacity utilisation</code></pre></div></section><section class="doc-section" id="quality"><h2>Data quality calls I made</h2><p>I treated data quality as part of the analysis rather than something to clean quietly. Three calls define what the report can and cannot claim.</p><div class="doc-table-wrap"><table class="doc-table"><thead><tr><th>Field</th><th>What I found</th><th>What I did</th></tr></thead><tbody><tr><td>food_temp_on_arrival_c</td><td>Values I could not validate as plausible</td><td>Excluded it from the customer-experience analysis entirely, and said so on the page rather than transforming it silently</td></tr><tr><td>actual_delivery_min</td><td>Values stretching to operationally implausible durations (P90 reads 899 minutes)</td><td>Reported it as observed, and labelled P90 and the averages as dataset observations, not real-world delivery benchmarks</td></tr><tr><td>traffic_friction_score</td><td>A generated score with no external standard</td><td>Banded it for display and labelled the bands as analytical categories</td></tr></tbody></table></div><p>The generated validation report that shipped with the challenge data passed 10 of 10 checks, which covers structural integrity, not plausibility. The plausibility judgement was mine, and the food-temperature exclusion is the honest example: the field exists, the values do not earn trust, so the field does not appear in my conclusions.</p><figure class="doc-figure"><img src="../images/GoldenWok_2.webp" alt="Page two is where the quality caveat matters most: the P90 delivery card reads 899 minutes, which is why every delivery-time number on my pages is framed as a dataset observation." loading="lazy"><figcaption>Page two is where the quality caveat matters most: the P90 delivery card reads 899 minutes, which is why every delivery-time number on my pages is framed as a dataset observation.</figcaption></figure></section><section class="doc-section" id="validation"><h2>Where my numbers come from</h2><p>Every figure on both pages is one I can trace:</p><div class="doc-table-wrap"><table class="doc-table"><thead><tr><th>Number</th><th>Where I got it</th><th>Cross-check</th></tr></thead><tbody><tr><td>Headline KPIs (₦380.56M, ₦2.49M, 0.65%, 49.9%, -4.97 min)</td><td>My dashboard pages one to three</td><td>My business README, written from the same report</td></tr><tr><td>Corridor 64.52% on 62 orders, 6 to 8 km at 53.28% on 259</td><td>My page-five callouts</td><td>Same figures documented in my technical README</td></tr><tr><td>Zone low-rating exposure (Isolo 41.09%, Lekki Phase 2 40.48%)</td><td>My page-four ranking</td><td>Read directly off the dashboard screenshot</td></tr><tr><td>Vehicle exposure (Electric Motorcycle 66.7%, Bicycle 57.6%)</td><td>My page-two ranking</td><td>Same figures in my business README</td></tr><tr><td>Row counts 5,000 / 4 / 20 / 60 / 48</td><td>Direct profile of the CSVs</td><td>The challenge brief&#x27;s dataset description</td></tr><tr><td>Scope 2023-01-01 to 2024-12-31, NGN</td><td>The challenge brief</td><td>The report&#x27;s date range and currency formatting</td></tr><tr><td>Validation 10 of 10 passed</td><td>The challenge&#x27;s VALIDATION_REPORT.json</td><td>Generated alongside the dataset</td></tr></tbody></table></div><div class="doc-note"><i class="fas fa-circle-info"></i><p>One reading note I keep making: the dashboard&#x27;s zone-tier breach rates sit between 48.87% and 50.28%, so tier alone explains almost nothing. That is why my findings lead with distance bands and corridors rather than zone labels.</p></div></section><section class="doc-section" id="decisions"><h2>My decisions and trade-offs</h2><div class="doc-table-wrap"><table class="doc-table"><thead><tr><th>Decision I made</th><th>Why</th><th>Trade-off I accepted</th></tr></thead><tbody><tr><td>Excluded food temperature rather than transform it</td><td>The values could not be validated, and a silent transform would invent signal</td><td>The customer page loses a field the brief hypothesised about</td></tr><tr><td>Minimum-volume thresholds on corridor and distance rankings</td><td>An extreme rate on a tiny sample would misdirect management</td><td>A genuinely failing low-volume corridor waits longer for attention</td></tr><tr><td>Hourly capacity comparison instead of daily totals</td><td>Capacity is defined per hour; daily division would be meaningless</td><td>More complex measure logic than a simple ratio</td></tr><tr><td>Analytical traffic bands with visible labelling</td><td>Display buckets make the friction matrix readable</td><td>A reader could mistake my thresholds for official standards, so I label them</td></tr><tr><td>Reported order profit as supplied</td><td>The profit field is the challenge&#x27;s own definition</td><td>My profitability conclusions inherit whatever assumptions the generator made</td></tr><tr><td>Kept delivery-time outliers visible with a caveat</td><td>Trimming them would flatter the averages and hide the severe-delay problem</td><td>P90 and averages look alarming until you read the framing</td></tr><tr><td>Built severity and distance bands as model columns</td><td>Every page, card and matrix bands the same way</td><td>Changing a boundary means touching the model, not just a visual</td></tr></tbody></table></div></section><section class="doc-section" id="upkeep"><h2>Publication and next steps</h2><ol class="doc-steps"><li><strong>Publish the repository</strong><span>The READMEs, the PBIX and the dataset profile are ready; the repo is the next deliverable so everything here is reproducible.</span></li><li><strong>Test the brief&#x27;s hypotheses directly</strong><span>The brief proposes rain effects, rush-hour-to-outer-zone failures and the Lekki corridor question; my model has the slices, the segment-level measures are the next build.</span></li><li><strong>Add the loss-making order cut</strong><span>The Loss-Making Orders measure exists; surfacing its rate by zone would quantify exactly which corridors price below their cost.</span></li><li><strong>Re-run the corridor ranking on any refresh</strong><span>The dynamic callouts are filter-context driven, so a new dataset recomputes them; the thresholds are the only constants to review.</span></li><li><strong>Benchmark against real delivery times</strong><span>Before reusing the framework on live data, promise and actual distributions need real-world calibration.</span></li></ol></section><section class="doc-section" id="reflection"><h2>What this project shows</h2><p>This is my attempt at the difference between a scorecard and a diagnosis. The same 5,000 orders could have produced five pages of totals; instead the report connects operating conditions to friction, friction to SLA, SLA to money, and both to the customer, and it lands on named corridors rather than vague pressure.</p><p>The habits I would carry forward: put sample-size discipline inside the ranking logic so the insight survives without me in the room, label analytical bands as analytical, and when a field does not earn trust, exclude it out loud.</p></section>
+            </article>
+        </div>
+        <div class="doc-bottom"><p class="doc-bottom-label">Want the business side?</p><div class="go-deeper"><a href="../projects/golden-wok-business.html" class="go-deeper-card"><i class="fas fa-chart-pie"></i><div><h3>Business insights</h3><p>The question, the evidence and what I would do about it, in plain language.</p></div><span class="go-deeper-arrow">&rarr;</span></a><a href="../projects/golden-wok.html" class="go-deeper-card"><i class="fas fa-table-columns"></i><div><h3>Project overview</h3><p>The short version: problem, approach and outcome.</p></div><span class="go-deeper-arrow">&rarr;</span></a></div><div class="case-links"><a href="https://github.com/Elice99/DataDNA-Challenge/blob/main/DataDNA%20Dataset%20Challenge%20-%202026-09%20-%20Golden%20Wok%20Food%20Delivery/Golden_Wok_Business_README.md" target="_blank" rel="noopener" class="btn btn-secondary"><i class="fab fa-github"></i> View on GitHub</a></div></div>
+    </div>
+
+    </main>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    &lt;EB/&gt;
+                    <p>I build systems that turn messy data into useful decisions.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="../work.html">Work</a>
+                    <a href="../about.html">About</a>
+                    <a href="../resume.html">Resume</a>
+                    <a href="https://github.com/Elice99" target="_blank">GitHub</a>
+                    <a href="https://linktr.ee/elice99" target="_blank">LinkedIn</a>
+                    <a href="../contact.html">Contact</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; 2026 Elisha Bassey &middot; SYSTEM STATUS <span style="color:var(--teal-600)">&#9679; ONLINE</span></span>
+            </div>
+        </div>
+    </footer>
+    <button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+
+    <div class="cmdk-overlay" id="cmdkOverlay">
+        <div class="cmdk-modal">
+            <input type="text" id="cmdkInput" class="cmdk-input" placeholder="Search Elisha's portfolio..." autocomplete="off">
+            <div class="cmdk-list" id="cmdkList"></div>
+        </div>
+    </div>
+    <div class="cmdk-hint"><kbd>&#8984;</kbd><kbd>K</kbd><span>Search</span></div>
+
+    <!-- Visitor analytics: add a GoatCounter (or similar) script here when
+         the site is deployed, then restore the counter in the footer. -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="../js/projects-data.js?v=ac92d86f"></script>
+    <script src="../js/main.js?v=733e8b90"></script>
+</body>
+</html>
