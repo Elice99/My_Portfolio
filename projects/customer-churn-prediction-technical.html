@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="The engineering behind the score: the pipeline from raw CSV to pickled artifact, the logistic regression and its cross-validation, the serving layer with the schema decision I would redo, and every number on these pages traced to a re-run.">
+    <meta name="author" content="Elisha Bassey">
+    <meta property="og:title" content="Customer Churn Prediction: Technical documentation | Elisha Bassey">
+    <meta property="og:description" content="The engineering behind the score: the pipeline from raw CSV to pickled artifact, the logistic regression and its cross-validation, the serving layer with the schema decision I would redo, and every number on these pages traced to a re-run.">
+    <meta property="og:type" content="website">
+    <link rel="canonical" href="https://elishabassey.netlify.app/projects/customer-churn-prediction-technical.html">
+    <meta property="og:url" content="https://elishabassey.netlify.app/projects/customer-churn-prediction-technical.html">
+    <meta property="og:image" content="https://elishabassey.netlify.app/images/Elice_1.webp">
+    <meta property="og:image:alt" content="Elisha Bassey">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Customer Churn Prediction: Technical documentation | Elisha Bassey">
+    <meta name="twitter:description" content="The engineering behind the score: the pipeline from raw CSV to pickled artifact, the logistic regression and its cross-validation, the serving layer with the schema decision I would redo, and every number on these pages traced to a re-run.">
+    <meta name="twitter:image" content="https://elishabassey.netlify.app/images/Elice_1.webp">
+    <title>Customer Churn Prediction: Technical documentation | Elisha Bassey</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css?v=29111c74">
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "Elisha Bassey", "jobTitle": "Data Analyst & Analytics Engineer", "sameAs": ["https://github.com/Elice99", "https://linktr.ee/elice99"], "knowsAbout": ["Data Analysis", "Business Intelligence", "Machine Learning", "Analytics Engineering"], "url": "https://elishabassey.netlify.app/", "image": "https://elishabassey.netlify.app/images/Elice_1.webp"}</script>
+    <script>window.SITE_ROOT = "../";</script>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="logo-bracket">&lt;</span>
+                <span class="logo-text">EB</span>
+                <span class="logo-bracket">/&gt;</span>
+            </a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="../work.html" class="nav-link">Work</a></li><li><a href="../about.html" class="nav-link">About</a></li><li><a href="../experience.html" class="nav-link">Experience</a></li><li><a href="../capabilities.html" class="nav-link">Capabilities</a></li><li><a href="../now.html" class="nav-link">Now</a></li>
+            </ul>
+            <div class="nav-controls">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle Dark Mode"><i class="fas fa-moon"></i></button>
+                <a href="../resume.html" class="nav-link" style="margin-right:0.5rem">CV</a>
+                <a href="../contact.html" class="nav-link" style="margin-right:0.5rem">Contact</a>
+                <button class="theme-toggle" data-cmdk-trigger aria-label="Open command palette (Cmd/Ctrl+K)"><i class="fas fa-magnifying-glass"></i></button>
+                <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle Menu">
+                    <span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+    <main id="main-content">
+    <section class="case-hero" style="padding-left:0;padding-right:0;padding-bottom:var(--space-6)">
+        <div class="container">
+            <a href="../projects/customer-churn-prediction.html" class="doc-back">&larr; Customer Churn Prediction overview</a>
+            <span class="case-status">TECHNICAL DOCUMENTATION</span>
+            <h1 class="case-title doc-title">Customer Churn Prediction: how I built it</h1>
+            <p class="case-tagline">The engineering behind the score: the pipeline from raw CSV to pickled artifact, the logistic regression and its cross-validation, the serving layer with the schema decision I would redo, and every number on these pages traced to a re-run.</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <nav class="doc-tabs" aria-label="Customer Churn Prediction sections"><a href="../projects/customer-churn-prediction.html" class="doc-tab">Overview</a><a href="../projects/customer-churn-prediction-business.html" class="doc-tab">Business insights</a><a href="../projects/customer-churn-prediction-technical.html" class="doc-tab active" aria-current="page">Technical documentation</a></nav>
+        <div class="doc-shell">
+            <aside class="doc-toc" aria-label="On this page"><p>On this page</p><a href="#solution">The solution</a><a href="#prep">Data preparation, as I ran it</a><a href="#model">The model and its validation</a><a href="#serving">Serving: the part I would partially redo</a><a href="#quality">Verification: my numbers versus my code</a><a href="#decisions">My decisions and trade-offs</a><a href="#next">If I took it further</a><a href="#reflection">What this project shows</a></aside>
+            <article class="doc-body">
+<section class="doc-section" id="solution"><h2>The solution</h2><div class="doc-note"><i class="fas fa-circle-info"></i><p>Every metric on this page comes from re-running my own pipeline against the shipped CSV, plus the source files themselves. The final model is a logistic regression, not the XGBoost an earlier description of this project mentioned; the shipped repository contains only the logistic regression path.</p></div><div class="doc-table-wrap"><table class="doc-table"><thead><tr><th>Component</th><th>What I built it from</th><th>Role</th></tr></thead><tbody><tr><td>Telco-Customer-Churn.csv</td><td>7,043 rows, 21 columns</td><td>One row per customer: demographics, services, contract, billing, churn flag</td></tr><tr><td>Churn.py</td><td>pandas + scikit-learn, 112 lines</td><td>The full training pipeline: cleaning, splitting, cross-validation, final fit, pickle export</td></tr><tr><td>model_C=1.0.bin</td><td>pickled DictVectorizer + LogisticRegression</td><td>One artifact carrying both the transformation and the model, so inference needs no retraining logic</td></tr><tr><td>predict.py</td><td>FastAPI</td><td>The /predict endpoint with a Pydantic input schema and Swagger docs</td></tr><tr><td>Retention dashboard</td><td>Excel, separate case study</td><td>The executive view of the same dataset, reconciled row-for-row</td></tr></tbody></table></div><p>The design principle I care about in this build is that preprocessing and model ship as one pickle. The DictVectorizer learned its vocabulary from training data; freezing them together is what stops the serving path from inventing its own idea of what a categorical value means.</p></section><section class="doc-section" id="prep"><h2>Data preparation, as I ran it</h2><ol class="doc-steps"><li><strong>Normalise columns</strong><span>All column names lowercased and underscored, then every categorical value lowercased and space-stripped, so one-hot encoding produces stable feature names.</span></li><li><strong>Coerce and impute</strong><span>TotalCharges arrives with 11 whitespace-only values; I coerced to numeric and filled with 0. That choice is documented in my README as a known limitation: zero implies no billing history, which bends predictions for exactly the brand-new customers the model most needs to rank.</span></li><li><strong>Encode the target</strong><span>Churn converted from yes/no strings to 1/0 integers.</span></li><li><strong>Split before anything else</strong><span>An 80/20 train-test split with random_state 1 gives 5,634 training and 1,409 test rows. The test set is touched exactly once, at the end.</span></li></ol><div class="doc-code"><div class="doc-code-bar"><span>The preparation core</span><span class="doc-code-lang">PYTHON</span></div><pre><code>df.columns = <span class="tok-fn">df.columns.str.lower</span>().<span class="tok-fn">str.replace</span>(&#x27; &#x27;, &#x27;_&#x27;)
+<span class="tok-kw">for</span> col <span class="tok-kw">in</span> cat_col:
+    df[col] = df[col].<span class="tok-fn">str.lower</span>().<span class="tok-fn">str.replace</span>(&#x27; &#x27;, &#x27;_&#x27;)
+df.totalcharges = <span class="tok-fn">pd.to_numeric</span>(df.totalcharges, errors=&#x27;coerce&#x27;)
+df.totalcharges = <span class="tok-fn">df.totalcharges.fillna</span>(<span class="tok-num">0</span>)
+df.churn = (df.churn == &#x27;yes&#x27;).<span class="tok-fn">astype</span>(int)
+df_full_train, df_test = <span class="tok-fn">train_test_split</span>(df, test_size=<span class="tok-num">0.2</span>, random_state=<span class="tok-num">1</span>)</code></pre></div><p>The feature set is 3 numerical columns (tenure, monthlycharges, totalcharges) and 16 categoricals covering demographics, services and account configuration. DictVectorizer one-hot encodes the categoricals and passes the numerics straight through, dense output.</p></section><section class="doc-section" id="model"><h2>The model and its validation</h2><p>Logistic regression with C=1.0 and max_iter=5000. The iteration cap is not cosmetic: my notebook first ran with 1,000 and threw convergence warnings, so the production script raises it to 5,000, which my README records along with the honest note that feature scaling is the better fix.</p><div class="doc-code"><div class="doc-code-bar"><span>Training and validation</span><span class="doc-code-lang">PYTHON</span></div><pre><code><span class="tok-kw">def</span> <span class="tok-fn">train</span>(df_train, y_train, C=<span class="tok-num">1.0</span>):
+    dicts = df_train[categorical + numerical].<span class="tok-fn">to_dict</span>(orient=&#x27;records&#x27;)
+    dv = <span class="tok-fn">DictVectorizer</span>(sparse=<span class="tok-kw">False</span>)
+    X_train = <span class="tok-fn">dv.fit_transform</span>(dicts)
+    model = <span class="tok-fn">LogisticRegression</span>(C=C, max_iter=<span class="tok-num">5000</span>)
+    <span class="tok-fn">model.fit</span>(X_train, y_train)
+    <span class="tok-kw">return</span> dv, model
+
+kfold = <span class="tok-fn">KFold</span>(n_splits=<span class="tok-num">5</span>, shuffle=<span class="tok-kw">True</span>, random_state=<span class="tok-num">1</span>)
+scores = [<span class="tok-fn">roc_auc_score</span>(y_val, <span class="tok-fn">predict</span>(df_val, dv, model))
+          <span class="tok-kw">for</span> train_idx, val_idx <span class="tok-kw">in</span> <span class="tok-fn">kfold.split</span>(df_full_train)]</code></pre></div><div class="doc-table-wrap"><table class="doc-table"><thead><tr><th>Metric</th><th>Value</th><th>Where it comes from</th></tr></thead><tbody><tr><td>Fold AUCs</td><td>0.8444 / 0.8452 / 0.8336 / 0.8348 / 0.8518</td><td>My re-run, identical to the README&#x27;s folds to rounding</td></tr><tr><td>Cross-validation</td><td>0.842 +/- 0.007</td><td>Mean and standard deviation across the 5 folds</td></tr><tr><td>Test AUC</td><td>0.858</td><td>Single scoring of the untouched 1,409-row hold-out</td></tr><tr><td>Overfitting gap</td><td>0.016</td><td>Test minus CV mean; small, so I trust the generalisation</td></tr></tbody></table></div><p>I report ROC-AUC rather than accuracy throughout, and the class balance is why: 74/26 means a model predicting nobody churns scores 74% accuracy while being useless. AUC measures whether the model ranks churners above non-churners, which is the property a ranked worklist needs. My README&#x27;s 85.8% accuracy phrasing is this same AUC wearing the wrong name.</p></section><section class="doc-section" id="serving"><h2>Serving: the part I would partially redo</h2><p>The serving layer is FastAPI with a Pydantic schema, not the Flask my technical README describes; the code and the Swagger screenshot show FastAPI, and the README predates the rewrite. Swagger UI comes free with FastAPI, which is what my second screenshot shows.</p><div class="doc-code"><div class="doc-code-bar"><span>The endpoint</span><span class="doc-code-lang">PYTHON</span></div><pre><code><span class="tok-kw">class</span> <span class="tok-fn">CustomerInput</span>(BaseModel):
+    tenure: int
+    monthly_charges: float
+    total_charges: float
+    contract: str
+
+@<span class="tok-fn">app.post</span>(<span class="tok-str">&quot;/predict&quot;</span>)
+<span class="tok-kw">def</span> <span class="tok-fn">predict</span>(customer: CustomerInput):
+    X = <span class="tok-fn">dv.transform</span>([<span class="tok-fn">customer.dict</span>()])
+    y_pred = <span class="tok-fn">model.predict_proba</span>(X)[<span class="tok-num">0</span>, <span class="tok-num">1</span>]
+    <span class="tok-kw">return</span> {<span class="tok-str">&quot;churn_probability&quot;</span>: <span class="tok-fn">float</span>(y_pred), <span class="tok-str">&quot;churn&quot;</span>: y_pred &gt;= <span class="tok-num">0.5</span>}</code></pre></div><p>Now the honest engineering note, and it is the most instructive thing on this page: the CustomerInput schema accepts 4 fields, but the model trained on 19. DictVectorizer treats missing keys as absent features, which encode as zeros, so the API runs without error and silently scores each customer as if they had no gender, no services, no payment method and no internet type.</p><p>That is not a crash, it is worse: it is a prediction that looks confident and is not the one the validated model would give. I built the 4-field schema to make the demo readable in Swagger, and the full-featured version is the first item on my redo list. Any production integration would need the 19-field contract with the same names the DictVectorizer was fitted on.</p><p>The threshold is a flat 0.5. That is the right default for a demo and the wrong default for a retention budget, where the cost of a wasted offer and the cost of a lost customer are not symmetric, and the threshold should be tuned to that trade-off.</p><div class="doc-pairs"><div><h3>One pickle, two objects</h3><p>The vectorizer and model serialize together, so the serving path cannot desynchronise from the training path.</p></div><div><h3>Validation before the final fit</h3><p>Cross-validation runs on the training split only; the test set is scored once, after the final model is trained on the full training split.</p></div><div><h3>Fixed random_state</h3><p>Split and folds both seed at 1, so every number on these pages is reproducible bit-for-bit.</p></div></div></section><section class="doc-section" id="quality"><h2>Verification: my numbers versus my code</h2><p>I re-ran the whole pipeline independently and compared it against what my README claims. This is the table I wish every ML writeup shipped with:</p><div class="doc-table-wrap"><table class="doc-table"><thead><tr><th>Claim</th><th>Re-run result</th><th>Verdict</th></tr></thead><tbody><tr><td>CV AUC 0.842 +/- 0.007</td><td>0.842 +/- 0.007, folds matching to 4 decimals</td><td>Reproduces exactly</td></tr><tr><td>Test AUC 0.858</td><td>0.8585</td><td>Reproduces</td></tr><tr><td>7,043 rows, 21 columns</td><td>7,043 x 21</td><td>Exact</td></tr><tr><td>1,869 churners, 26.5%</td><td>1,869 / 26.54%</td><td>Exact</td></tr><tr><td>5,634 / 1,409 split</td><td>5,634 / 1,409</td><td>Exact</td></tr><tr><td>85.8% accuracy</td><td>ROC-AUC 0.858, not accuracy</td><td>Label corrected in these pages</td></tr><tr><td>$2.86M yearly revenue at stake</td><td>Cumulative lifetime charges of the churned segment; monthly run-rate $139,131</td><td>Label corrected in these pages</td></tr></tbody></table></div><div class="doc-note"><i class="fas fa-circle-info"></i><p>Two of my own labels needed correcting, and I would rather show the comparison than quietly fix them. The model numbers were always right; the names attached to two of them were loose.</p></div></section><section class="doc-section" id="decisions"><h2>My decisions and trade-offs</h2><div class="doc-table-wrap"><table class="doc-table"><thead><tr><th>Decision I made</th><th>Why</th><th>Trade-off I accepted</th></tr></thead><tbody><tr><td>Logistic regression over boosted trees</td><td>Inspectability and retrain speed for a monthly business process</td><td>Leaves AUC on the table; an XGBoost benchmark is the obvious next experiment</td></tr><tr><td>AUC as the only reported metric</td><td>Class imbalance makes raw accuracy misleading</td><td>A stakeholder used to accuracy percentages needs the ranking framing explained</td></tr><tr><td>fillna(0) for TotalCharges</td><td>Simple, explicit, and only 11 rows</td><td>Systematically under-states brand-new customers; median-by-tenure is the better imputation</td></tr><tr><td>FastAPI over Flask for serving</td><td>Pydantic validation and Swagger docs without extra code</td><td>My README drifted from the code until this documentation; process lesson logged</td></tr><tr><td>Shipped a 4-field demo schema</td><td>Readable Swagger demo</td><td>Silent feature truncation at inference; must be expanded before real use</td></tr><tr><td>Threshold left at 0.5</td><td>Neutral default while metrics are validated</td><td>Not tuned to offer-cost economics, which is where the business value actually lands</td></tr></tbody></table></div></section><section class="doc-section" id="next"><h2>If I took it further</h2><ol class="doc-steps"><li><strong>Fix the serving contract</strong><span>Expand CustomerInput to the full 19 features and add a contract test that scores a fixed customer record and compares against the offline model, so drift becomes loud instead of silent.</span></li><li><strong>Tune the threshold to the economics</strong><span>Parameterise offer cost and customer value, then choose the probability cutoff that maximises expected savings rather than a default 0.5.</span></li><li><strong>Fix the imputation</strong><span>Fill the 11 blank TotalCharges from a tenure-based expectation, and re-validate whether the low-tenure scores improve.</span></li><li><strong>Benchmark tree models</strong><span>Run gradient boosting through the same CV harness as a benchmark, and keep logistic regression if the AUC gap does not buy its interpretability cost.</span></li><li><strong>Explain individual scores</strong><span>Attach per-customer feature contributions (SHAP or coefficient inspection) to the ranked worklist, so an agent sees why a customer scored high before calling them.</span></li></ol></section><section class="doc-section" id="reflection"><h2>What this project shows</h2><p>The build is deliberately boring in the best way: a linear model, a frozen vectorizer, a single artifact, and a validation harness that any teammate can re-run in seconds. Boring is what makes a scoring process maintainable.</p><p>The habits this project gave me: report the metric that matches the decision the model feeds, validate before the final fit and touch the test set once, re-run your own claims against your own code before publishing them, and when a serving schema drifts from a training schema, treat it as a defect rather than a demo convenience.</p></section>
+            </article>
+        </div>
+        <div class="doc-bottom"><p class="doc-bottom-label">Want the business side?</p><div class="go-deeper"><a href="../projects/customer-churn-prediction-business.html" class="go-deeper-card"><i class="fas fa-chart-pie"></i><div><h3>Business insights</h3><p>The question, the evidence and what I would do about it, in plain language.</p></div><span class="go-deeper-arrow">&rarr;</span></a><a href="../projects/customer-churn-prediction.html" class="go-deeper-card"><i class="fas fa-table-columns"></i><div><h3>Project overview</h3><p>The short version: problem, approach and outcome.</p></div><span class="go-deeper-arrow">&rarr;</span></a></div><div class="case-links"><a href="https://github.com/Elice99/Elisha-ML-Journey/blob/main/customer%20churn%2FBUSINESS_README.md" target="_blank" rel="noopener" class="btn btn-secondary"><i class="fab fa-github"></i> View on GitHub</a></div></div>
+    </div>
+
+    </main>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    &lt;EB/&gt;
+                    <p>I build systems that turn messy data into useful decisions.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="../work.html">Work</a>
+                    <a href="../about.html">About</a>
+                    <a href="../resume.html">Resume</a>
+                    <a href="https://github.com/Elice99" target="_blank">GitHub</a>
+                    <a href="https://linktr.ee/elice99" target="_blank">LinkedIn</a>
+                    <a href="../contact.html">Contact</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; 2026 Elisha Bassey &middot; SYSTEM STATUS <span style="color:var(--teal-600)">&#9679; ONLINE</span></span>
+            </div>
+        </div>
+    </footer>
+    <button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+
+    <div class="cmdk-overlay" id="cmdkOverlay">
+        <div class="cmdk-modal">
+            <input type="text" id="cmdkInput" class="cmdk-input" placeholder="Search Elisha's portfolio..." autocomplete="off">
+            <div class="cmdk-list" id="cmdkList"></div>
+        </div>
+    </div>
+    <div class="cmdk-hint"><kbd>&#8984;</kbd><kbd>K</kbd><span>Search</span></div>
+
+    <!-- Visitor analytics: add a GoatCounter (or similar) script here when
+         the site is deployed, then restore the counter in the footer. -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="../js/projects-data.js?v=fa843df0"></script>
+    <script src="../js/main.js?v=733e8b90"></script>
+</body>
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="The Excel build behind the screen: the sheet architecture, the pivot layer that carries every figure, the slicer wiring, the visual grammar of each panel, and the reconciliation that ties every card back to the raw rows.">
+    <meta name="author" content="Elisha Bassey">
+    <meta property="og:title" content="Customer Retention Dashboard: Technical documentation | Elisha Bassey">
+    <meta property="og:description" content="The Excel build behind the screen: the sheet architecture, the pivot layer that carries every figure, the slicer wiring, the visual grammar of each panel, and the reconciliation that ties every card back to the raw rows.">
+    <meta property="og:type" content="website">
+    <link rel="canonical" href="https://elishabassey.netlify.app/projects/customer-retention-dashboard-technical.html">
+    <meta property="og:url" content="https://elishabassey.netlify.app/projects/customer-retention-dashboard-technical.html">
+    <meta property="og:image" content="https://elishabassey.netlify.app/images/Elice_1.webp">
+    <meta property="og:image:alt" content="Elisha Bassey">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Customer Retention Dashboard: Technical documentation | Elisha Bassey">
+    <meta name="twitter:description" content="The Excel build behind the screen: the sheet architecture, the pivot layer that carries every figure, the slicer wiring, the visual grammar of each panel, and the reconciliation that ties every card back to the raw rows.">
+    <meta name="twitter:image" content="https://elishabassey.netlify.app/images/Elice_1.webp">
+    <title>Customer Retention Dashboard: Technical documentation | Elisha Bassey</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css?v=29111c74">
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "Elisha Bassey", "jobTitle": "Data Analyst & Analytics Engineer", "sameAs": ["https://github.com/Elice99", "https://linktr.ee/elice99"], "knowsAbout": ["Data Analysis", "Business Intelligence", "Machine Learning", "Analytics Engineering"], "url": "https://elishabassey.netlify.app/", "image": "https://elishabassey.netlify.app/images/Elice_1.webp"}</script>
+    <script>window.SITE_ROOT = "../";</script>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="logo-bracket">&lt;</span>
+                <span class="logo-text">EB</span>
+                <span class="logo-bracket">/&gt;</span>
+            </a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="../work.html" class="nav-link">Work</a></li><li><a href="../about.html" class="nav-link">About</a></li><li><a href="../experience.html" class="nav-link">Experience</a></li><li><a href="../capabilities.html" class="nav-link">Capabilities</a></li><li><a href="../now.html" class="nav-link">Now</a></li>
+            </ul>
+            <div class="nav-controls">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle Dark Mode"><i class="fas fa-moon"></i></button>
+                <a href="../resume.html" class="nav-link" style="margin-right:0.5rem">CV</a>
+                <a href="../contact.html" class="nav-link" style="margin-right:0.5rem">Contact</a>
+                <button class="theme-toggle" data-cmdk-trigger aria-label="Open command palette (Cmd/Ctrl+K)"><i class="fas fa-magnifying-glass"></i></button>
+                <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle Menu">
+                    <span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+    <main id="main-content">
+    <section class="case-hero" style="padding-left:0;padding-right:0;padding-bottom:var(--space-6)">
+        <div class="container">
+            <a href="../projects/customer-retention-dashboard.html" class="doc-back">&larr; Customer Retention Dashboard overview</a>
+            <span class="case-status">TECHNICAL DOCUMENTATION</span>
+            <h1 class="case-title doc-title">Customer Retention Dashboard: how I built it</h1>
+            <p class="case-tagline">The Excel build behind the screen: the sheet architecture, the pivot layer that carries every figure, the slicer wiring, the visual grammar of each panel, and the reconciliation that ties every card back to the raw rows.</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <nav class="doc-tabs" aria-label="Customer Retention Dashboard sections"><a href="../projects/customer-retention-dashboard.html" class="doc-tab">Overview</a><a href="../projects/customer-retention-dashboard-business.html" class="doc-tab">Business insights</a><a href="../projects/customer-retention-dashboard-technical.html" class="doc-tab active" aria-current="page">Technical documentation</a></nav>
+        <div class="doc-shell">
+            <aside class="doc-toc" aria-label="On this page"><p>On this page</p><a href="#solution">The solution</a><a href="#prep">The data and the pivot layer</a><a href="#visuals">Visual grammar, panel by panel</a><a href="#quality">Reconciliation: the dashboard versus the data</a><a href="#decisions">My decisions and trade-offs</a><a href="#next">If I took it further</a><a href="#reflection">What this project shows</a></aside>
+            <article class="doc-body">
+<section class="doc-section" id="solution"><h2>The solution</h2><div class="doc-note"><i class="fas fa-circle-info"></i><p>This page describes my Customer Retention workbook. Every figure quoted here I reconciled against the raw CSV with a direct profile; the dashboard and the data agree row for row.</p></div><div class="doc-table-wrap"><table class="doc-table"><thead><tr><th>Sheet</th><th>What it holds</th><th>Why it is there</th></tr></thead><tbody><tr><td>01 Churn-Dataset</td><td>The raw 7,043 rows, 21 columns, as loaded</td><td>The single source of truth; nothing else in the workbook edits it</td></tr><tr><td>PivotTable</td><td>The pivot layer: counts, shares, sums and band tables</td><td>Every dashboard figure computes here, so a refresh updates everything at once</td></tr><tr><td>Welcome</td><td>Landing and orientation</td><td>Tells a first-time reader where to go</td></tr><tr><td>ChurnDashbord</td><td>The executive screen: KPI cards, doughnuts, bars, pies, slicers</td><td>The artifact leadership actually sees</td></tr><tr><td>CustomerRiskAnalysis</td><td>The working analysis layer under the same slicers</td><td>Where the segment cross-tabs live for a reader who wants the numbers behind the pictures</td></tr></tbody></table></div><p>Three layers, one direction of data flow: raw data feeds pivots, pivots feed the dashboard and analysis sheets. No figure on the dashboard is typed; they are all pivot-driven. That single rule is what makes the workbook safe to refresh.</p></section><section class="doc-section" id="prep"><h2>The data and the pivot layer</h2><p>The dataset is the Kaggle Telco Customer Churn table: 7,043 customers, 21 fields covering demographics, services, account configuration, charges and the churn flag. I loaded it to the data sheet clean, with SeniorCitizen as 0/1 and TotalCharges numeric, including the 11 whitespace values that coerce to blank.</p><p>The pivot sheet carries the measures the dashboard reads. The core ones:</p><div class="doc-table-wrap"><table class="doc-table"><thead><tr><th>Measure</th><th>Definition</th><th>Dashboard use</th></tr></thead><tbody><tr><td>At-risk customers</td><td>Distinct count of customerID where Churn = Yes (1,869)</td><td>The headline KPI card</td></tr><tr><td>Ticket load</td><td>Sum of tech and admin ticket counts, split by churn group (2,173 / 885)</td><td>The two ticket cards</td></tr><tr><td>Monthly billing at risk</td><td>Sum of MonthlyCharges where Churn = Yes ($139,131)</td><td>The monthly charges card</td></tr><tr><td>Lifetime billing</td><td>Sum of TotalCharges where Churn = Yes ($2,862,927)</td><td>The yearly-charges card (see the label note below)</td></tr><tr><td>Demographic shares</td><td>Gender, senior citizen, partner, dependents counts</td><td>The demography doughnut and chips</td></tr><tr><td>Tenure bands</td><td>Grouped tenure: under 1 year 29%, out to 5-plus years</td><td>The subscription-time bars</td></tr><tr><td>Service adoption</td><td>Yes-shares for every add-on service, phone at 90% down to support and security at 29%</td><td>The services panel</td></tr><tr><td>Payment and contract mix</td><td>Shares by payment method and contract type</td><td>The account info panel</td></tr></tbody></table></div><p>One labelling lesson I want on the record: the $2,862,927 card reads Yearly Charges, and that label is wrong. The field it sums is TotalCharges, the cumulative amount each churned customer paid across their whole stay. The monthly card ($139,131) annualises to about $1.67M, which is the honest forward-looking figure. I keep the card because the magnitude is the point, and I fix the label in the recommendations, but I document it here first.</p></section><section class="doc-section" id="visuals"><h2>Visual grammar, panel by panel</h2><div class="doc-table-wrap"><table class="doc-table"><thead><tr><th>Panel</th><th>Visual</th><th>The decision behind it</th></tr></thead><tbody><tr><td>KPI cards</td><td>Six large numeric cards across the top</td><td>The five-second read: scale, ticket load, billing. Largest type on the screen because these are the numbers the meeting is about</td></tr><tr><td>Demography</td><td>Gender doughnut plus four stat chips</td><td>Deliberately calm. It answers who the base is, and its flatness is part of the story: nothing demographic is driving the risk</td></tr><tr><td>Subscription time</td><td>Horizontal bars, under-1-year on top at 29%</td><td>Ordered by tenure band so the front-loaded risk window reads top-down at a glance</td></tr><tr><td>Payment methods</td><td>Horizontal bars with share labels</td><td>A ranking, so e-check&#x27;s lead position makes the friction story before anyone reads a number</td></tr><tr><td>Paperless billing</td><td>Two-slice doughnut (59/41)</td><td>A binary split, which is the one shape a doughnut earns</td></tr><tr><td>Type of contract</td><td>Horizontal bars, month-to-month on top</td><td>Same ranking grammar as payments; the two most decision-relevant panels share a shape</td></tr><tr><td>Services signed up for</td><td>Adoption ladder with big percentage labels</td><td>The 90-to-29 drop is the visual argument; the ordering makes the protective tier&#x27;s collapse unmissable</td></tr><tr><td>Internet service</td><td>Three-slice pie with DSL, fiber, no-service chips</td><td>Three categories, comparable shares; the fiber plurality is the point</td></tr><tr><td>Slicers</td><td>Contract, gender, internet service</td><td>Wired to every pivot, so one click re-reads the whole screen for a segment</td></tr></tbody></table></div><p>My visual rules on this build: one idea per visual, shares labelled directly on the marks instead of in a legend hunt, horizontal bars wherever category names are long, and doughnuts reserved for two-way splits. The demography panel uses muted greys and blues so the KPI cards stay the loudest thing on the page.</p><p>The two-level slicer design (contract, gender, internet service) maps to the three questions a retention lead actually asks: which contracts, which customer profile, which product tier. Anything more granular belongs in the CustomerRiskAnalysis sheet, not on the executive screen.</p><figure class="doc-figure"><img src="../images/CustomerRetention_1.webp" alt="The complete dashboard as shipped, showing the card row, the three panels and the slicer wiring." loading="lazy"><figcaption>The complete dashboard as shipped, showing the card row, the three panels and the slicer wiring.</figcaption></figure></section><section class="doc-section" id="quality"><h2>Reconciliation: the dashboard versus the data</h2><p>I checked every headline figure against a direct profile of the CSV. This is the table:</p><div class="doc-table-wrap"><table class="doc-table"><thead><tr><th>Dashboard figure</th><th>Direct data check</th><th>Verdict</th></tr></thead><tbody><tr><td>1,869 customers at risk</td><td>1,869 rows with Churn = Yes of 7,043 (26.54%)</td><td>Exact</td></tr><tr><td>2,173 tech tickets / 885 admin</td><td>Churned group sums 2,173 and 885; full base 2,955 and 3,632</td><td>Exact</td></tr><tr><td>$139,131 monthly charges</td><td>Sum of MonthlyCharges for churned rows</td><td>Exact</td></tr><tr><td>$2,862,927 yearly charges</td><td>Sum of TotalCharges for churned rows; it is lifetime, not yearly</td><td>Figure exact, label corrected in my recommendations</td></tr><tr><td>50.5% female</td><td>49.52% male / 50.48% female on the full base</td><td>Exact</td></tr><tr><td>16% senior citizens</td><td>16.22% of rows are SeniorCitizen = 1</td><td>Exact</td></tr><tr><td>29% under 1 year</td><td>29.38% of rows have tenure under 12 months</td><td>Exact</td></tr><tr><td>90% phone service</td><td>90.32% adoption</td><td>Exact</td></tr><tr><td>Services ladder 29/34/34/29/38/39</td><td>Security 28.7%, backup 34.5%, device 34.4%, support 29.0%, streaming TV 38.4%, streaming movies 38.8%</td><td>Exact to rounding</td></tr><tr><td>Internet pie 34.37 / 43.96 / 21.67</td><td>DSL 34.37%, fiber 43.96%, none 21.67%</td><td>Exact</td></tr><tr><td>$74.44 / $1,531.80 average charges</td><td>Churned-group means: $74.44 monthly, $1,531.80 lifetime</td><td>Exact</td></tr></tbody></table></div><div class="doc-note"><i class="fas fa-circle-info"></i><p>One correction, one label: the Yearly Charges card. Every other figure reconciles exactly, which is the dividend of building the KPI layer on pivots rather than typed values.</p></div></section><section class="doc-section" id="decisions"><h2>My decisions and trade-offs</h2><div class="doc-table-wrap"><table class="doc-table"><thead><tr><th>Decision I made</th><th>Why</th><th>Trade-off I accepted</th></tr></thead><tbody><tr><td>Pivot layer instead of formula grid</td><td>Refresh-safe: every figure recomputes from one data refresh</td><td>Pivot output needs careful chart sourcing, and the pivot sheet is not pretty</td></tr><tr><td>Three slicers, no more</td><td>They map to the three questions a retention lead asks</td><td>Deeper cross-sections live on the analysis sheet, one click away</td></tr><tr><td>Demography panel first despite carrying no signal</td><td>It answers the reader&#x27;s first question and clears the ground for the account story</td><td>The strongest panel sits below the calmest one</td></tr><tr><td>Kept the $2.86M card with the wrong label documented</td><td>The magnitude frames the problem, and hiding a number because its label is loose wastes it</td><td>Requires this documentation and a follow-up relabel to be fully honest</td></tr><tr><td>No macros or Power Query</td><td>The workbook opens anywhere with no security prompts</td><td>No scheduled refresh; the data wiring is the documented next step</td></tr><tr><td>Shares labelled on the marks</td><td>Executives read labels, not legends</td><td>Some marks get crowded on small slices</td></tr></tbody></table></div></section><section class="doc-section" id="next"><h2>If I took it further</h2><ol class="doc-steps"><li><strong>Relabel the lifetime-billing card</strong><span>Change Yearly Charges to Lifetime Billing and add an annualised card beside it, so the two readings are both on screen and both correct.</span></li><li><strong>Add the churn-rate pivot</strong><span>A rate-by-contract visual turns the mix panels into risk panels and kills the mix-versus-rate misreading.</span></li><li><strong>Wire a live data source</strong><span>Point the data sheet at a scheduled extract so the monthly review runs on current data, with the pivot layer doing what it was built for.</span></li><li><strong>Merge the two projects&#x27; views</strong><span>Bring the churn model&#x27;s score distribution onto the analysis sheet, so the dashboard shows not just who churned but who is next.</span></li><li><strong>Templatise the shell</strong><span>The sheet architecture (data, pivots, welcome, dashboard, analysis) is reusable for any executive KPI workbook; package it once and reuse it.</span></li></ol></section><section class="doc-section" id="reflection"><h2>What this project shows</h2><p>This dashboard and my churn model are the same investigation for two audiences, and building both taught me the translation layer matters as much as the analysis: the model&#x27;s 0.858 ROC-AUC and the dashboard&#x27;s 1,869 are the same story in two languages.</p><p>The habits I would carry forward: build the KPI layer on pivots so refreshes propagate, label figures for what they actually measure rather than what sounds right, put the calm panel first when it clears the ground for the loud one, and reconcile every card against the raw rows before calling the dashboard done.</p></section>
+            </article>
+        </div>
+        <div class="doc-bottom"><p class="doc-bottom-label">Want the business side?</p><div class="go-deeper"><a href="../projects/customer-retention-dashboard-business.html" class="go-deeper-card"><i class="fas fa-chart-pie"></i><div><h3>Business insights</h3><p>The question, the evidence and what I would do about it, in plain language.</p></div><span class="go-deeper-arrow">&rarr;</span></a><a href="../projects/customer-retention-dashboard.html" class="go-deeper-card"><i class="fas fa-table-columns"></i><div><h3>Project overview</h3><p>The short version: problem, approach and outcome.</p></div><span class="go-deeper-arrow">&rarr;</span></a></div><div class="case-links"></div></div>
+    </div>
+
+    </main>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    &lt;EB/&gt;
+                    <p>I build systems that turn messy data into useful decisions.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="../work.html">Work</a>
+                    <a href="../about.html">About</a>
+                    <a href="../resume.html">Resume</a>
+                    <a href="https://github.com/Elice99" target="_blank">GitHub</a>
+                    <a href="https://linktr.ee/elice99" target="_blank">LinkedIn</a>
+                    <a href="../contact.html">Contact</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; 2026 Elisha Bassey &middot; SYSTEM STATUS <span style="color:var(--teal-600)">&#9679; ONLINE</span></span>
+            </div>
+        </div>
+    </footer>
+    <button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+
+    <div class="cmdk-overlay" id="cmdkOverlay">
+        <div class="cmdk-modal">
+            <input type="text" id="cmdkInput" class="cmdk-input" placeholder="Search Elisha's portfolio..." autocomplete="off">
+            <div class="cmdk-list" id="cmdkList"></div>
+        </div>
+    </div>
+    <div class="cmdk-hint"><kbd>&#8984;</kbd><kbd>K</kbd><span>Search</span></div>
+
+    <!-- Visitor analytics: add a GoatCounter (or similar) script here when
+         the site is deployed, then restore the counter in the footer. -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="../js/projects-data.js?v=fa843df0"></script>
+    <script src="../js/main.js?v=733e8b90"></script>
+</body>
+</html>

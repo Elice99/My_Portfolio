@@ -244,17 +244,19 @@ const PROJECTS = [
       "ml",
       "business"
     ],
-    "tagline": "Predicting which customers are at risk of leaving, and why.",
-    "problem": "Organizations need to know which customers are at risk of churning before they leave, not after, so retention efforts can be targeted rather than reactive.",
-    "approach": "Built a churn prediction workflow covering data preparation, exploratory analysis, feature engineering, and model training with scikit-learn and XGBoost, served through a FastAPI endpoint.",
-    "outcome": "Flagged approximately 1,869 at-risk customers from the evaluated dataset for targeted retention follow-up.",
+    "hasDocs": true,
+    "tagline": "A logistic regression churn model taken from notebook to a served API, with the business case it feeds.",
+    "problem": "Telecom retention teams react to churn after it happens. I built a model that ranks 7,043 customers by their probability of leaving, so outreach goes to the right people first, plus an executive dashboard that shows where the risk lives.",
+    "approach": "I trained a logistic regression on 19 features (DictVectorizer one-hot plus tenure and charges), validated with 5-fold cross-validation on ROC-AUC, pickled the vectorizer and model together, and served real-time predictions through a FastAPI endpoint with Swagger docs.",
+    "outcome": "Test ROC-AUC 0.858 with cross-validation at 0.842 +/- 0.007, reproduced on re-run. The model separates risk cleanly: month-to-month customers churn at 42.7% versus 2.8% on two-year contracts, and I flagged the 1,869 churned-profile customers (26.5% of the base) whose lifetime billing totals $2.86M.",
     "stack": [
+      "Python",
+      "pandas",
       "scikit-learn",
-      "XGBoost",
       "FastAPI"
     ],
-    "metricValue": "1,869",
-    "metricLabel": "At-risk customers flagged",
+    "metricValue": "0.858",
+    "metricLabel": "test ROC-AUC",
     "status": "Shipped",
     "featured": false,
     "verified": true,
@@ -265,6 +267,39 @@ const PROJECTS = [
     "images": [
       "images/CustomerChurn_1.webp",
       "images/CustomerChurn_2.webp"
+    ],
+    "video": null
+  },
+  {
+    "slug": "customer-retention-dashboard",
+    "imagePrefix": "CustomerRetention",
+    "title": "Customer Retention Dashboard",
+    "category": [
+      "analytics",
+      "bi",
+      "business"
+    ],
+    "hasDocs": true,
+    "tagline": "The executive view of the same churn problem: 1,869 at-risk customers, where they come from, and what they are worth.",
+    "problem": "The churn model can rank every customer, but leadership needs one screen that says who is at risk, how much revenue walks with them, and which segments to act on. I built that screen in Excel on the same 7,043-customer dataset.",
+    "approach": "I built the analysis in Excel on PivotTables rather than formulas alone: a raw-data sheet, a pivot layer computing every share and total, and a two-level dashboard with slicers for contract type, gender and internet service so every card and chart filters in one click.",
+    "outcome": "The dashboard reconciles to the row: 1,869 customers at risk, $139,131 of monthly billing and $2.86M of lifetime billing in that segment, 2,173 tech tickets behind them, and the service gaps that mark them: tech support adoption 29%, online security 29%, against 90% phone-service uptake.",
+    "stack": [
+      "Excel",
+      "PivotTables",
+      "Slicers"
+    ],
+    "metricValue": "1,869",
+    "metricLabel": "customers flagged at risk",
+    "status": "Shipped",
+    "featured": false,
+    "verified": true,
+    "media": "diagonal",
+    "github": null,
+    "demo": null,
+    "codeSnippet": null,
+    "images": [
+      "images/CustomerRetention_1.webp"
     ],
     "video": null
   },

@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-    <meta name="description" content="Predicting which customers are at risk of leaving, and why.">
+    <meta name="description" content="A logistic regression churn model taken from notebook to a served API, with the business case it feeds.">
     <meta name="author" content="Elisha Bassey">
     <meta property="og:title" content="Customer Churn Prediction | Elisha Bassey">
-    <meta property="og:description" content="Predicting which customers are at risk of leaving, and why.">
+    <meta property="og:description" content="A logistic regression churn model taken from notebook to a served API, with the business case it feeds.">
     <meta property="og:type" content="website">
     <link rel="canonical" href="https://elishabassey.netlify.app/projects/customer-churn-prediction.html">
     <meta property="og:url" content="https://elishabassey.netlify.app/projects/customer-churn-prediction.html">
@@ -14,7 +14,7 @@
     <meta property="og:image:alt" content="Elisha Bassey">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="Customer Churn Prediction | Elisha Bassey">
-    <meta name="twitter:description" content="Predicting which customers are at risk of leaving, and why.">
+    <meta name="twitter:description" content="A logistic regression churn model taken from notebook to a served API, with the business case it feeds.">
     <meta name="twitter:image" content="https://elishabassey.netlify.app/images/Elice_1.webp">
     <title>Customer Churn Prediction | Elisha Bassey</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -53,36 +53,36 @@
         <div class="container">
             <span class="case-status">SHIPPED</span>
             <h1 class="case-title">CUSTOMER CHURN PREDICTION</h1>
-            <p class="case-tagline">Predicting which customers are at risk of leaving, and why.</p>
-            <p class="case-stack">scikit-learn &middot; XGBoost &middot; FastAPI</p>
+            <p class="case-tagline">A logistic regression churn model taken from notebook to a served API, with the business case it feeds.</p>
+            <p class="case-stack">Python &middot; pandas &middot; scikit-learn &middot; FastAPI</p>
             <div class="case-links"><a href="https://github.com/Elice99/Elisha-ML-Journey/blob/main/customer%20churn%2FBUSINESS_README.md" target="_blank" rel="noopener" class="btn btn-secondary"><i class="fab fa-github"></i> View on GitHub</a></div>
         </div>
     </section>
 
     <div class="container">
-        
+        <nav class="doc-tabs" aria-label="Customer Churn Prediction sections"><a href="../projects/customer-churn-prediction.html" class="doc-tab active" aria-current="page">Overview</a><a href="../projects/customer-churn-prediction-business.html" class="doc-tab">Business insights</a><a href="../projects/customer-churn-prediction-technical.html" class="doc-tab">Technical documentation</a></nav>
         <div class="media-frame code-float-wrap" data-aos="fade-up"><div class="media-gallery"><div class="media-gallery-frame"><img src="../images/CustomerChurn_1.webp" alt="Customer Churn Prediction screenshot 1" loading="lazy" decoding="async"></div><div class="media-gallery-frame"><img src="../images/CustomerChurn_2.webp" alt="Customer Churn Prediction screenshot 2" loading="lazy" decoding="async"></div></div><p class="media-gallery-count">2 SCREENSHOTS, SCROLL TO SEE MORE &rarr;</p></div>
 
         <div class="case-metric-strip">
-            <span class="case-metric-value">1,869</span>
-            <span class="case-metric-label">At-risk customers flagged</span>
+            <span class="case-metric-value">0.858</span>
+            <span class="case-metric-label">test ROC-AUC</span>
         </div>
 
         
-        
+        <p class="doc-bottom-label" style="margin-top:var(--space-8)">Go deeper</p><div class="go-deeper"><a href="../projects/customer-churn-prediction-business.html" class="go-deeper-card"><i class="fas fa-chart-pie"></i><div><h3>Business insights</h3><p>The question, the evidence and what I would do about it, in plain language.</p></div><span class="go-deeper-arrow">&rarr;</span></a><a href="../projects/customer-churn-prediction-technical.html" class="go-deeper-card"><i class="fas fa-gears"></i><div><h3>Technical documentation</h3><p>The data model, formulas and measures, cleaning steps, and why I chose each visual.</p></div><span class="go-deeper-arrow">&rarr;</span></a></div>
 
         
         <section class="case-section" data-aos="fade-up">
             <h2>THE PROBLEM</h2>
-            <p>Organizations need to know which customers are at risk of churning before they leave, not after, so retention efforts can be targeted rather than reactive.</p>
+            <p>Telecom retention teams react to churn after it happens. I built a model that ranks 7,043 customers by their probability of leaving, so outreach goes to the right people first, plus an executive dashboard that shows where the risk lives.</p>
         </section>
         <section class="case-section" data-aos="fade-up">
             <h2>APPROACH</h2>
-            <p>Built a churn prediction workflow covering data preparation, exploratory analysis, feature engineering, and model training with scikit-learn and XGBoost, served through a FastAPI endpoint.</p>
+            <p>I trained a logistic regression on 19 features (DictVectorizer one-hot plus tenure and charges), validated with 5-fold cross-validation on ROC-AUC, pickled the vectorizer and model together, and served real-time predictions through a FastAPI endpoint with Swagger docs.</p>
         </section>
         <section class="case-section" data-aos="fade-up">
             <h2>OUTCOME</h2>
-            <p>Flagged approximately 1,869 at-risk customers from the evaluated dataset for targeted retention follow-up.</p>
+            <p>Test ROC-AUC 0.858 with cross-validation at 0.842 +/- 0.007, reproduced on re-run. The model separates risk cleanly: month-to-month customers churn at 42.7% versus 2.8% on two-year contracts, and I flagged the 1,869 churned-profile customers (26.5% of the base) whose lifetime billing totals $2.86M.</p>
         </section>
 
         
@@ -91,7 +91,7 @@
 
         <div class="case-next">
             <p class="case-next-label">NEXT CASE STUDY</p>
-            <a href="../projects/ecommerce-demand-forecasting.html">Nigerian E-Commerce Market Intelligence &rarr;</a>
+            <a href="../projects/customer-retention-dashboard.html">Customer Retention Dashboard &rarr;</a>
         </div>
     </div>
 
@@ -130,7 +130,7 @@
     <!-- Visitor analytics: add a GoatCounter (or similar) script here when
          the site is deployed, then restore the counter in the footer. -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="../js/projects-data.js?v=9cf91d34"></script>
+    <script src="../js/projects-data.js?v=fa843df0"></script>
     <script src="../js/main.js?v=733e8b90"></script>
 </body>
 </html>
