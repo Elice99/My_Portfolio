@@ -261,7 +261,7 @@ const PROJECTS = [
     "featured": false,
     "verified": true,
     "media": "browser",
-    "github": "https://github.com/Elice99/Elisha-ML-Journey/blob/main/customer%20churn%2FBUSINESS_README.md",
+    "github": "https://github.com/Elice99/customer-churn-retention",
     "demo": null,
     "codeSnippet": null,
     "images": [
