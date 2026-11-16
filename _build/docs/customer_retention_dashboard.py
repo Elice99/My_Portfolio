@@ -171,7 +171,7 @@ TECHNICAL = {
                 ["ChurnDashbord", "The executive screen: KPI cards, doughnuts, bars, pies, slicers", "The artifact leadership actually sees"],
                 ["CustomerRiskAnalysis", "The working analysis layer under the same slicers", "Where the segment cross-tabs live for a reader who wants the numbers behind the pictures"],
             ]},
-            {"type": "p", "text": "Three layers, one direction of data flow: raw data feeds pivots, pivots feed the dashboard and analysis sheets. No figure on the dashboard is typed; they are all pivot-driven. That single rule is what makes the workbook safe to refresh."},
+            {"type": "p", "text": "Three layers, one direction of data flow: raw data feeds the helper columns and pivots, pivots feed the dashboard and analysis sheets. Nothing on the dashboard is typed: every card and chart reads pivot output, and the workbook's only arithmetic sits in the helper columns and share formulas documented below. That single rule is what makes the workbook safe to refresh."},
         ]},
         {"id": "prep", "heading": "The data and the pivot layer", "blocks": [
             {"type": "p", "text": "The dataset is the Kaggle Telco Customer Churn table: 7,043 customers, 21 fields covering demographics, services, account configuration, charges and the churn flag. I loaded it to the data sheet clean, with SeniorCitizen as 0/1 and TotalCharges numeric, including the 11 whitespace values that coerce to blank."},
@@ -182,11 +182,35 @@ TECHNICAL = {
                 ["Monthly billing at risk", "Sum of MonthlyCharges where Churn = Yes ($139,131)", "The monthly charges card"],
                 ["Lifetime billing", "Sum of TotalCharges where Churn = Yes ($2,862,927)", "The yearly-charges card (see the label note below)"],
                 ["Demographic shares", "Gender, senior citizen, partner, dependents counts", "The demography doughnut and chips"],
-                ["Tenure bands", "Grouped tenure: under 1 year 29%, out to 5-plus years", "The subscription-time bars"],
+                ["Tenure bands", "A helper column bands tenure in years (F/12 through an IF ladder): under 1 year 29%, out to 6 years", "The subscription-time bars"],
                 ["Service adoption", "Yes-shares for every add-on service, phone at 90% down to support and security at 29%", "The services panel"],
                 ["Payment and contract mix", "Shares by payment method and contract type", "The account info panel"],
             ]},
             {"type": "p", "text": "One labelling lesson I want on the record: the $2,862,927 card reads Yearly Charges, and that label is wrong. The field it sums is TotalCharges, the cumulative amount each churned customer paid across their whole stay. The monthly card ($139,131) annualises to about $1.67M, which is the honest forward-looking figure. I keep the card because the magnitude is the point, and I fix the label in the recommendations, but I document it here first."},
+        ]},
+        {"id": "formulas", "heading": "The formulas, as the workbook carries them", "blocks": [
+            {"type": "p", "text": "Three kinds of formula work live in this workbook, and they tell you where the thinking happens: helper columns on the data sheet, share arithmetic on the pivot sheet, and none at all on the dashboard, where every card and chart reads pivot output directly. I read the formulas back out of the saved file, so what follows is exactly what is in it."},
+            {"type": "code", "title": "Data sheet: the helper columns", "lang": "text", "code": '''
+X2  =IF(W2="Yes", 1, 0)         // churn flag as a 1/0 column
+
+Y2  =F2/12                      // tenure months -> years
+
+Z2  =IF(Y2<1,"<1 Year",
+     IF(Y2<2,"<2 Years",
+     IF(Y2<3,"<3 Years",
+     IF(Y2<4,"<4 Years",
+     IF(Y2<5,"<5 Years",
+     IF(Y2<=6,"<6 Years", ""))))))   // the tenure bands the dashboard charts
+'''},
+            {"type": "p", "text": "The X column turns the churn text flag into a numeric the pivots can sum, the Y column converts tenure to years, and the Z column is the band ladder behind the subscription-time panel. One edge worth recording: the ladder is a strict less-than at every rung except the last, which uses <=6, so a customer at exactly 72 months lands in <6 Years. No story changes, but a rebuild should make the rungs symmetric."},
+            {"type": "code", "title": "Pivot sheet: shares and the churn-rate check", "lang": "text", "code": '''
+AA2  =SUM(X:X)/COUNTA(W:W)*100      // overall churn rate -> 26.54%
+
+K77  =I77/I79*100                   // group count over base, as a share
+F78  =E78/E79                       // churned share of the base -> 26.5%
+C81  =$C$78/E79*100%                // churn-rate check cell
+'''},
+            {"type": "p", "text": "The pivot sheet mixes PivotTables with a small hand-built summary block, and the hand-built part is where the percentage arithmetic lives: group counts over the 7,043 base, and the churn-rate check that recomputes 1,869 over 7,043 as a cross-check on the pivot's own count. That double path (pivot count versus formula ratio agreeing) is a cheap integrity test I would put in every workbook."},
         ]},
         {"id": "visuals", "heading": "Visual grammar, panel by panel", "blocks": [
             {"type": "table", "headers": ["Panel", "Visual", "The decision behind it"], "rows": [
