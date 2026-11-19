@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="description" content="A small reproducible Python pipeline over five CSV tables. It writes one summary JSON and six report charts. This page covers the grain, the metric definitions, the validation checks, and the problems I found in the supplied workbook.">
+    <meta name="author" content="Elisha Bassey">
+    <meta property="og:title" content="Sunrise Coffee Performance Review: Technical documentation | Elisha Bassey">
+    <meta property="og:description" content="A small reproducible Python pipeline over five CSV tables. It writes one summary JSON and six report charts. This page covers the grain, the metric definitions, the validation checks, and the problems I found in the supplied workbook.">
+    <meta property="og:type" content="website">
+    <link rel="canonical" href="https://elishabassey.netlify.app/projects/sunrise-coffee-performance-technical.html">
+    <meta property="og:url" content="https://elishabassey.netlify.app/projects/sunrise-coffee-performance-technical.html">
+    <meta property="og:image" content="https://elishabassey.netlify.app/images/Elice_1.webp">
+    <meta property="og:image:alt" content="Elisha Bassey">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Sunrise Coffee Performance Review: Technical documentation | Elisha Bassey">
+    <meta name="twitter:description" content="A small reproducible Python pipeline over five CSV tables. It writes one summary JSON and six report charts. This page covers the grain, the metric definitions, the validation checks, and the problems I found in the supplied workbook.">
+    <meta name="twitter:image" content="https://elishabassey.netlify.app/images/Elice_1.webp">
+    <title>Sunrise Coffee Performance Review: Technical documentation | Elisha Bassey</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="../css/styles.css?v=29111c74">
+    <script type="application/ld+json">{"@context": "https://schema.org", "@type": "Person", "name": "Elisha Bassey", "jobTitle": "Data Analyst & Analytics Engineer", "sameAs": ["https://github.com/Elice99", "https://linktr.ee/elice99"], "knowsAbout": ["Data Analysis", "Business Intelligence", "Machine Learning", "Analytics Engineering"], "url": "https://elishabassey.netlify.app/", "image": "https://elishabassey.netlify.app/images/Elice_1.webp"}</script>
+    <script>window.SITE_ROOT = "../";</script>
+</head>
+<body>
+    <nav class="navbar" id="navbar">
+        <div class="nav-container">
+            <a href="../index.html" class="nav-logo">
+                <span class="logo-bracket">&lt;</span>
+                <span class="logo-text">EB</span>
+                <span class="logo-bracket">/&gt;</span>
+            </a>
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="../work.html" class="nav-link">Work</a></li><li><a href="../about.html" class="nav-link">About</a></li><li><a href="../experience.html" class="nav-link">Experience</a></li><li><a href="../capabilities.html" class="nav-link">Capabilities</a></li><li><a href="../now.html" class="nav-link">Now</a></li>
+            </ul>
+            <div class="nav-controls">
+                <button class="theme-toggle" id="themeToggle" aria-label="Toggle Dark Mode"><i class="fas fa-moon"></i></button>
+                <a href="../resume.html" class="nav-link" style="margin-right:0.5rem">CV</a>
+                <a href="../contact.html" class="nav-link" style="margin-right:0.5rem">Contact</a>
+                <button class="theme-toggle" data-cmdk-trigger aria-label="Open command palette (Cmd/Ctrl+K)"><i class="fas fa-magnifying-glass"></i></button>
+                <button class="mobile-toggle" id="mobileToggle" aria-label="Toggle Menu">
+                    <span class="hamburger-line"></span><span class="hamburger-line"></span><span class="hamburger-line"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+    <main id="main-content">
+    <section class="case-hero" style="padding-left:0;padding-right:0;padding-bottom:var(--space-6)">
+        <div class="container">
+            <a href="../projects/sunrise-coffee-performance.html" class="doc-back">&larr; Sunrise Coffee Performance Review overview</a>
+            <span class="case-status">TECHNICAL DOCUMENTATION</span>
+            <h1 class="case-title doc-title">Sunrise Coffee: how the analysis was built</h1>
+            <p class="case-tagline">A small reproducible Python pipeline over five CSV tables. It writes one summary JSON and six report charts. This page covers the grain, the metric definitions, the validation checks, and the problems I found in the supplied workbook.</p>
+        </div>
+    </section>
+
+    <div class="container">
+        <nav class="doc-tabs" aria-label="Sunrise Coffee Performance Review sections"><a href="../projects/sunrise-coffee-performance.html" class="doc-tab">Overview</a><a href="../projects/sunrise-coffee-performance-business.html" class="doc-tab">Business insights</a><a href="../projects/sunrise-coffee-performance-technical.html" class="doc-tab active" aria-current="page">Technical documentation</a></nav>
+        <div class="doc-shell">
+            <aside class="doc-toc" aria-label="On this page"><p>On this page</p><a href="#solution">The solution</a><a href="#data">The source data and its grain</a><a href="#metrics">Metric definitions</a><a href="#validation">Validation and data quality</a><a href="#workbook">What I found in the supplied workbook</a><a href="#reproduce">Reproduce it</a><a href="#reflection">What I would change with better data</a></aside>
+            <article class="doc-body">
+<section class="doc-section" id="solution"><h2>The solution</h2><div class="doc-note"><i class="fas fa-circle-info"></i><p>I left the supplied workbook untouched. Its cached dashboard KPIs disagree with the raw data, so the case study uses figures recomputed from the five CSV tables by scripts/analyse.py.</p></div><p>The pipeline has two steps. analyse.py joins the dimensions to the facts and writes every figure to outputs/summary.json. make_charts.py reads that JSON plus the raw CSVs and writes six PNG figures. There is no randomness and no manual spreadsheet work.</p><div class="doc-table-wrap"><table class="doc-table"><thead><tr><th>Component</th><th>Path</th><th>Role</th></tr></thead><tbody><tr><td>Source CSVs</td><td>data/</td><td>Five supplied tables, read-only</td></tr><tr><td>Analysis</td><td>scripts/analyse.py</td><td>Joins, cuts, metrics and data-quality checks</td></tr><tr><td>Summary</td><td>outputs/summary.json</td><td>Single source for every published number</td></tr><tr><td>Charts</td><td>scripts/make_charts.py</td><td>Six report figures from the summary and CSVs</td></tr><tr><td>Original workbook</td><td>workbook/Sunrise Coffee_.xlsx</td><td>Supplied artefact, kept for reference, not used as a figure source</td></tr></tbody></table></div></section><section class="doc-section" id="data"><h2>The source data and its grain</h2><div class="doc-table-wrap"><table class="doc-table"><thead><tr><th>Table</th><th>Rows</th><th>Grain or role</th></tr></thead><tbody><tr><td>dim_store.csv</td><td>60</td><td>One row per store, with cost structure and loyalty adoption</td></tr><tr><td>dim_product.csv</td><td>40</td><td>One row per product, with price, cost and margin</td></tr><tr><td>dim_date.csv</td><td>730</td><td>One row per calendar day, 1 Jan 2023 to 30 Dec 2024</td></tr><tr><td>fact_daily_sales.csv</td><td>10,000</td><td>Store-day sales with top product and category revenue split</td></tr><tr><td>fact_store_monthly_profitability.csv</td><td>1,440</td><td>Store-month P&amp;L, 60 stores times 24 months</td></tr></tbody></table></div><div class="doc-pairs"><div><h3>Join keys</h3><p>store_id, date_id and product_id are unique in the dimensions and fully populated in both facts. There are zero orphan keys.</p></div><div><h3>Daily coverage</h3><p>10,000 recorded store-days against 43,800 possible store-days. I never describe a daily cut as an estate-wide census.</p></div><div><h3>Period</h3><p>The date table ends on 30 December 2024. The brief says 31 December 2024, but I follow the data.</p></div></div></section><section class="doc-section" id="metrics"><h2>Metric definitions</h2><p>I kept profitability, loyalty and revenue mix as separate lenses instead of forcing them into one headline.</p><div class="doc-kpi doc-codecard"><div class="doc-kpi-top"><h3>Estate KPIs</h3><span class="doc-chip">scripts/analyse.py</span></div><p>Revenue, profit and margin come from the 1,440 store-month P&amp;L rows. Cost shares use the same denominator.</p><div class="doc-code"><div class="doc-code-bar"><span>Estate KPIs</span><span class="doc-code-lang">PYTHON</span></div><pre><code>rev = <span class="tok-fn">float</span>(<span class="tok-fn">m.total_monthly_revenue_gbp.sum</span>())
+profit = <span class="tok-fn">float</span>(<span class="tok-fn">m.net_profit_gbp.sum</span>())
+<span class="tok-kw">return</span> {
+    <span class="tok-str">&quot;revenue_gbp&quot;</span>: rev,
+    <span class="tok-str">&quot;net_profit_gbp&quot;</span>: profit,
+    <span class="tok-str">&quot;net_profit_margin_pct&quot;</span>: profit / rev * <span class="tok-num">100</span>,
+    <span class="tok-str">&quot;cogs_gbp&quot;</span>: <span class="tok-fn">float</span>(<span class="tok-fn">m.total_monthly_cogs_gbp.sum</span>()),
+    <span class="tok-str">&quot;rent_gbp&quot;</span>: <span class="tok-fn">float</span>(<span class="tok-fn">m.monthly_rent_gbp.sum</span>()),
+    <span class="tok-str">&quot;staffing_gbp&quot;</span>: <span class="tok-fn">float</span>(<span class="tok-fn">m.monthly_staffing_cost_gbp.sum</span>()),
+    <span class="tok-str">&quot;loyalty_redemption_gbp&quot;</span>: <span class="tok-fn">float</span>(<span class="tok-fn">m.loyalty_redemption_cost_gbp.sum</span>()),
+}</code></pre></div><p class="doc-review"><strong>Review note.</strong> The 18.8 percent margin is profit divided by revenue, not an average of store margin percentages.</p></div><div class="doc-kpi doc-codecard"><div class="doc-kpi-top"><h3>Regional cut</h3><span class="doc-chip">scripts/analyse.py</span></div><p>Region is joined from dim_store. Margin uses summed revenue and summed profit so larger stores carry their proper weight.</p><div class="doc-code"><div class="doc-code-bar"><span>Regional cut</span><span class="doc-code-lang">PYTHON</span></div><pre><code>g = <span class="tok-fn">m.groupby</span>(<span class="tok-str">&quot;region&quot;</span>).<span class="tok-fn">agg</span>(
+    revenue=(<span class="tok-str">&quot;total_monthly_revenue_gbp&quot;</span>, <span class="tok-str">&quot;sum&quot;</span>),
+    profit=(<span class="tok-str">&quot;net_profit_gbp&quot;</span>, <span class="tok-str">&quot;sum&quot;</span>),
+)
+g[<span class="tok-str">&quot;margin_pct&quot;</span>] = g.profit / g.revenue * <span class="tok-num">100</span>
+loss = <span class="tok-fn">m.profitability_status.isin</span>([<span class="tok-str">&quot;Loss-Making&quot;</span>, <span class="tok-str">&quot;Structural-Loss&quot;</span>])
+g[<span class="tok-str">&quot;loss_month_share_pct&quot;</span>] = <span class="tok-fn">loss.groupby</span>(m[<span class="tok-str">&quot;region&quot;</span>]).<span class="tok-fn">mean</span>() * <span class="tok-num">100</span></code></pre></div><p class="doc-review"><strong>Review note.</strong> A simple mean of net_profit_margin_pct would give every store-month equal weight and would overstate small stores.</p></div><div class="doc-kpi doc-codecard"><div class="doc-kpi-top"><h3>Loyalty correlations</h3><span class="doc-chip">scripts/analyse.py</span></div><p>Store-level means are used for adoption and member revenue share. Transaction value is recomputed from revenue and transactions because the supplied ATV column is rounded.</p><div class="doc-code"><div class="doc-code-bar"><span>Loyalty correlations</span><span class="doc-code-lang">PYTHON</span></div><pre><code>adopt = <span class="tok-fn">m.groupby</span>(<span class="tok-str">&quot;store_id&quot;</span>).<span class="tok-fn">loyalty_adoption_rate.mean</span>()  <span class="tok-com"># from dim_store</span>
+member = <span class="tok-fn">m.groupby</span>(<span class="tok-str">&quot;store_id&quot;</span>).<span class="tok-fn">loyalty_member_revenue_pct.mean</span>()
+atv = <span class="tok-fn">d.groupby</span>(<span class="tok-str">&quot;store_id&quot;</span>).<span class="tok-fn">apply</span>(
+    lambda x: <span class="tok-fn">x.total_revenue_gbp.sum</span>() / <span class="tok-fn">x.total_transactions.sum</span>(),
+    include_groups=<span class="tok-kw">False</span>,
+)
+r_member = <span class="tok-fn">adopt.corr</span>(member)   <span class="tok-com"># 0.998</span>
+r_atv = <span class="tok-fn">adopt.corr</span>(atv)         <span class="tok-com"># -0.063</span></code></pre></div><p class="doc-review"><strong>Review note.</strong> The 0.998 result is reported as a near-mechanical relationship. It is not presented as proof that loyalty causes higher member revenue.</p></div><div class="doc-table-wrap"><table class="doc-table"><thead><tr><th>Term</th><th>Definition</th><th>Why it matters</th></tr></thead><tbody><tr><td>Net profit margin</td><td>Sum of net profit divided by sum of revenue</td><td>Avoids giving tiny store-months the same weight as large ones</td></tr><tr><td>Loss-making store-month</td><td>profitability_status is Loss-Making or Structural-Loss</td><td>A monthly flag, not a permanent store verdict</td></tr><tr><td>Member revenue share</td><td>loyalty_member_spend divided by monthly revenue</td><td>Shows who pays, not whether spend was incremental</td></tr><tr><td>Redemption cost share</td><td>loyalty_redemption_cost divided by monthly revenue</td><td>The direct cost side of the programme</td></tr><tr><td>Revenue mix share</td><td>Category revenue divided by the sum of four daily category columns</td><td>Uses the recorded store-day sample only</td></tr></tbody></table></div></section><section class="doc-section" id="validation"><h2>Validation and data quality</h2><p>I recomputed the internal identities instead of trusting the dictionary. All four core checks pass.</p><div class="doc-table-wrap"><table class="doc-table"><thead><tr><th>Check</th><th>Result</th></tr></thead><tbody><tr><td>Four category columns sum to daily revenue</td><td>100 percent of rows</td></tr><tr><td>Net profit equals revenue less COGS, rent, staffing and redemption</td><td>100 percent of rows</td></tr><tr><td>Published ATV matches revenue divided by transactions</td><td>100 percent within rounding, maximum gap 0.12 percent</td></tr><tr><td>Nulls in loyalty share, footfall and seating capacity</td><td>0</td></tr><tr><td>Orphan keys in both fact tables</td><td>0</td></tr></tbody></table></div><div class="doc-note"><i class="fas fa-circle-info"></i><p>Three dictionary claims are wrong for this extract. dim_date has 11 columns and no month_id. The daily fact has an extra column, avg_dwell_time_minutes. Product gross margin runs from 66.0 to 90.4 percent, not the 36 to 80 percent stated in the dictionary.</p></div></section><section class="doc-section" id="workbook"><h2>What I found in the supplied workbook</h2><p>The workbook is a useful starting point for layout, but its cached KPI layer is not safe to publish. I kept it as a reference file and rebuilt the numbers from the CSVs.</p><div class="doc-table-wrap"><table class="doc-table"><thead><tr><th>Issue</th><th>What I saw</th><th>What I did</th></tr></thead><tbody><tr><td>Conflicting store counts</td><td>59 Profitable plus 41 Loss-Making from a 60-store estate, and status categories summing to 221</td><td>Ignored those KPI cells and recomputed status from the raw monthly file</td></tr><tr><td>KPI scale</td><td>2024-only revenue of £44.70M and profit of £8.41M shown as headline totals</td><td>Reported the full 2023 and 2024 totals of £89.69M and £16.88M with the period stated</td></tr><tr><td>Expansion count</td><td>One KPI says 20 candidate stores while the visible pivot totals 1</td><td>Left the field out of the case study until the definition is fixed</td></tr><tr><td>Chart labelling</td><td>27 of 28 charts have no title, and Product, Loyalty and Store tabs have no cell values</td><td>Generated six titled report charts with explicit captions</td></tr><tr><td>Field labels</td><td>week_num holds day of week, IDs are text, and several labels have typos</td><td>Used the CSV column names and documented the mismatch</td></tr><tr><td>Duplicate block</td><td>The loyalty-per-store range appears twice</td><td>Charts use the analysis output, not the duplicated range</td></tr></tbody></table></div></section><section class="doc-section" id="reproduce"><h2>Reproduce it</h2><div class="doc-code"><div class="doc-code-bar"><span>Full analysis</span><span class="doc-code-lang">BASH</span></div><pre><code>python scripts/analyse.py
+python scripts/make_charts.py
+
+<span class="tok-com"># Outputs:</span>
+<span class="tok-com"># outputs/summary.json</span>
+<span class="tok-com"># outputs/charts/01_region_margin.png ... 06_store_moves.png</span></code></pre></div><p class="doc-code-caption">No random steps, no network calls and no manual workbook edits. Re-running reproduces the same summary and charts.</p><div class="doc-pairs"><div><h3>Dependencies</h3><p>Python 3.10+, pandas, numpy and matplotlib.</p></div><div><h3>Source safety</h3><p>The five CSVs and the original workbook are read-only inputs.</p></div><div><h3>Determinism</h3><p>No seed is needed because no step is random.</p></div></div></section><section class="doc-section" id="reflection"><h2>What I would change with better data</h2><div class="doc-pairs"><div><h3>Full daily census</h3><p>Complete store-day rows would let me answer the weekday and holiday questions without sample caveats.</p></div><div><h3>Member transaction counts</h3><p>Member and non-member transactions would turn contribution into a real incrementality test.</p></div><div><h3>Correct format labels</h3><p>A properly populated Retail-Park format would allow the comparison the brief asks for.</p></div><div><h3>Clean KPI layer</h3><p>One agreed definition per card, with titles on every chart, would make the workbook safe for leadership.</p></div></div><div class="doc-note"><i class="fas fa-circle-info"></i><p>The main judgement call was to treat the workbook as a source artefact rather than a source of truth. It would have been easier to quote its KPI cards. It would also have meant publishing contradictory store counts.</p></div></section>
+            </article>
+        </div>
+        <div class="doc-bottom"><p class="doc-bottom-label">Want the business side?</p><div class="go-deeper"><a href="../projects/sunrise-coffee-performance-business.html" class="go-deeper-card"><i class="fas fa-chart-pie"></i><div><h3>Business insights</h3><p>The question, the evidence and what I would do about it, in plain language.</p></div><span class="go-deeper-arrow">&rarr;</span></a><a href="../projects/sunrise-coffee-performance.html" class="go-deeper-card"><i class="fas fa-table-columns"></i><div><h3>Project overview</h3><p>The short version: problem, approach and outcome.</p></div><span class="go-deeper-arrow">&rarr;</span></a></div><div class="case-links"><a href="https://github.com/Elice99/sunrise-coffee-performance" target="_blank" rel="noopener" class="btn btn-secondary"><i class="fab fa-github"></i> View on GitHub</a></div></div>
+    </div>
+
+    </main>
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    &lt;EB/&gt;
+                    <p>I build systems that turn messy data into useful decisions.</p>
+                </div>
+                <div class="footer-links">
+                    <a href="../work.html">Work</a>
+                    <a href="../about.html">About</a>
+                    <a href="../resume.html">Resume</a>
+                    <a href="https://github.com/Elice99" target="_blank">GitHub</a>
+                    <a href="https://linktr.ee/elice99" target="_blank">LinkedIn</a>
+                    <a href="../contact.html">Contact</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <span>&copy; 2026 Elisha Bassey &middot; SYSTEM STATUS <span style="color:var(--teal-600)">&#9679; ONLINE</span></span>
+            </div>
+        </div>
+    </footer>
+    <button class="back-to-top" id="backToTop" aria-label="Back to top"><i class="fas fa-arrow-up"></i></button>
+
+    <div class="cmdk-overlay" id="cmdkOverlay">
+        <div class="cmdk-modal">
+            <input type="text" id="cmdkInput" class="cmdk-input" placeholder="Search Elisha's portfolio..." autocomplete="off">
+            <div class="cmdk-list" id="cmdkList"></div>
+        </div>
+    </div>
+    <div class="cmdk-hint"><kbd>&#8984;</kbd><kbd>K</kbd><span>Search</span></div>
+
+    <!-- Visitor analytics: add a GoatCounter (or similar) script here when
+         the site is deployed, then restore the counter in the footer. -->
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="../js/projects-data.js?v=dae52ac8"></script>
+    <script src="../js/main.js?v=733e8b90"></script>
+</body>
+</html>

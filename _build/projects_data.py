@@ -329,6 +329,45 @@ PROJECTS = [
         },
     },
     {
+        # Rebuilt from the five supplied CSVs in the Sunrise Coffee project
+        # folder. Every figure below comes from outputs/summary.json, produced
+        # by scripts/analyse.py. The supplied workbook's cached KPIs conflict
+        # with the raw data and are documented in the technical page.
+        "slug": "sunrise-coffee-performance",
+        "imagePrefix": "SunriseReview",
+        "title": "Sunrise Coffee Performance Review",
+        "category": ["business", "analytics"],
+        "tagline": "The margin story behind 60 UK coffee shops, and why the estate average hides a London problem.",
+        "problem": "A two-year trading extract covering 60 stores asked which formats and regions drive profit, whether loyalty members spend more, and how the revenue mix and seasonality behave ahead of a 2025 expansion plan.",
+        "approach": "I rebuilt the analysis from the five raw CSVs rather than trusting the supplied workbook. A deterministic Python pipeline joins the dimensions to the facts, computes estate, region, format, loyalty, product-mix and store-movement cuts, and writes one summary JSON plus six titled charts. The workbook's conflicting KPI layer is documented as a source issue.",
+        "outcome": "The estate made £16.88M net profit on £89.69M revenue at an 18.8 percent margin. London sits at 8.5 percent margin with 25.6 percent of its store-months loss-making. Loyalty members supply 33.2 percent of revenue, but adoption has no useful link to transaction value. Food share fell slightly rather than growing.",
+        "stack": ["Python", "pandas", "matplotlib", "Excel", "Data modelling"],
+        "metricValue": "£16.88M",
+        "metricLabel": "net profit on £89.69M revenue",
+        "status": "Shipped",
+        "hasDocs": True,
+        "featured": False,
+        "verified": True,
+        "media": "browser",
+        "github": "https://github.com/Elice99/sunrise-coffee-performance",
+        "demo": None,
+        "codeSnippet": {
+            "lang": "python",
+            "filename": "scripts/analyse.py",
+            "code": """rev = float(m.total_monthly_revenue_gbp.sum())
+profit = float(m.net_profit_gbp.sum())
+return {
+    "revenue_gbp": rev,
+    "net_profit_gbp": profit,
+    "net_profit_margin_pct": profit / rev * 100,
+    "cogs_gbp": float(m.total_monthly_cogs_gbp.sum()),
+    "rent_gbp": float(m.monthly_rent_gbp.sum()),
+    "staffing_gbp": float(m.monthly_staffing_cost_gbp.sum()),
+    "loyalty_redemption_gbp": float(m.loyalty_redemption_cost_gbp.sum()),
+}""",
+        },
+    },
+    {
         # TODO(Elice): add the specific survey questions, segments, and
         # findings your dashboard covers, then flip verified to True.
         "slug": "developer-survey-analysis",

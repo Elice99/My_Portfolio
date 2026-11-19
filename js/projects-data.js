@@ -421,6 +421,49 @@ const PROJECTS = [
     "video": null
   },
   {
+    "slug": "sunrise-coffee-performance",
+    "imagePrefix": "SunriseReview",
+    "title": "Sunrise Coffee Performance Review",
+    "category": [
+      "business",
+      "analytics"
+    ],
+    "tagline": "The margin story behind 60 UK coffee shops, and why the estate average hides a London problem.",
+    "problem": "A two-year trading extract covering 60 stores asked which formats and regions drive profit, whether loyalty members spend more, and how the revenue mix and seasonality behave ahead of a 2025 expansion plan.",
+    "approach": "I rebuilt the analysis from the five raw CSVs rather than trusting the supplied workbook. A deterministic Python pipeline joins the dimensions to the facts, computes estate, region, format, loyalty, product-mix and store-movement cuts, and writes one summary JSON plus six titled charts. The workbook's conflicting KPI layer is documented as a source issue.",
+    "outcome": "The estate made £16.88M net profit on £89.69M revenue at an 18.8 percent margin. London sits at 8.5 percent margin with 25.6 percent of its store-months loss-making. Loyalty members supply 33.2 percent of revenue, but adoption has no useful link to transaction value. Food share fell slightly rather than growing.",
+    "stack": [
+      "Python",
+      "pandas",
+      "matplotlib",
+      "Excel",
+      "Data modelling"
+    ],
+    "metricValue": "£16.88M",
+    "metricLabel": "net profit on £89.69M revenue",
+    "status": "Shipped",
+    "hasDocs": true,
+    "featured": false,
+    "verified": true,
+    "media": "browser",
+    "github": "https://github.com/Elice99/sunrise-coffee-performance",
+    "demo": null,
+    "codeSnippet": {
+      "lang": "python",
+      "filename": "scripts/analyse.py",
+      "code": "rev = float(m.total_monthly_revenue_gbp.sum())\nprofit = float(m.net_profit_gbp.sum())\nreturn {\n    \"revenue_gbp\": rev,\n    \"net_profit_gbp\": profit,\n    \"net_profit_margin_pct\": profit / rev * 100,\n    \"cogs_gbp\": float(m.total_monthly_cogs_gbp.sum()),\n    \"rent_gbp\": float(m.monthly_rent_gbp.sum()),\n    \"staffing_gbp\": float(m.monthly_staffing_cost_gbp.sum()),\n    \"loyalty_redemption_gbp\": float(m.loyalty_redemption_cost_gbp.sum()),\n}"
+    },
+    "images": [
+      "images/SunriseReview_1.webp",
+      "images/SunriseReview_2.webp",
+      "images/SunriseReview_3.webp",
+      "images/SunriseReview_4.webp",
+      "images/SunriseReview_5.webp",
+      "images/SunriseReview_6.webp"
+    ],
+    "video": null
+  },
+  {
     "slug": "developer-survey-analysis",
     "imagePrefix": "DevSurvey",
     "title": "Developer Survey Analysis",
