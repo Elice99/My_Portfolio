@@ -403,7 +403,7 @@ const PROJECTS = [
     "featured": false,
     "verified": true,
     "media": "browser",
-    "github": null,
+    "github": "https://github.com/Elice99/zion-finance-data-challenge",
     "demo": null,
     "codeSnippet": {
       "lang": "python",

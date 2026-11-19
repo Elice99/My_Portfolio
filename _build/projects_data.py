@@ -320,7 +320,7 @@ PROJECTS = [
         "featured": False,
         "verified": True,
         "media": "browser",
-        "github": None,
+        "github": "https://github.com/Elice99/zion-finance-data-challenge",
         "demo": None,
         "codeSnippet": {
             "lang": "python",
