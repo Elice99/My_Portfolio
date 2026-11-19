@@ -46,7 +46,7 @@ to *"watch how I think"*.
 | `now.html` | What he's currently learning/building |
 | `resume.html` | Resume page; links a real PDF in `documents/` |
 | `contact.html` | Contact details + a form that opens the visitor's email app (mailto hand-off, no backend) |
-| `projects/*.html` | 12 case-study pages; flagship ones have tabs to **Business insights** and **Technical documentation** pages |
+| `projects/*.html` | 14 case-study pages; several have tabs to **Business insights** and **Technical documentation** pages |
 
 ## How it's built (the short version)
 

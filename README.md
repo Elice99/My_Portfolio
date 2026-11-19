@@ -10,6 +10,21 @@ python3 -m http.server 8080
 ```
 Open http://localhost:8080
 
+## Latest content pass: Zion Tech Hub finance challenge
+
+Added a full case study for the failed-transactions analysis:
+
+- `projects/zion-finance-data-challenge.html`
+- `projects/zion-finance-data-challenge-business.html`
+- `projects/zion-finance-data-challenge-technical.html`
+- `_build/docs/zion_finance_data_challenge.py`
+
+The technical page includes the inline architecture diagram. Six chart images
+live in `images/ZionFinance_1.webp` through `ZionFinance_6.webp`. Content
+source is `_build/projects_data.py`; generated HTML was rebuilt with
+`python _build/build.py` and the images optimised with
+`python _build/optimize_images.py`.
+
 ## Latest pass: quick wins (SEO, performance, accessibility)
 
 ### Site URL / canonical + social tags

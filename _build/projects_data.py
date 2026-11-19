@@ -301,6 +301,34 @@ PROJECTS = [
         },
     },
     {
+        # Verified against the completed challenge project folder: README.md,
+        # docs/01-05, outputs/summary.json, outputs/validation.csv and the
+        # 15-sheet workbook. All 12 headline numbers reconcile to the brief.
+        "slug": "zion-finance-data-challenge",
+        "imagePrefix": "ZionFinance",
+        "title": "The Cost of Failed Transactions",
+        "category": ["business", "analytics"],
+        "tagline": "Finding the concentrated card and account leak inside $2.84M of failed fee revenue.",
+        "problem": "A finance challenge brief mixed two failure rates and asked where payment failures concentrated, why January 2024 spiked, and what a realistic fix could recover. The supplied extract holds 62,684 monthly aggregate rows across five East African markets.",
+        "approach": "I built a deterministic Python pipeline: prepare the raw CSVs once, analyse them into monthly, channel, country, sector, account, ticket and recovery tables, then generate a 15-sheet Excel workbook, six report charts and a 64-check QA suite. Both failure lenses stay separate throughout.",
+        "outcome": "10 accounts hold 49.3 percent of the $2,842,676 failed fee revenue. Card holds 79.7 percent of the leak and fails 93.8 percent by fee value. January 2024 was a volume and mix shock from a few accounts. A credible fix recovers $319,853 stacked, or $399,575 in the stretch case, not the full $2.84M.",
+        "stack": ["Python", "pandas", "openpyxl", "matplotlib", "Excel"],
+        "metricValue": "$2.84M",
+        "metricLabel": "failed fee revenue",
+        "status": "Shipped",
+        "hasDocs": True,
+        "featured": False,
+        "verified": True,
+        "media": "browser",
+        "github": None,
+        "demo": None,
+        "codeSnippet": {
+            "lang": "python",
+            "filename": "scripts/analyse.py",
+            "code": """def kpis(d: pd.DataFrame) -> dict:\n    att = float(d["total_count"].sum())\n    fatt = float(d["FailedCount"].sum())\n    rev = float(d["Rev_USD"].sum())\n    frev = float(d["FailedRev_USD"].sum())\n    succ_att = att - fatt\n    return {\n        "attempts": att,\n        "failed_attempts": fatt,\n        "count_fail_rate": fatt / att if att else np.nan,\n        "revenue_usd": rev,\n        "failed_revenue_usd": frev,\n        "revenue_fail_rate": frev / rev if rev else np.nan,\n        "avg_fee_failed_att": frev / fatt if fatt else np.nan,\n        "avg_fee_success_att": (rev - frev) / succ_att if succ_att else np.nan,\n    }""",
+        },
+    },
+    {
         # TODO(Elice): add the specific survey questions, segments, and
         # findings your dashboard covers, then flip verified to True.
         "slug": "developer-survey-analysis",

@@ -148,5 +148,6 @@ This is the map for the work described in `plan.md`:
   Harmless noise.
 - **`js/projects-data.js` in the repo.** It's generated, but keeping
   it means the site works without running Python first.
-- **No git in this folder yet.** Before the big phases start, put this
-  under version control — it's the cheapest safety net there is.
+- **Git is now in place.** The folder is under version control. Commit
+  `_build/` source changes and the generated HTML together so the site
+  keeps working from a fresh checkout.
